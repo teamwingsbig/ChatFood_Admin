@@ -1,0 +1,132 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Add Branch</h3>
+            </div>
+            <div class="col-4 text-right">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="managerForm">
+            <h6 class="heading-small text-muted mb-4">Order details</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Order No</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="Order_ID" id="input-username"
+                           class="form-control form-control-alternative" placeholder="Type Order No">
+                    <div *ngFor="let validation of validation_messages.Order_ID">
+                      <div class="error-message" *ngIf="managerForm.get('Order_ID').hasError(validation.type) &&
+                        (managerForm.get('Order_ID').dirty || managerForm.get('Order_ID').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-email">Customer Name</label>
+                    <input type="text" formControlName="Customer_Name" required id="input-email"
+                           class="form-control form-control-alternative" placeholder="Type Customer Name">
+                    <div *ngFor="let validation of validation_messages.Customer_Name">
+                      <div class="error-message" *ngIf="managerForm.get('Customer_Name').hasError(validation.type) &&
+                        (managerForm.get('Customer_Name').dirty || managerForm.get('Customer_Name').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Phone No</label>
+                    <input type="email" formControlName="Contact_No" id="input-first-name"
+                           class="form-control form-control-alternative" placeholder="Type Phone No">
+                    <div *ngFor="let validation of validation_messages.Contact_No">
+                      <div class="error-message" *ngIf="managerForm.get('Contact_No').hasError(validation.type) &&
+                        (managerForm.get('Contact_No').dirty || managerForm.get('Contact_No').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Delivery Address</label>
+                    <input id="input-address" formControlName="Delivery_Address"
+                           class="form-control form-control-alternative" placeholder="Type Address" type="text">
+                    <div *ngFor="let validation of validation_messages.Delivery_Address">
+                      <div class="error-message" *ngIf="managerForm.get('Delivery_Address').hasError(validation.type) &&
+                        (managerForm.get('Delivery_Address').dirty || managerForm.get('Delivery_Address').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Amount</label>
+                    <input type="email" formControlName="Total_Amount"
+                           class="form-control form-control-alternative" placeholder="Type Phone No">
+                    <div *ngFor="let validation of validation_messages.Total_Amount">
+                      <div class="error-message" *ngIf="managerForm.get('Total_Amount').hasError(validation.type) &&
+                        (managerForm.get('Total_Amount').dirty || managerForm.get('Total_Amount').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Delivery Boy</label>
+                    <select  formControlName="DeliverBoy_ID" (change)="onSelectDeliveryBoy($event)" class="form-control form-control-alternative" >
+                      <option *ngFor="let item of deliveryBoysData" [value]="item.payload.doc.data().uid">
+                        {{item.payload.doc.data().name}}
+                      </option>
+                    </select>
+                    <div *ngFor="let validation of validation_messages.DeliverBoy_ID">
+                      <div class="error-message" *ngIf="managerForm.get('DeliverBoy_ID').hasError(validation.type) &&
+                        (managerForm.get('DeliverBoy_ID').dirty || managerForm.get('DeliverBoy_ID').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <button class="btn btn-primary" [disabled]="managerForm.invalid"
+                            (click)="addOrder()" type="submit">Save</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
