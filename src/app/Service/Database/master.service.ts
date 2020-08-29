@@ -38,9 +38,12 @@ export class MasterService {
     });
   }
   fetchMainLocation() {
+    const headers = new Headers({
+      'Authorization': 'Token 6a689f6b1910afbbd4ad11475f855b99d5706060'
+    });
     const url = this.ipAddress + 'locations/mainlocations/?page_wise=0';
     return new Promise((resolve, reject) => {
-      this.http.get(url).subscribe(res => {
+      this.http.get(url,{headers: headers}).subscribe(res => {
         resolve(res.json());
       }),
         // tslint:disable-next-line:no-unused-expression

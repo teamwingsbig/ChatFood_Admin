@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+  import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../Service/Database/master.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class AddMainLocationComponent implements OnInit {
   btn_title = 'Save' ;
   validation_messages = {
     name: [
-      { type: 'required', message: 'Name is required.' },
+      { type: 'required', message: 'Location Name is required.' },
       { type: 'pattern', message: 'Numbers not allowed ' }
     ]
   };
@@ -40,7 +40,7 @@ export class AddMainLocationComponent implements OnInit {
       alert(JSON.stringify(this.locationForm.value));
       if (this.locationForm.valid) {
         const fd = new FormData();
-        Object.keys(this.locationForm.value).forEach(key=>{
+        Object.keys(this.locationForm.value).forEach(key => {
           fd.append(key, this.locationForm.value[key]);
         });
         this.masterService.addMainLocation(fd).then(res => {

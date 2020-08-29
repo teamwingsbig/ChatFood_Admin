@@ -16,6 +16,9 @@ import { AddBranchComponent } from './pages/Branch/add-branch/add-branch.compone
 import { AddManagerComponent } from './pages/Manager/add-manager/add-manager.component';
 import { AddMainLocationComponent } from './pages/Location/add-main-location/add-main-location.component';
 import {HttpModule} from '@angular/http';
+import { AddSubLocationComponent } from './pages/Location/add-sub-location/add-sub-location.component';
+import { ViewMainLocationComponent } from './pages/Location/view-main-location/view-main-location.component';
+import { ViewSubLocationComponent } from './pages/Location/view-sub-location/view-sub-location.component';
 
 
 @NgModule({
@@ -36,7 +39,10 @@ import {HttpModule} from '@angular/http';
     AuthLayoutComponent,
     AddBranchComponent,
     AddManagerComponent,
-    AddMainLocationComponent
+    AddMainLocationComponent,
+    AddSubLocationComponent,
+    ViewMainLocationComponent,
+    ViewSubLocationComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
