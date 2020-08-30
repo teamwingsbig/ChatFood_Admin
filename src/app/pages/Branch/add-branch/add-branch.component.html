@@ -13,7 +13,7 @@
         <div class="card-header bg-white border-0">
           <div class="row align-items-center">
             <div class="col-8">
-              <h3 class="mb-0">Add Branch</h3>
+              <h3 class="mb-0">{{title}}</h3>
             </div>
             <div class="col-4 text-right">
 
@@ -22,92 +22,132 @@
         </div>
         <div class="card-body">
           <form [formGroup]="branchForm">
-            <h6 class="heading-small text-muted mb-4">Order details</h6>
+            <h6 class="heading-small text-muted mb-4">Branch details</h6>
             <div class="pl-lg-4">
               <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                   <div class="form-group ">
-                    <label class="form-control-label" for="input-username">Order No</label>
+                    <label class="form-control-label" for="input-username">Name</label>
                     <div class="validation-errors">
                     </div>
-                    <input type="text" required formControlName="Order_ID" id="input-username"
-                           class="form-control form-control-alternative" placeholder="Type Order No">
-                    <div *ngFor="let validation of validation_messages.Order_ID">
-                      <div class="error-message" *ngIf="branchForm.get('Order_ID').hasError(validation.type) &&
-                        (branchForm.get('Order_ID').dirty || branchForm.get('Order_ID').touched)">
+                    <input type="text" required formControlName="name" id="input-username"
+                           class="form-control form-control-alternative" placeholder="Type Branch Name">
+                    <div *ngFor="let validation of validation_messages.name">
+                      <div class="error-message" *ngIf="branchForm.get('name').hasError(validation.type) &&
+                        (branchForm.get('name').dirty || branchForm.get('name').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>
                   </div>
 
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                   <div class="form-group ">
-                    <label class="form-control-label" for="input-email">Customer Name</label>
-                    <input type="text" formControlName="Customer_Name" required id="input-email"
-                           class="form-control form-control-alternative" placeholder="Type Customer Name">
-                    <div *ngFor="let validation of validation_messages.Customer_Name">
-                      <div class="error-message" *ngIf="branchForm.get('Customer_Name').hasError(validation.type) &&
-                        (branchForm.get('Customer_Name').dirty || branchForm.get('Customer_Name').touched)">
-                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">Phone No</label>
-                    <input type="email" formControlName="Contact_No" id="input-first-name"
-                           class="form-control form-control-alternative" placeholder="Type Phone No">
-                    <div *ngFor="let validation of validation_messages.Contact_No">
-                      <div class="error-message" *ngIf="branchForm.get('Contact_No').hasError(validation.type) &&
-                        (branchForm.get('Contact_No').dirty || branchForm.get('Contact_No').touched)">
-                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-address">Delivery Address</label>
-                    <input id="input-address" formControlName="Delivery_Address"
-                           class="form-control form-control-alternative" placeholder="Type Address" type="text">
-                    <div *ngFor="let validation of validation_messages.Delivery_Address">
-                      <div class="error-message" *ngIf="branchForm.get('Delivery_Address').hasError(validation.type) &&
-                        (branchForm.get('Delivery_Address').dirty || branchForm.get('Delivery_Address').touched)">
-                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">Amount</label>
-                    <input type="email" formControlName="Total_Amount"
-                           class="form-control form-control-alternative" placeholder="Type Phone No">
-                    <div *ngFor="let validation of validation_messages.Total_Amount">
-                      <div class="error-message" *ngIf="branchForm.get('Total_Amount').hasError(validation.type) &&
-                        (branchForm.get('Total_Amount').dirty || branchForm.get('Total_Amount').touched)">
-                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-address">Delivery Boy</label>
-                    <select  formControlName="DeliverBoy_ID" (change)="onSelectDeliveryBoy($event)" class="form-control form-control-alternative" >
-                      <option *ngFor="let item of deliveryBoysData" [value]="item.payload.doc.data().uid">
-                        {{item.payload.doc.data().name}}
-                      </option>
+                    <label class="form-control-label" for="input-email">Main Location</label>
+                    <select formControlName="main_location_id" required id="input-email" (change)="fetchSublocation($event.target.value)"
+                           class="form-control form-control-alternative">
+                      <option *ngFor="let item of mainLocationData" [value]="item.id">{{item.name}}</option>
                     </select>
-                    <div *ngFor="let validation of validation_messages.DeliverBoy_ID">
-                      <div class="error-message" *ngIf="branchForm.get('DeliverBoy_ID').hasError(validation.type) &&
-                        (branchForm.get('DeliverBoy_ID').dirty || branchForm.get('DeliverBoy_ID').touched)">
+                    <div *ngFor="let validation of validation_messages.main_location_id">
+                      <div class="error-message" *ngIf="branchForm.get('main_location_id').hasError(validation.type) &&
+                        (branchForm.get('main_location_id').dirty || branchForm.get('main_location_id').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-email">Sub Location</label>
+                    <select formControlName="sub_location_id" required
+                           class="form-control form-control-alternative" >
+                      <option *ngFor="let item of mainLocationData" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    <div *ngFor="let validation of validation_messages.sub_location_id">
+                      <div class="error-message" *ngIf="branchForm.get('sub_location_id').hasError(validation.type) &&
+                        (branchForm.get('sub_location_id').dirty || branchForm.get('sub_location_id').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Address</label>
+                    <input type="text" formControlName="address" id="input-first-name"
+                           class="form-control form-control-alternative" placeholder="Type Address">
+                    <div *ngFor="let validation of validation_messages.address">
+                      <div class="error-message" *ngIf="branchForm.get('address').hasError(validation.type) &&
+                        (branchForm.get('address').dirty || branchForm.get('address').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Phone No</label>
+                    <input id="input-address" formControlName="mobile"
+                           class="form-control form-control-alternative" placeholder="Type Phone No" type="tel">
+                    <div *ngFor="let validation of validation_messages.mobile">
+                      <div class="error-message" *ngIf="branchForm.get('mobile').hasError(validation.type) &&
+                        (branchForm.get('mobile').dirty || branchForm.get('mobile').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Email</label>
+                    <input  formControlName="email"
+                           class="form-control form-control-alternative" placeholder="Type Email Address" type="email">
+                    <div *ngFor="let validation of validation_messages.email">
+                      <div class="error-message" *ngIf="branchForm.get('email').hasError(validation.type) &&
+                        (branchForm.get('email').dirty || branchForm.get('email').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">TRN</label>
+                    <input type="email" formControlName="trn"
+                           class="form-control form-control-alternative" placeholder="Type Tax No ">
+                    <div *ngFor="let validation of validation_messages.trn">
+                      <div class="error-message" *ngIf="branchForm.get('trn').hasError(validation.type) &&
+                        (branchForm.get('trn').dirty || branchForm.get('trn').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Minimum Order</label>
+                    <input type="email" formControlName="minimum_order"
+                           class="form-control form-control-alternative" placeholder="Type Minimum Order">
+                    <div *ngFor="let validation of validation_messages.minimum_order">
+                      <div class="error-message" *ngIf="branchForm.get('minimum_order').hasError(validation.type) &&
+                        (branchForm.get('minimum_order').dirty || branchForm.get('minimum_order').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Estimated Time</label>
+                    <input type="email" formControlName="estimated_time"
+                           class="form-control form-control-alternative" placeholder="Type Phone No">
+                    <div *ngFor="let validation of validation_messages.estimated_time">
+                      <div class="error-message" *ngIf="branchForm.get('estimated_time').hasError(validation.type) &&
+                        (branchForm.get('estimated_time').dirty || branchForm.get('estimated_time').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>
@@ -118,7 +158,7 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <button class="btn btn-primary" [disabled]="branchForm.invalid"
-                            (click)="addOrder()" type="submit">Save</button>
+                            (click)="onSubmit()" type="submit">{{btn_title}}</button>
                     <button class="btn btn-primary" type="reset">Reset</button>
                   </div>
                 </div>

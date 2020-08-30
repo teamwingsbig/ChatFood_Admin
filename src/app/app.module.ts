@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -19,6 +19,8 @@ import {HttpModule} from '@angular/http';
 import { AddSubLocationComponent } from './pages/Location/add-sub-location/add-sub-location.component';
 import { ViewMainLocationComponent } from './pages/Location/view-main-location/view-main-location.component';
 import { ViewSubLocationComponent } from './pages/Location/view-sub-location/view-sub-location.component';
+import {TokenInterceptorService} from './Service/Authentication/Token/token-interceptor.service';
+import {ToastrModule} from 'ngx-toastr';
 
 
 @NgModule({
@@ -31,6 +33,7 @@ import { ViewSubLocationComponent } from './pages/Location/view-sub-location/vie
         RouterModule,
         AppRoutingModule,
         ReactiveFormsModule,
+        ToastrModule.forRoot(),
        HttpModule
     ],
   declarations: [
@@ -44,7 +47,7 @@ import { ViewSubLocationComponent } from './pages/Location/view-sub-location/vie
     ViewMainLocationComponent,
     ViewSubLocationComponent
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

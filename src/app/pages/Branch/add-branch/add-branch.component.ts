@@ -1,89 +1,187 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {MasterService} from '../../../Service/Database/master.service';
+import {ToastService} from '../../../Service/Alert/toast.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-add-branch',
   templateUrl: './add-branch.component.html',
-  styleUrls: ['./add-branch.component.css']
+  styleUrls: ['./add-branch.component.css',
+  '../../../../assets/CSS/toastr.css'],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class AddBranchComponent implements OnInit {
 
   branchForm: FormGroup;
+  mainLocationData : any = [];
+  subLocationData: any = [];
+  title = 'Add Branch';
+  btn_title = 'Save' ;
   constructor(
     public formBuilder: FormBuilder,
+    public  masterService: MasterService,
+    public toastService: ToastService
   ) { }
 
   validation_messages = {
-    Customer_Name: [
+    name: [
       { type: 'required', message: 'Name is required.' },
       { type: 'pattern', message: 'Numbers not allowed ' }
     ],
-    Order_ID: [
-      { type: 'required', message: 'Order ID is required.' },
-      { type: 'pattern', message: 'Charecters not allowed ' }
+    mobile: [
+      { type: 'required', message: 'Mobile No is required.' },
+      { type: 'pattern', message: 'Charecters not allowed ' },
+      { type: 'maxLength', message: 'Invalid Phone No ' }
     ],
-    Delivery_Address: [
+    main_location_id: [
+      { type: 'required', message: 'Main Location is required.' },
+    ],
+    sub_location_id: [
+      { type: 'required', message: 'Sub Location is required.' },
+    ],
+    address: [
       { type: 'required', message: 'Address is required.' },
     ],
-    Total_Amount: [
-      { type: 'required', message: 'Amount is required.' },
+    email: [
+      { type: 'required', message: 'Email is required.' },
     ],
-    Contact_No: [
-      { type: 'required', message: 'Phone No is required.' },
-      { type: 'maxlength', message: 'Maximum 10 numbers is allowed' }
+    trn: [
+      { type: 'required', message: 'Trn is required.' },
     ],
-    DeliverBoy_ID: [
-      { type: 'required', message: 'Delivery Boy  is required.' },
+    minimum_order: [
+      { type: 'required', message: 'Minimum Order   is required.' },
+      { type: 'pattern', message: 'Invalid Order No ' }
+    ],
+    estimated_time: [
+      { type: 'required', message: 'Estimated time   is required.' },
     ]
   };
 
   ngOnInit(): void {
     this.setFormBuilder();
+  //   fetch main location
+    this.fetchMainLocation();
   }
   setFormBuilder() {
     this.branchForm = this.formBuilder.group({
-      Customer_Name: [
+      name: [
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z ]*$')
         ])
       ],
-      Order_ID: [
+      minimum_order: [
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[0-9]*$')
         ])
       ],
-      Delivery_Address: [
+      main_location_id: [
         '',
         Validators.compose([
           Validators.required,
         ])
       ],
-      Total_Amount: [
+      sub_location_id: [
+        '',
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      address: [
+        '',
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      estimated_time: [
+        '',
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      trn: [
+        '',
+        Validators.compose([
+        ])
+      ],
+      mobile: [
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[0-9]*$')
         ])
       ],
-      Contact_No: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(10),
-          Validators.minLength(10),
-          Validators.pattern('^[0-9]*$')
-        ])
-      ],
-      DeliverBoy_ID: [
+      email: [
         '',
         Validators.compose([
           Validators.required,
         ])
       ]
     });
+  }
+  fetchMainLocation() {
+    this.masterService.fetchMainLocation().subscribe(data => {
+        this.mainLocationData = data;
+      },
+      (error : HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      }
+    );
+  }
+  fetchSublocation(parent_location_id) {
+    this.masterService.fetchMainLocation().subscribe(data => {
+        this.mainLocationData = data;
+      },
+      (error : HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      }
+    );
+  }
+  addBrnach() {
+    if(this.branchForm.valid) {
+      this.masterService.addBranch(this.branchForm.value).subscribe(data => {
+          let ResultSet: any ;
+          ResultSet = data;
+          if (ResultSet.Status) {
+            this.toastService.showSuccess('Successfully Added', 'Success');
+            this.branchForm.reset();
+          }
+        },
+        (error : HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
+  onSubmit() {
+    if (this.btn_title === 'Save') {
+        this.addBrnach();
+    }
   }
 }
