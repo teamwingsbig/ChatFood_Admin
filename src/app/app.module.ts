@@ -21,8 +21,16 @@ import { ViewMainLocationComponent } from './pages/Location/view-main-location/v
 import { ViewSubLocationComponent } from './pages/Location/view-sub-location/view-sub-location.component';
 import {TokenInterceptorService} from './Service/Authentication/Token/token-interceptor.service';
 import {ToastrModule} from 'ngx-toastr';
+import { ViewBranchComponent } from './pages/Branch/view-branch/view-branch.component';
+import { AddCategoryComponent } from './pages/Category & Unit/add-category/add-category.component';
+import { AddUnitComponent } from './pages/Category & Unit/add-unit/add-unit.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {ModalModule} from 'ngx-bootstrap/modal';
 
 
+// @ts-ignore
 @NgModule({
     imports: [
         BrowserAnimationsModule,
@@ -34,7 +42,11 @@ import {ToastrModule} from 'ngx-toastr';
         AppRoutingModule,
         ReactiveFormsModule,
         ToastrModule.forRoot(),
-       HttpModule
+        HttpModule,
+        NgxSpinnerModule,
+        NgxPaginationModule,
+        Ng2SearchPipeModule,
+        ModalModule.forRoot(),
     ],
   declarations: [
     AppComponent,
@@ -45,7 +57,10 @@ import {ToastrModule} from 'ngx-toastr';
     AddMainLocationComponent,
     AddSubLocationComponent,
     ViewMainLocationComponent,
-    ViewSubLocationComponent
+    ViewSubLocationComponent,
+    ViewBranchComponent,
+    AddCategoryComponent,
+    AddUnitComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

@@ -31,7 +31,7 @@
                     <div class="validation-errors">
                     </div>
                     <select type="text" required formControlName="parent_location_id"
-                           class="form-control form-control-alternative">
+                           class="form-control form-control-alternative" s>
                       <option *ngFor="let item of mainLocationData" [value]="item.id">{{item.name}}</option>
                     </select>
                     <div *ngFor="let validation of validation_messages.parent_location_id">

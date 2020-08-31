@@ -11,6 +11,9 @@ import {AddMainLocationComponent} from "../../pages/Location/add-main-location/a
 import {AddSubLocationComponent} from '../../pages/Location/add-sub-location/add-sub-location.component';
 import {ViewSubLocationComponent} from '../../pages/Location/view-sub-location/view-sub-location.component';
 import {ViewMainLocationComponent} from '../../pages/Location/view-main-location/view-main-location.component';
+import {AddCategoryComponent} from '../../pages/Category & Unit/add-category/add-category.component';
+import {AddUnitComponent} from '../../pages/Category & Unit/add-unit/add-unit.component';
+import {ViewBranchComponent} from '../../pages/Branch/view-branch/view-branch.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -24,4 +27,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'addSubLocation',           component: AddSubLocationComponent },
     { path: 'viewSubLocation',           component: ViewSubLocationComponent },
     { path: 'viewMainLocation',           component: ViewMainLocationComponent },
+    { path: 'addCategory',           component: AddCategoryComponent },
+    { path: 'addUnit',           component: AddUnitComponent },
+    { path: 'viewBranch',           component: ViewBranchComponent },
 ];

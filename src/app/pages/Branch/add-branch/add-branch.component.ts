@@ -141,8 +141,8 @@ export class AddBranchComponent implements OnInit {
     );
   }
   fetchSublocation(parent_location_id) {
-    this.masterService.fetchMainLocation().subscribe(data => {
-        this.mainLocationData = data;
+    this.masterService.fetchSubLocationByMainLocation(parent_location_id).subscribe(data => {
+        this.subLocationData = data;
       },
       (error : HttpErrorResponse) => {
         if (error.error instanceof Error) {
