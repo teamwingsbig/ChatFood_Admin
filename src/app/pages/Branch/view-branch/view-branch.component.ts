@@ -15,7 +15,6 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 export class ViewBranchComponent implements OnInit {
   modalRef: BsModalRef;
   brnachData : any = [];
-  managerData : any = [];
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,
@@ -34,7 +33,6 @@ export class ViewBranchComponent implements OnInit {
     this.maserservice.fetchBranch().subscribe(res => {
       setTimeout(() => {
         this.brnachData = res;
-        this.managerData = this.brnachData[0].managers;
         this.spinner.hide();
       }, 2000);
     }),

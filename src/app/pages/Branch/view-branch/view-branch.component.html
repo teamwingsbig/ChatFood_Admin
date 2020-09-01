@@ -98,7 +98,7 @@
                         <span class="btn-inner--icon">
                         <i class="ni ni fa fa-eye"></i>
                       </span>
-                        View
+                        &nbsp;View
                       </button>
                       <ng-template #Manageremplate>
                         <div class="modal-header">
@@ -121,15 +121,15 @@
                               </tr>
                               </thead>
                               <tbody class="text-center">
-                              <tr *ngFor="let item of managerData">
+                              <tr *ngFor="let Subitem of item.managers">
                                 <td>
-                                  {{item.first_name}}
+                                  {{Subitem.first_name}}
                                 </td>
                                 <td>
-                                  {{item.details.mobile}}
+                                  {{Subitem.details.mobile}}
                                 </td>
                                 <td>
-                                  {{item.email}}
+                                  {{Subitem.email}}
                                 </td>
                                 <td>
                                   <span class="badge badge-dot">
@@ -137,6 +137,9 @@
                                     {{item.is_blocked == true ? 'Bloced' : 'Active'}}
                                     </span>
                                 </td>
+                              </tr>
+                              <tr *ngIf="item.managers.length<=0">
+                                <td colspan="5"> No Data Found</td>
                               </tr>
                               </tbody>
                             </table>

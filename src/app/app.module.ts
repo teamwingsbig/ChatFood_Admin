@@ -28,6 +28,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {ModalModule} from 'ngx-bootstrap/modal';
+import {ClipboardModule} from 'ngx-clipboard';
+import { ViewCategoryComponent } from './pages/Category & Unit/view-category/view-category.component';
 
 
 // @ts-ignore
@@ -47,6 +49,7 @@ import {ModalModule} from 'ngx-bootstrap/modal';
         NgxPaginationModule,
         Ng2SearchPipeModule,
         ModalModule.forRoot(),
+        ClipboardModule,
     ],
   declarations: [
     AppComponent,
@@ -60,7 +63,8 @@ import {ModalModule} from 'ngx-bootstrap/modal';
     ViewSubLocationComponent,
     ViewBranchComponent,
     AddCategoryComponent,
-    AddUnitComponent
+    AddUnitComponent,
+    ViewCategoryComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

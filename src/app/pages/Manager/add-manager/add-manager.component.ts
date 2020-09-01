@@ -1,90 +1,167 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpErrorResponse} from '@angular/common/http';
+import {MasterService} from '../../../Service/Database/master.service';
+import {ToastService} from '../../../Service/Alert/toast.service';
 
 @Component({
   selector: 'app-add-manager',
   templateUrl: './add-manager.component.html',
-  styleUrls: ['./add-manager.component.css']
+  styleUrls: ['./add-manager.component.css',
+    '../../../../assets/CSS/toastr.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddManagerComponent implements OnInit {
-
+  branchData: any = [];
   managerForm: FormGroup;
+  title = 'Add Manager';
+  btn_title = 'Save';
 
   constructor(
     public formBuilder: FormBuilder,
-  ) { }
+    public  masterService: MasterService,
+    public  toastService: ToastService
+  ) {
+  }
 
   validation_messages = {
-    Customer_Name: [
-      { type: 'required', message: 'Name is required.' },
-      { type: 'pattern', message: 'Numbers not allowed ' }
+    name: [
+      {type: 'required', message: 'Name is required.'},
+      {type: 'pattern', message: 'Numbers not allowed '}
     ],
-    Order_ID: [
-      { type: 'required', message: 'Order ID is required.' },
-      { type: 'pattern', message: 'Charecters not allowed ' }
+    email: [
+      {type: 'required', message: 'Email address is required.'},
+      {type: 'pattern', message: 'Invalid email address '}
     ],
-    Delivery_Address: [
-      { type: 'required', message: 'Address is required.' },
+    branch_id: [
+      {type: 'required', message: 'Branch is required.'},
     ],
     Total_Amount: [
-      { type: 'required', message: 'Amount is required.' },
+      {type: 'required', message: 'Amount is required.'},
     ],
-    Contact_No: [
-      { type: 'required', message: 'Phone No is required.' },
-      { type: 'maxlength', message: 'Maximum 10 numbers is allowed' }
+    mobile: [
+      {type: 'required', message: 'Phone No is required.'},
+      {type: 'pattern', message: 'Invalid Phone No'}
     ],
-    DeliverBoy_ID: [
-      { type: 'required', message: 'Delivery Boy  is required.' },
+    address1: [
+      {type: 'required', message: 'Address Boy  is required.'},
+    ],
+    username: [
+      {type: 'required', message: 'Username   is required.'},
+    ],
+    password: [
+      {type: 'required', message: 'Password  is required.'},
     ]
   };
+
   ngOnInit(): void {
     this.setFormBuilder();
+    this.fetchBranch();
   }
+
+  fetchBranch() {
+    this.masterService.fetchBranch().subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
   setFormBuilder() {
     this.managerForm = this.formBuilder.group({
-      Customer_Name: [
+      name: [
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z ]*$')
         ])
       ],
-      Order_ID: [
+      email: [
+        '',
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      branch_id: [
+        '',
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      mobile: [
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[0-9]*$')
         ])
       ],
-      Delivery_Address: [
+      address1: [
         '',
         Validators.compose([
           Validators.required,
         ])
       ],
-      Total_Amount: [
+      username: [
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[0-9]*$')
         ])
       ],
-      Contact_No: [
+      password: [
         '',
         Validators.compose([
           Validators.required,
-          Validators.maxLength(10),
-          Validators.minLength(10),
-          Validators.pattern('^[0-9]*$')
         ])
       ],
-      DeliverBoy_ID: [
-        '',
-        Validators.compose([
-          Validators.required,
-        ])
+      keyword: [
+        'add_manager'
       ]
     });
   }
 
+  addManager() {
+    if (this.managerForm.valid) {
+      alert(JSON.stringify(this.managerForm.value));
+      const fd = new FormData();
+      Object.keys(this.managerForm.value).forEach(key => {
+        fd.append(key, this.managerForm.value[key]);
+      });
+      this.masterService.addManager(this.managerForm.value).subscribe(res => {
+          let ResultSet: any;
+          ResultSet = res;
+          console.log(ResultSet);
+          if (ResultSet.Status) {
+            this.toastService.showSuccess('Successfully Added', 'Success');
+            this.managerForm.reset();
+          } else {
+            this.toastService.showError('Failed to add category', 'Oops !');
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
+  onSubmit() {
+    if (this.btn_title === 'Save') {
+      this.addManager();
+    }
+  }
 }

@@ -30,6 +30,10 @@ export class MasterService {
     const url = this.ipAddress + 'items/units/';
     return this.http.post(url, Data);
   }
+  addManager(Data) {
+    const url = this.ipAddress + 'user/profile/';
+    return this.http.post(url, Data);
+  }
   addCategory(Data) {
     const url = this.ipAddress + 'items/category/';
     return this.http.post(url, Data);
@@ -38,8 +42,12 @@ export class MasterService {
     const url = this.ipAddress + 'locations/mainlocations/?page_wise=0';
     return this.http.get(url);
   }
+  fetchCategory() {
+    const url = this.ipAddress + 'items/category/?page_wise=0';
+    return this.http.get(url);
+  }
   fetchSubLocation() {
-    const url = this.ipAddress + 'locations/sublocations/';
+    const url = this.ipAddress + 'locations/sublocations/?page_wise=0';
     return this.http.get(url);
   }
   fetchUnits() {
