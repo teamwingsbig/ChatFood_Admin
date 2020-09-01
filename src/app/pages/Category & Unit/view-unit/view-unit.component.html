@@ -18,7 +18,7 @@
               <div class="card-header border-0">
                 <div class="row align-items-center">
                   <div class="col-8">
-                    <h3 class="mb-0">Categories</h3>
+                    <h3 class="mb-0">Units</h3>
                   </div>
                   <!--                  <div class="col-4">-->
                   <!--                    <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filter" (change)="onchange()">-->
@@ -42,10 +42,10 @@
                   <!--                    </div>-->
                   <!--                  </div>-->
                   <div class="col-4 text-right">
-                    <a [routerLink]="['/addCategory']" class="btn btn-sm btn-default"
+                    <a [routerLink]="['/addUnit']" class="btn btn-sm btn-default"
                        routerLinkActive="router-link-active">
                       <span class="btn-inner--icon">
-                        <i class="ni ni-fat-add"></i></span> Add Category</a>
+                        <i class="ni ni-fat-add"></i></span> Add Unit</a>
                   </div>
                 </div>
               </div>
@@ -65,7 +65,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let item of categotyData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                    *ngFor="let item of unitData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
                     <td>
                       <div class="media-body">
                         <span class="mb-0 text-sm">{{item.name}}</span>
@@ -112,7 +112,7 @@
                   <div class="pagination justify-content-end mb-0">
                     <!-- <pagination-controls (pageChange)="p = $event">
                     </pagination-controls> -->
-                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="categotyData">
+                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="unitData">
                       <ul class="pagination justify-content-end mb-0">
                         <li class="page-item ">
                           <a (click)="pT.previous()" *ngIf="!pT.isFirstPage()" [class.disabled]="pT.isFirstPage()"

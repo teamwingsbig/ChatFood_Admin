@@ -30,6 +30,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {ClipboardModule} from 'ngx-clipboard';
 import { ViewCategoryComponent } from './pages/Category & Unit/view-category/view-category.component';
+import { ViewUnitComponent } from './pages/Category & Unit/view-unit/view-unit.component';
 
 
 // @ts-ignore
@@ -64,7 +65,8 @@ import { ViewCategoryComponent } from './pages/Category & Unit/view-category/vie
     ViewBranchComponent,
     AddCategoryComponent,
     AddUnitComponent,
-    ViewCategoryComponent
+    ViewCategoryComponent,
+    ViewUnitComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

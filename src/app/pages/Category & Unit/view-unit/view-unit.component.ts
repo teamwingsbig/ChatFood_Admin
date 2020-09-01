@@ -1,18 +1,17 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
-  selector: 'app-view-category',
-  templateUrl: './view-category.component.html',
-  styleUrls: ['./view-category.component.css',
-  '../../../../assets/CSS/toastr.css'],
-  encapsulation : ViewEncapsulation.None
+  selector: 'app-view-unit',
+  templateUrl: './view-unit.component.html',
+  styleUrls: ['./view-unit.component.css']
 })
-export class ViewCategoryComponent implements OnInit {
-  categotyData: any = [];
+export class ViewUnitComponent implements OnInit {
+
+  unitData : any = [];
 
   p = 1;
   public filter;
@@ -23,13 +22,14 @@ export class ViewCategoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.fetchcategoty();
+  this.fetchUnit();
   }
-  fetchcategoty() {
+
+  fetchUnit() {
     this.spinner.show();
-    this.maserservice.fetchCategory().subscribe(res => {
+    this.maserservice.fetchUnits().subscribe(res => {
       setTimeout(() => {
-        this.categotyData = res;
+        this.unitData = res;
         this.spinner.hide();
       }, 2000);
     }),
@@ -45,4 +45,5 @@ export class ViewCategoryComponent implements OnInit {
         }
       };
   }
+
 }

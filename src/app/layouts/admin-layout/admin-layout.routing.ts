@@ -15,6 +15,7 @@ import {AddCategoryComponent} from '../../pages/Category & Unit/add-category/add
 import {AddUnitComponent} from '../../pages/Category & Unit/add-unit/add-unit.component';
 import {ViewBranchComponent} from '../../pages/Branch/view-branch/view-branch.component';
 import {ViewCategoryComponent} from '../../pages/Category & Unit/view-category/view-category.component';
+import {ViewUnitComponent} from '../../pages/Category & Unit/view-unit/view-unit.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -31,6 +32,7 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'addCategory', component: AddCategoryComponent},
   {path: 'addCategory', component: AddCategoryComponent},
   {path: 'viewCategory', component: ViewCategoryComponent},
+  {path: 'viewUnit', component: ViewUnitComponent},
   {path: 'viewBranch', component: ViewBranchComponent},
   {path: 'addManager', component: AddManagerComponent},
 ];
