@@ -1,0 +1,335 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">{{title}}</h3>
+            </div>
+            <div class="col-4 text-right">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <ngb-tabset type="pills">
+            <ngb-tab title="Item Info">
+              <!--               tab 1-->
+              <ng-template ngbTabContent>
+                <br>
+                <h6 class="heading-small text-muted mb-4">Item details</h6>
+                <form [formGroup]="itemForm">
+                  <div class="pl-lg-4">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <div class="form-group ">
+                          <label class="form-control-label">Name</label>
+                          <div class="validation-errors">
+                          </div>
+                          <input type="text" required formControlName="name"
+                                 class="form-control form-control-alternative" placeholder="Type Name">
+                          <div *ngFor="let validation of validation_messages.name">
+                            <div class="error-message" *ngIf="itemForm.get('name').hasError(validation.type) &&
+                        (itemForm.get('name').dirty || itemForm.get('name').touched)">
+                              <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="form-group ">
+                          <label class="form-control-label">Arabic Name</label>
+                          <div class="validation-errors">
+                          </div>
+                          <input type="text" required formControlName="arabic_name"
+                                 class="form-control form-control-alternative" placeholder="Type Arabic Name">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group ">
+                          <label class="form-control-label">Description</label>
+                          <div class="validation-errors">
+                          </div>
+                          <input type="text" required formControlName="description"
+                                 class="form-control form-control-alternative" placeholder="Type Description">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group ">
+                          <label class="form-control-label" for="input-email">Branch</label>
+                          <select formControlName="branch_id" required
+                                  class="form-control form-control-alternative">
+                            <option *ngFor="let item of branchData" [value]="item.id">{{item.name}}</option>
+                          </select>
+                          <div *ngFor="let validation of validation_messages.branch_id">
+                            <div class="error-message" *ngIf="itemForm.get('branch_id').hasError(validation.type) &&
+                                        (itemForm.get('branch_id').dirty || itemForm.get('branch_id').touched)">
+                              <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group ">
+                          <label class="form-control-label" for="input-email">Category</label>
+                          <select formControlName="branch_id" required id="input-email"
+                                  class="form-control form-control-alternative">
+                            <option *ngFor="let item of categoryData" [value]="item.id">{{item.name}}</option>
+                          </select>
+                          <div *ngFor="let validation of validation_messages.branch_id">
+                            <div class="error-message" *ngIf="itemForm.get('branch_id').hasError(validation.type) &&
+                                        (itemForm.get('branch_id').dirty || itemForm.get('branch_id').touched)">
+                              <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group ">
+                          <label class="form-control-label">SKU</label>
+                          <div class="validation-errors">
+                          </div>
+                          <input type="tel" required formControlName="sku"
+                                 class="form-control form-control-alternative" placeholder="Type SKU">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group ">
+                          <label class="form-control-label">UOM</label>
+                          <div class="validation-errors">
+                          </div>
+                          <input type="tel" required formControlName="uom"
+                                 class="form-control form-control-alternative" placeholder="Type UOM">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                          <button class="btn btn-primary" [disabled]="itemForm.invalid"
+                                  (click)="onSubmit()" type="submit">{{btn_title}}</button>
+                          <button class="btn btn-primary" type="reset">Reset</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            <!--             end tab 1-->
+            <!--            tab 2-->
+            <ngb-tab title="Price & Varients">
+              <ng-template ngbTabContent>
+                <br>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <h6 class="heading-small text-muted mb-4">Price & Variant Details</h6>
+                  </div>
+                  <div class="col-lg-6 text-right">
+                    <button class="btn btn-danger" (click)="openVarientForm(varientTemplate)">
+                      <span class="btn-inner--icon">
+                        <i class="ni ni-fat-add"></i>
+                      </span> Add Varient
+                    </button>
+                  </div>
+                </div>
+                <ng-template #varientTemplate>
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left text-black-50">{{varient_title}} </h4>
+                    <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form [formGroup]="varientForm">
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="form-group ">
+                            <label class="form-control-label">Unit</label>
+                            <div class="validation-errors">
+                            </div>
+                            <select formControlName="unit_id" required
+                                    class="form-control form-control-alternative">
+                              <option *ngFor="let item of unitData"
+                                      value="{{item.id}},{{item.name}}">{{item.name}}</option>
+                            </select>
+                            <div *ngFor="let validation of varient_validation_messages.unit_id">
+                              <div class="error-message" *ngIf="varientForm.get('unit_id').hasError(validation.type) &&
+                                        (varientForm.get('unit_id').dirty || varientForm.get('unit_id').touched)">
+                                <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group ">
+                            <label class="form-control-label">Magnitude</label>
+                            <div class="validation-errors">
+                            </div>
+                            <input type="tel" required formControlName="magnitude"
+                                   class="form-control form-control-alternative" placeholder="Type Magnitude">
+                            <div *ngFor="let validation of varient_validation_messages.magnitude">
+                              <div class="error-message" *ngIf="varientForm.get('magnitude').hasError(validation.type) &&
+                                        (varientForm.get('magnitude').dirty || varientForm.get('magnitude').touched)">
+                                <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group ">
+                            <label class="form-control-label">Cost Price</label>
+                            <div class="validation-errors">
+                            </div>
+                            <input type="tel" required formControlName="cost_price"
+                                   class="form-control form-control-alternative" placeholder="Type Cost Price">
+                            <div *ngFor="let validation of varient_validation_messages.cost_price">
+                              <div class="error-message" *ngIf="varientForm.get('cost_price').hasError(validation.type) &&
+                                        (varientForm.get('cost_price').dirty || varientForm.get('cost_price').touched)">
+                                <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="form-group ">
+                            <label class="form-control-label">Selling Price</label>
+                            <div class="validation-errors">
+                            </div>
+                            <input type="tel" required formControlName="selling_price"
+                                   class="form-control form-control-alternative" placeholder="Type Selling Price">
+                            <div *ngFor="let validation of varient_validation_messages.selling_price">
+                              <div class="error-message" *ngIf="varientForm.get('selling_price').hasError(validation.type) &&
+                                        (varientForm.get('selling_price').dirty || varientForm.get('selling_price').touched)">
+                                <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group ">
+                            <label class="form-control-label">Current Stock</label>
+                            <div class="validation-errors">
+                            </div>
+                            <input type="tel" required formControlName="current_stock"
+                                   class="form-control form-control-alternative" placeholder="Type Current Stock">
+                            <div *ngFor="let validation of varient_validation_messages.current_stock">
+                              <div class="error-message" *ngIf="varientForm.get('current_stock').hasError(validation.type) &&
+                                        (varientForm.get('current_stock').dirty || varientForm.get('current_stock').touched)">
+                                <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group ">
+                            <label class="form-control-label">Reorder Point</label>
+                            <div class="validation-errors">
+                            </div>
+                            <input type="tel" required formControlName="reorder_point"
+                                   class="form-control form-control-alternative" placeholder="Type Re-order point">
+                            <div *ngFor="let validation of varient_validation_messages.reorder_point">
+                              <div class="error-message" *ngIf="varientForm.get('reorder_point').hasError(validation.type) &&
+                                        (varientForm.get('reorder_point').dirty || varientForm.get('reorder_point').touched)">
+                                <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button [disabled]="varientForm.invalid" (click)="addVarients(varientForm.value);modalRef.hide()"
+                            class="btn btn-danger"
+                            type="button">{{varient_btn_title}}</button>
+                    <button (click)="modalRef.hide()" class="btn btn-danger" type="button">Close</button>
+                  </div>
+                </ng-template>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="table-responsive">
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-white">
+                        <tr>
+                          <th scope="col" style="width:3.5em">Sl No</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Magnitude</th>
+                          <th scope="col">Selling Price</th>
+                          <th scope="col">Cost Price</th>
+                          <th scope="col">Unit</th>
+                          <th scope="col">Stock</th>
+                          <th scope="col">Reorder Point</th>
+                          <th scope="col">Action</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr
+                          *ngFor="let item of varientData   |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                          <td>
+                            <div class="media-body">
+                              <span class="mb-0 text-sm">{{i + 1}}</span>
+                            </div>
+                          </td>
+                          <td>{{item.magnitude}}</td>
+                          <td>
+                            {{item.magnitude}}
+                          </td>
+                          <td>
+                            {{item.selling_price }}
+                          </td>
+                          <td>
+                            {{item.cost_price}}
+                          </td>
+                          <td>
+                            {{item.unit_name}}
+                          </td>
+                          <td>
+                            {{item.current_stock}}
+                          </td>
+                          <td>
+                            {{item.reorder_point}}
+                          </td>
+                          <td>
+                            <button (click)="removeVarient(i)" class="btn btn-outline-danger btn-sm"
+                                    type="button">
+                            <span class="btn-inner--icon">
+                                <i class="ni ni fa fa-eye"></i>
+                              </span>
+                              &nbsp;Delete
+                            </button>
+                          </td>
+                        </tr>
+                        <tr class="text-center" *ngIf="varientData.length<=0">
+                          <td colspan="9" class="text-lg">No Data Found !</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <!--            end tab 2-->
+          </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

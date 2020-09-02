@@ -34,11 +34,11 @@ export class AddCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setFormBuilder();
+    this.setItemFormBuilder();
     this.fetchBranch();
   }
 
-  setFormBuilder() {
+  setItemFormBuilder() {
     this.categoryForm = this.formBuilder.group({
       name: [
         '',
@@ -52,6 +52,12 @@ export class AddCategoryComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])
+      ],
+      sku: [
+        '',
+      ],
+      uom: [
+        '',
       ],
     });
   }

@@ -31,6 +31,8 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {ClipboardModule} from 'ngx-clipboard';
 import { ViewCategoryComponent } from './pages/Category & Unit/view-category/view-category.component';
 import { ViewUnitComponent } from './pages/Category & Unit/view-unit/view-unit.component';
+import {TabsModule} from 'ngx-bootstrap/tabs';
+import { AddProductComponent } from './pages/Products/add-product/add-product.component';
 
 
 // @ts-ignore
@@ -51,6 +53,7 @@ import { ViewUnitComponent } from './pages/Category & Unit/view-unit/view-unit.c
         Ng2SearchPipeModule,
         ModalModule.forRoot(),
         ClipboardModule,
+        TabsModule.forRoot()
     ],
   declarations: [
     AppComponent,
@@ -66,7 +69,8 @@ import { ViewUnitComponent } from './pages/Category & Unit/view-unit/view-unit.c
     AddCategoryComponent,
     AddUnitComponent,
     ViewCategoryComponent,
-    ViewUnitComponent
+    ViewUnitComponent,
+    AddProductComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

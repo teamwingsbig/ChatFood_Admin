@@ -53,7 +53,12 @@
         }
     }
 
-
+  .thead-white {
+    th {
+      background-color: white;
+      color: #8898aa !important;
+    }
+  }
     // Styles for light table
 
     .thead-light {

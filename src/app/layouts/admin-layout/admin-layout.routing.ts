@@ -16,6 +16,7 @@ import {AddUnitComponent} from '../../pages/Category & Unit/add-unit/add-unit.co
 import {ViewBranchComponent} from '../../pages/Branch/view-branch/view-branch.component';
 import {ViewCategoryComponent} from '../../pages/Category & Unit/view-category/view-category.component';
 import {ViewUnitComponent} from '../../pages/Category & Unit/view-unit/view-unit.component';
+import {AddProductComponent} from '../../pages/Products/add-product/add-product.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -35,4 +36,5 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'viewUnit', component: ViewUnitComponent},
   {path: 'viewBranch', component: ViewBranchComponent},
   {path: 'addManager', component: AddManagerComponent},
+  {path: 'addProduct', component: AddProductComponent},
 ];
