@@ -4,6 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {ProductService} from '../../../Service/Database/product.service';
 
 @Component({
   selector: 'app-add-product',
@@ -28,7 +29,8 @@ export class AddProductComponent implements OnInit {
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
     public  toastService: ToastService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public productService: ProductService
 
   ) { }
   validation_messages = {
@@ -145,8 +147,6 @@ export class AddProductComponent implements OnInit {
       ],
       description: [
         '',
-        Validators.compose([
-        ])
       ],
       varients : [
         '',
@@ -156,10 +156,7 @@ export class AddProductComponent implements OnInit {
       ],
       uom : [
         '',
-      ],
-      status : [
-        true,
-      ],
+      ]
     });
   }
 
@@ -235,5 +232,52 @@ export class AddProductComponent implements OnInit {
   removeVarient(index) {
     this.varientData.splice(index, 1);
     this.toastService.showSuccess('Successfully Deleted', 'Success');
+  }
+  addProduct() {
+    if(this.itemForm.valid) {
+      this.itemForm.value.varients = [];
+      this.itemForm.value.varients = this.varientData;
+      this.productService.addProduct(this.itemForm.value).subscribe(res => {
+          let ResultSet: any;
+          ResultSet = res;
+          console.log(res);
+          if (ResultSet.Status) {
+            this.toastService.showSuccess('Product Successfully Added', 'Success');
+            // reset form
+            this.itemForm.reset();
+          //   reset varient data
+            this.varientData = [];
+          } else {
+            this.toastService.showError('Failed to add Product', 'Oops !');
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
+  onSubmit() {
+    if (this.btn_title === 'Save' ) {
+            this.addProduct();
+    }
+  }
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.itemForm.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalid.push(name);
+      }
+    }
+    console.log(invalid);
+    return invalid;
   }
 }
