@@ -157,7 +157,7 @@
                     <div class="pl-lg-4">
                       <form [formGroup]="varientForm">
                         <div class="row">
-                          <div class="col-lg-4">
+                          <div class="col-lg-6">
                             <div class="form-group ">
                               <label class="form-control-label">Unit</label>
                               <div class="validation-errors">
@@ -175,6 +175,23 @@
                               </div>
                             </div>
                           </div>
+                          <div class="col-lg-6">
+                            <div class="form-group ">
+                              <label class="form-control-label">Name</label>
+                              <div class="validation-errors">
+                              </div>
+                              <input type="tel" required formControlName="name"
+                                     class="form-control form-control-alternative" placeholder="Type varient Name">
+                              <div *ngFor="let validation of varient_validation_messages.name">
+                                <div class="error-message" *ngIf="varientForm.get('name').hasError(validation.type) &&
+                                        (varientForm.get('name').dirty || varientForm.get('name').touched)">
+                                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
                           <div class="col-lg-4">
                             <div class="form-group ">
                               <label class="form-control-label">Magnitude</label>
@@ -205,8 +222,6 @@
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="row">
                           <div class="col-lg-4">
                             <div class="form-group ">
                               <label class="form-control-label">Selling Price</label>
@@ -222,7 +237,9 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-lg-4">
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
                             <div class="form-group ">
                               <label class="form-control-label">Current Stock</label>
                               <div class="validation-errors">
@@ -237,7 +254,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-lg-4">
+                          <div class="col-lg-6">
                             <div class="form-group ">
                               <label class="form-control-label">Reorder Point</label>
                               <div class="validation-errors">
@@ -289,7 +306,7 @@
                               <span class="mb-0 text-sm">{{i + 1}}</span>
                             </div>
                           </td>
-                          <td>{{item.magnitude}}</td>
+                          <td>{{item.name}}</td>
                           <td>
                             {{item.magnitude}}
                           </td>

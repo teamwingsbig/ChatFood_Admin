@@ -33,6 +33,7 @@ import { ViewCategoryComponent } from './pages/Category & Unit/view-category/vie
 import { ViewUnitComponent } from './pages/Category & Unit/view-unit/view-unit.component';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import { AddProductComponent } from './pages/Products/add-product/add-product.component';
+import { ListProductComponent } from './pages/Products/list-product/list-product.component';
 
 
 // @ts-ignore
@@ -70,7 +71,8 @@ import { AddProductComponent } from './pages/Products/add-product/add-product.co
     AddUnitComponent,
     ViewCategoryComponent,
     ViewUnitComponent,
-    AddProductComponent
+    AddProductComponent,
+    ListProductComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

@@ -13,4 +13,8 @@ export class ProductService {
     const url = this.ipAddress + 'items/details/';
     return this.http.post(url, Data);
   }
+  fetchProduct() {
+    const url = this.ipAddress + 'items/details/?page_wise=0';
+    return this.http.get(url);
+  }
 }
