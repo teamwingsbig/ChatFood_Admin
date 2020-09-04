@@ -18,6 +18,9 @@ import {ViewCategoryComponent} from '../../pages/Category & Unit/view-category/v
 import {ViewUnitComponent} from '../../pages/Category & Unit/view-unit/view-unit.component';
 import {AddProductComponent} from '../../pages/Products/add-product/add-product.component';
 import {ListProductComponent} from '../../pages/Products/list-product/list-product.component';
+import {AddAddonsCategoryComponent} from '../../pages/Products/Addons/add-addons-category/add-addons-category.component';
+import {AddAddonsComponent} from '../../pages/Products/Addons/add-addons/add-addons.component';
+import {ViewAddonsCategoryComponent} from '../../pages/Products/Addons/view-addons-category/view-addons-category.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -39,4 +42,8 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'addManager', component: AddManagerComponent},
   {path: 'addProduct', component: AddProductComponent},
   {path: 'listProducts', component: ListProductComponent},
+  {path: 'addAddons', component: AddAddonsComponent},
+  {path: 'addAddonsCategory', component: AddAddonsCategoryComponent},
+  {path: 'viewAddonsCategory', component: ViewAddonsCategoryComponent},
+
 ];

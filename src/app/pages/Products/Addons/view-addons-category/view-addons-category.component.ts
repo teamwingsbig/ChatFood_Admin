@@ -1,35 +1,34 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {MasterService} from '../../../Service/Database/master.service';
-import {ToastService} from '../../../Service/Alert/toast.service';
+import {ToastService} from '../../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ProductService} from '../../../../Service/Database/product.service';
 
 @Component({
-  selector: 'app-view-sub-location',
-  templateUrl: './view-sub-location.component.html',
-  styleUrls: ['./view-sub-location.component.css',
-  '../../../../assets/CSS/toastr.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-view-addons-category',
+  templateUrl: './view-addons-category.component.html',
+  styleUrls: ['./view-addons-category.component.css',
+  '../../../../../assets/CSS/toastr.css'],
+  encapsulation : ViewEncapsulation.None
 })
-export class ViewSubLocationComponent implements OnInit {
-  locationData: any = [];
+export class ViewAddonsCategoryComponent implements OnInit {
+  categoryData: any = [];
   p = 1;
   public filter;
   constructor(
-    public  masetrservice: MasterService,
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
+    public  productService: ProductService
   ) { }
 
   ngOnInit(): void {
-    this.fetchMainLocation();
+    this.fetchAddonsCategory();
   }
-
-  fetchMainLocation() {
+  fetchAddonsCategory() {
     this.spinner.show();
-    this.masetrservice.fetchSubLocation().subscribe(data => {
+    this.productService.fetchAddonsCategory().subscribe(data => {
         setTimeout(() => {
-          this.locationData = data;
+          this.categoryData = data;
           this.spinner.hide();
         }, 2000);
       },

@@ -34,6 +34,9 @@ import { ViewUnitComponent } from './pages/Category & Unit/view-unit/view-unit.c
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import { AddProductComponent } from './pages/Products/add-product/add-product.component';
 import { ListProductComponent } from './pages/Products/list-product/list-product.component';
+import { AddAddonsCategoryComponent } from './pages/Products/Addons/add-addons-category/add-addons-category.component';
+import { AddAddonsComponent } from './pages/Products/Addons/add-addons/add-addons.component';
+import { ViewAddonsCategoryComponent } from './pages/Products/Addons/view-addons-category/view-addons-category.component';
 
 
 // @ts-ignore
@@ -72,7 +75,10 @@ import { ListProductComponent } from './pages/Products/list-product/list-product
     ViewCategoryComponent,
     ViewUnitComponent,
     AddProductComponent,
-    ListProductComponent
+    ListProductComponent,
+    AddAddonsCategoryComponent,
+    AddAddonsComponent,
+    ViewAddonsCategoryComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
