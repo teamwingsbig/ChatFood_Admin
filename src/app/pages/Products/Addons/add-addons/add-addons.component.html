@@ -1,1 +1,259 @@
-<p>add-addons works!</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">{{title}}</h3>
+            </div>
+            <div class="col-4 text-right">
+              <button (click)="openAddonsForm(addonsTemplate)" class="btn btn-danger">
+                      <span class="btn-inner--icon">
+                        <i class="ni ni-fat-add"></i>
+                      </span>  Add-ons
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h6 class="heading-small text-muted mb-4">Add-ons Details</h6>
+          <div class="pl-lg-4">
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-white">
+                  <tr>
+                    <th scope="col" style="width:3.5em">Sl No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Brnach</th>
+                    <th scope="col">Varient/Item</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Required</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    *ngFor="let item of varientData   |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                    <td>
+                      <div class="media-body">
+                        <span class="mb-0 text-sm">{{i + 1}}</span>
+                      </div>
+                    </td>
+                    <td>{{item.name}}</td>
+                    <td>
+                      {{item.magnitude}}
+                    </td>
+                    <td>
+                      {{item.selling_price }}
+                    </td>
+                    <td>
+                      {{item.cost_price}}
+                    </td>
+                    <td>
+                      {{item.unit_name}}
+                    </td>
+                    <td>
+                      {{item.current_stock}}
+                    </td>
+                    <td>
+                      {{item.reorder_point}}
+                    </td>
+                    <td>
+                      <button (click)="removeVarient(i)" class="btn btn-outline-danger btn-sm"
+                              type="button">
+                            <span class="btn-inner--icon">
+                                <i class="ni ni fa fa-eye"></i>
+                              </span>
+                        &nbsp;Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-center" *ngIf="varientData.length<=0">
+                    <td colspan="9" class="text-lg">No Data Found !</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- add ons form-->
+<ng-template #addonsTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left text-black-50">{{addons_title}} </h4>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="pl-lg-4">
+      <form [formGroup]="addonForm">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group ">
+              <label class="form-control-label">Name</label>
+              <div class="validation-errors">
+              </div>
+              <input type="tel" required formControlName="name"
+                     class="form-control form-control-alternative" placeholder="Type  Name">
+              <div *ngFor="let validation of validation_messages.name">
+                <div class="error-message" *ngIf="addonForm.get('name').hasError(validation.type) &&
+                                        (addonForm.get('name').dirty || addonForm.get('name').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group ">
+              <label class="form-control-label">Category</label>
+              <div class="validation-errors">
+              </div>
+              <select formControlName="category_id" required
+                      class="form-control form-control-alternative">
+                <option *ngFor="let item of categoryData"
+                        value="{{item.id}},{{item.name}}">{{item.name}}</option>
+              </select>
+              <div *ngFor="let validation of validation_messages.category_id">
+                <div class="error-message" *ngIf="addonForm.get('category_id').hasError(validation.type) &&
+                                        (addonForm.get('category_id').dirty || addonForm.get('category_id').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="form-group ">
+              <label class="form-control-label">Branch</label>
+              <div class="validation-errors">
+              </div>
+              <select formControlName="branch_id" required (change)="fetchItemByBranch($event.target.value)"
+                      class="form-control form-control-alternative">
+                <option *ngFor="let item of branchData"
+                        value="{{item.id}},{{item.name}}">{{item.name}}</option>
+              </select>
+              <div *ngFor="let validation of validation_messages.branch_id">
+                <div class="error-message" *ngIf="addonForm.get('branch_id').hasError(validation.type) &&
+                                        (addonForm.get('branch_id').dirty || addonForm.get('branch_id').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group ">
+              <label class="form-control-label">Item</label>
+              <div class="validation-errors">
+              </div>
+              <select formControlName="item_id" required
+                      class="form-control form-control-alternative">
+                <option *ngFor="let item of itemData"
+                        value="{{item.id}},{{item.name}}">{{item.name}}</option>
+              </select>
+              <div *ngFor="let validation of validation_messages.item_id">
+                <div class="error-message" *ngIf="addonForm.get('item_id').hasError(validation.type) &&
+                                        (addonForm.get('item_id').dirty || addonForm.get('item_id').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group ">
+              <label class="form-control-label">Varient</label>
+              <div class="validation-errors">
+              </div>
+              <select formControlName="varient_id" required
+                      class="form-control form-control-alternative">
+                <option *ngFor="let item of varientData"
+                        value="{{item.id}},{{item.name}}">{{item.name}}</option>
+              </select>
+              <div *ngFor="let validation of validation_messages.varient_id">
+                <div class="error-message" *ngIf="addonForm.get('varient_id').hasError(validation.type) &&
+                                        (addonForm.get('varient_id').dirty || addonForm.get('varient_id').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group ">
+              <label class="form-control-label">Price</label>
+              <div class="validation-errors">
+              </div>
+              <input type="tel" required formControlName="price"
+                     class="form-control form-control-alternative" placeholder="Type Price">
+              <div *ngFor="let validation of validation_messages.price">
+                <div class="error-message" *ngIf="addonForm.get('price').hasError(validation.type) &&
+                                        (addonForm.get('price').dirty || addonForm.get('price').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+<!--            <div class="form-group ">-->
+              <div class="text-center">
+              <label class="form-control-label">Required</label>
+              <div class="validation-errors">
+              </div>
+<!--              <input type="tel" required formControlName="price"-->
+<!--                     class="form-control form-control-alternative" placeholder="Type Price">-->
+              <ui-switch></ui-switch>
+
+              <div *ngFor="let validation of validation_messages.price">
+                <div class="error-message" *ngIf="addonForm.get('price').hasError(validation.type) &&
+                                        (addonForm.get('price').dirty || addonForm.get('price').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+<!--          <div class="col-lg-6">-->
+<!--            <div class="form-group ">-->
+<!--              <label class="form-control-label">Reorder Point</label>-->
+<!--              <div class="validation-errors">-->
+<!--              </div>-->
+<!--              <input type="tel" required formControlName="reorder_point"-->
+<!--                     class="form-control form-control-alternative" placeholder="Type Re-order point">-->
+<!--              <div *ngFor="let validation of varient_validation_messages.reorder_point">-->
+<!--                <div class="error-message" *ngIf="addonForm.get('reorder_point').hasError(validation.type) &&-->
+<!--                                        (addonForm.get('reorder_point').dirty || addonForm.get('reorder_point').touched)">-->
+<!--                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button [disabled]="addonForm.invalid" (click)="addVarients(addonForm.value);modalRef.hide()"
+            class="btn btn-danger"
+            type="button">{{addons_btn_title}}</button>
+    <button (click)="modalRef.hide()" class="btn btn-danger" type="button">Close</button>
+  </div>
+</ng-template>
+
+<!--end addons forms-->

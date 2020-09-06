@@ -17,6 +17,7 @@
 */
 
 // Core
+@import '~ngx-ui-switch/ui-switch.component.scss';
 
 @import "custom/functions";
 @import "custom/variables";
@@ -69,4 +70,4 @@
 @import "custom/vendors";
 
 // Angular Differences
-@import "angular-differences/angular-differences"
+@import "angular-differences/angular-differences";

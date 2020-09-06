@@ -68,7 +68,7 @@
                       <div class="col-lg-6">
                         <div class="form-group ">
                           <label class="form-control-label" for="input-email">Branch</label>
-                          <select formControlName="branch_id" required
+                          <select formControlName="branch_id" required (change)="fetchCategoryByBranch($event.target.value)"
                                   class="form-control form-control-alternative">
                             <option *ngFor="let item of branchData" [value]="item.id">{{item.name}}</option>
                           </select>
@@ -97,7 +97,7 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-lg-6">
+                      <div class="col-lg-4">
                         <div class="form-group ">
                           <label class="form-control-label">SKU</label>
                           <div class="validation-errors">
@@ -106,13 +106,34 @@
                                  class="form-control form-control-alternative" placeholder="Type SKU">
                         </div>
                       </div>
-                      <div class="col-lg-6">
+                      <div class="col-lg-4">
                         <div class="form-group ">
-                          <label class="form-control-label">UOM</label>
+                          <label class="form-control-label">Tax Percentage</label>
                           <div class="validation-errors">
                           </div>
-                          <input type="tel"  formControlName="uom"
-                                 class="form-control form-control-alternative" placeholder="Type UOM">
+                          <input type="tel"  formControlName="tax_perc"
+                                 class="form-control form-control-alternative" placeholder="Type Tax Percentage">
+                          <div *ngFor="let validation of validation_messages.tax_perc">
+                            <div class="error-message" *ngIf="itemForm.get('tax_perc').hasError(validation.type) &&
+                                        (itemForm.get('tax_perc').dirty || itemForm.get('tax_perc').touched)">
+                              <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="form-group ">
+                          <label class="form-control-label">Price Range</label>
+                          <div class="validation-errors">
+                          </div>
+                          <input type="tel"  formControlName="price_range"
+                                 class="form-control form-control-alternative" placeholder="Type Price Range">
+                          <div *ngFor="let validation of validation_messages.price_range">
+                            <div class="error-message" *ngIf="itemForm.get('price_range').hasError(validation.type) &&
+                                        (itemForm.get('price_range').dirty || itemForm.get('price_range').touched)">
+                              <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

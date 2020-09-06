@@ -37,6 +37,7 @@ import { ListProductComponent } from './pages/Products/list-product/list-product
 import { AddAddonsCategoryComponent } from './pages/Products/Addons/add-addons-category/add-addons-category.component';
 import { AddAddonsComponent } from './pages/Products/Addons/add-addons/add-addons.component';
 import { ViewAddonsCategoryComponent } from './pages/Products/Addons/view-addons-category/view-addons-category.component';
+import {UiSwitchModule} from 'ngx-ui-switch';
 
 
 // @ts-ignore
@@ -57,7 +58,8 @@ import { ViewAddonsCategoryComponent } from './pages/Products/Addons/view-addons
         Ng2SearchPipeModule,
         ModalModule.forRoot(),
         ClipboardModule,
-        TabsModule.forRoot()
+        TabsModule.forRoot(),
+        UiSwitchModule
     ],
   declarations: [
     AppComponent,

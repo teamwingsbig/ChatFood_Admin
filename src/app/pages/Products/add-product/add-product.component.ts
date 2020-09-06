@@ -45,6 +45,13 @@ export class AddProductComponent implements OnInit {
     ],
     category_id: [
       {type: 'required', message: 'Category is required.'},
+    ],
+    price_range: [
+      {type: 'required', message: 'Price range is required.'},
+    ],
+    tax_perc: [
+      {type: 'required', message: 'Tax Percentage is required.'},
+      {type: 'pattern', message: 'Invalid Value '}
     ]
   };
   varient_validation_messages = {
@@ -79,7 +86,6 @@ export class AddProductComponent implements OnInit {
     this.setVarirntForm();
     this.setFormBuilder();
     this.fetchBranch();
-    this.fetchCategory();
     this.fetchUnit();
   }
 
@@ -168,9 +174,22 @@ export class AddProductComponent implements OnInit {
       sku: [
         '',
       ],
-      uom: [
+      price_range: [
         '',
-      ]
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      tax_perc: [
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]*$')
+        ])
+      ],
+      uom: [
+        0
+      ],
     });
   }
 
@@ -191,8 +210,8 @@ export class AddProductComponent implements OnInit {
       };
   }
 
-  fetchCategory() {
-    this.masterService.fetchCategory().subscribe(res => {
+  fetchCategoryByBranch(branch_id) {
+    this.masterService.fetchCategoryByBranch(branch_id).subscribe(res => {
       this.categoryData = res;
     }),
       // tslint:disable-next-line:no-unused-expression

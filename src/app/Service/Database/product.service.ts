@@ -21,6 +21,10 @@ export class ProductService {
     const url = this.ipAddress + 'items/details/?page_wise=0';
     return this.http.get(url);
   }
+  fetchProductByBranch(branch_id) {
+    const url = this.ipAddress + 'items/details/?page_wise=0&branch_id=' + branch_id;
+    return this.http.get(url);
+  }
   fetchAddonsCategory() {
     const url = this.ipAddress + 'items/addoncategory/?page_wise=0';
     return this.http.get(url);

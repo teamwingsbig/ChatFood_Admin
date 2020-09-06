@@ -33,6 +33,7 @@
     "ngx-pagination": "^5.0.0",
     "ngx-spinner": "^9.0.1",
     "ngx-toastr": "^12.1.0",
+    "ngx-ui-switch": "^9.0.2",
     "nouislider": "13.1.1",
     "rxjs": "6.5.4",
     "zone.js": "0.10.2"

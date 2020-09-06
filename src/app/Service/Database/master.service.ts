@@ -46,6 +46,10 @@ export class MasterService {
     const url = this.ipAddress + 'items/category/?page_wise=0';
     return this.http.get(url);
   }
+  fetchCategoryByBranch(branch_id) {
+    const url = this.ipAddress + 'items/category/?page_wise=0&branch_id=' + branch_id;
+    return this.http.get(url);
+  }
   fetchSubLocation() {
     const url = this.ipAddress + 'locations/sublocations/?page_wise=0';
     return this.http.get(url);
