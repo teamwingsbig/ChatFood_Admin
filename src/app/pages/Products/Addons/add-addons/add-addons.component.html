@@ -44,7 +44,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let item of varientData   |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                    *ngFor="let item of addonsData   |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
                     <td>
                       <div class="media-body">
                         <span class="mb-0 text-sm">{{i + 1}}</span>
@@ -52,25 +52,25 @@
                     </td>
                     <td>{{item.name}}</td>
                     <td>
-                      {{item.magnitude}}
+                      {{item.category_name}}
                     </td>
                     <td>
-                      {{item.selling_price }}
+                      {{item.branch_name }}
                     </td>
                     <td>
-                      {{item.cost_price}}
+                      {{item.vareint_name}}
                     </td>
                     <td>
-                      {{item.unit_name}}
+                      {{item.price}}
                     </td>
                     <td>
-                      {{item.current_stock}}
+                      <span class="badge badge-dot">
+                        <i [class]="item.is_required==false?'bg-danger':'bg-success'"></i>
+                        {{item.is_required == false ? 'False' : 'True'}}
+                      </span>
                     </td>
                     <td>
-                      {{item.reorder_point}}
-                    </td>
-                    <td>
-                      <button (click)="removeVarient(i)" class="btn btn-outline-danger btn-sm"
+                      <button (click)="removeAddons(i)" class="btn btn-outline-danger btn-sm"
                               type="button">
                             <span class="btn-inner--icon">
                                 <i class="ni ni fa fa-eye"></i>
@@ -84,6 +84,19 @@
                   </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <button class="btn btn-primary"
+                            [disabled]="addonsData.length<=0 "
+                            (click)="onSubmit()" type="button">{{btn_title}}
+                    </button>
+                    <button class="btn btn-primary" type="reset" >Reset</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -162,7 +175,7 @@
               <label class="form-control-label">Item</label>
               <div class="validation-errors">
               </div>
-              <select formControlName="item_id" required
+              <select formControlName="item_id" required (change)="fetchVarientByItem($event.target.value)"
                       class="form-control form-control-alternative">
                 <option *ngFor="let item of itemData"
                         value="{{item.id}},{{item.name}}">{{item.name}}</option>
@@ -218,14 +231,7 @@
               </div>
 <!--              <input type="tel" required formControlName="price"-->
 <!--                     class="form-control form-control-alternative" placeholder="Type Price">-->
-              <ui-switch></ui-switch>
-
-              <div *ngFor="let validation of validation_messages.price">
-                <div class="error-message" *ngIf="addonForm.get('price').hasError(validation.type) &&
-                                        (addonForm.get('price').dirty || addonForm.get('price').touched)">
-                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
-                </div>
-              </div>
+              <ui-switch formControlName="is_required"></ui-switch>
             </div>
           </div>
 
@@ -249,7 +255,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button [disabled]="addonForm.invalid" (click)="addVarients(addonForm.value);modalRef.hide()"
+    <button [disabled]="addonForm.invalid" (click)="pushAddons(addonForm.value);modalRef.hide()"
             class="btn btn-danger"
             type="button">{{addons_btn_title}}</button>
     <button (click)="modalRef.hide()" class="btn btn-danger" type="button">Close</button>

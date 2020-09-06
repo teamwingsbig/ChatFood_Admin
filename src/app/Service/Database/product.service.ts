@@ -17,6 +17,10 @@ export class ProductService {
     const url = this.ipAddress + 'items/details/';
     return this.http.post(url, Data);
   }
+  addMultipleAddons(Data) {
+    const url = this.ipAddress + 'items/multipleaddons/';
+    return this.http.post(url, Data);
+  }
   fetchProduct() {
     const url = this.ipAddress + 'items/details/?page_wise=0';
     return this.http.get(url);
@@ -27,6 +31,10 @@ export class ProductService {
   }
   fetchAddonsCategory() {
     const url = this.ipAddress + 'items/addoncategory/?page_wise=0';
+    return this.http.get(url);
+  }
+  fetchVarientByItem(item_id) {
+    const url = this.ipAddress + 'items/varients/?page_wise=0&item_id=' + item_id;
     return this.http.get(url);
   }
 }

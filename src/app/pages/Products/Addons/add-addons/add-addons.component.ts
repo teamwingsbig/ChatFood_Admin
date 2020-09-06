@@ -5,6 +5,7 @@ import {ToastService} from '../../../../Service/Alert/toast.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ProductService} from '../../../../Service/Database/product.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {viLocale} from 'ngx-bootstrap/chronos';
 
 @Component({
   selector: 'app-add-addons',
@@ -15,9 +16,10 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class AddAddonsComponent implements OnInit {
 
-  title = 'Add Item';
+  p = 1;
+  title = 'Addons';
   btn_title = 'Save';
-  addons_title = 'Add Varient';
+  addons_title = 'Addons';
   addons_btn_title = 'Save';
   branchData: any = [];
   categoryData: any = [];
@@ -92,7 +94,7 @@ export class AddAddonsComponent implements OnInit {
         ])
       ],
       is_required: [
-        '',
+        false,
       ],
       item_id: [
         '',
@@ -155,7 +157,90 @@ export class AddAddonsComponent implements OnInit {
         }
       };
   }
+  fetchVarientByItem(item_id) {
+    // [0]id and [1]name are the values
+    item_id = item_id.split(',')[0];
+    this.productService.fetchVarientByItem(item_id).subscribe(res => {
+      this.varientData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
   openAddonsForm(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'gray modal-lg'});
   }
+  // to loal table
+  pushAddons(values) {
+    const  data = {
+      name : values.name,
+      branch_id: values.branch_id.split(',')[0],
+      branch_name : values.branch_id.split(',')[1],
+      category_id: values.category_id.split(',')[0],
+      category_name: values.category_id.split(',')[1],
+      varient_id: values.varient_id.split(',')[0],
+      vareint_name: values.varient_id.split(',')[1],
+      is_required: values.is_required,
+      price: values.price,
+    };
+    this.addonsData.push(data);
+    this.addonForm.reset();
+    this.toastService.showSuccess('Successfully Added', 'Success');
+
+  }
+  //  remove varient from table
+  removeAddons(index) {
+    this.addonsData.splice(index, 1);
+    this.toastService.showSuccess('Successfully Deleted', 'Success');
+  }
+  // to databse
+  addAddons() {
+    if (this.addonsData.length > 0) {
+      console.log(this.addonsData);
+      const Data = {
+        branch_id : this.addonsData[0].branch_id,
+        addons_list : this.addonsData
+      };
+      console.log(Data);
+      this.productService.addProduct(JSON.stringify(Data)).subscribe(res => {
+          let ResultSet: any;
+          ResultSet = res;
+          console.log(res);
+          if (ResultSet.Status) {
+            this.toastService.showSuccess(' Successfully Added', 'Success');
+            // reset form
+            this.addonForm.reset();
+            //   reset varient data
+            this.varientData = [];
+          } else {
+            this.toastService.showError('Failed to add', 'Oops !');
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
+  onSubmit() {
+    if ( this.btn_title === 'Save') {
+      this.addAddons();
+    }
+  }
+
 }
