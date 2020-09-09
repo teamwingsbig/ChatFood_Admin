@@ -52,6 +52,11 @@ export class AddAddonsComponent implements OnInit {
     item_id: [
       {type: 'required', message: 'Item is required.'},
     ],
+    tax_perc: [
+      {type: 'required', message: 'Tax percentage required.'},
+      {type: 'pattern', message: 'Invalid tax percentage '}
+
+    ]
   };
   constructor(
     public formBuilder: FormBuilder,
@@ -87,14 +92,14 @@ export class AddAddonsComponent implements OnInit {
         ])
       ],
       price: [
-        '',
+        0,
         Validators.compose([
           Validators.required,
           Validators.pattern('^[0-9]*$')
         ])
       ],
       is_required: [
-        false,
+        0,
       ],
       item_id: [
         '',
@@ -104,7 +109,14 @@ export class AddAddonsComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])
-      ]
+      ],
+      tax_perc: [
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]*$')
+        ])
+      ],
     });
   }
   fetchAddonsCategory() {
@@ -188,8 +200,9 @@ export class AddAddonsComponent implements OnInit {
       category_name: values.category_id.split(',')[1],
       varient_id: values.varient_id.split(',')[0],
       vareint_name: values.varient_id.split(',')[1],
-      is_required: values.is_required,
+      is_required: 1,
       price: values.price,
+      tax_perc: values.tax_perc
     };
     this.addonsData.push(data);
     this.addonForm.reset();
@@ -205,12 +218,13 @@ export class AddAddonsComponent implements OnInit {
   addAddons() {
     if (this.addonsData.length > 0) {
       console.log(this.addonsData);
+// choose branch idf from the loca localStorage
       const Data = {
         branch_id : this.addonsData[0].branch_id,
         addons_list : this.addonsData
       };
       console.log(Data);
-      this.productService.addProduct(JSON.stringify(Data)).subscribe(res => {
+      this.productService.addMultipleAddons(Data).subscribe(res => {
           let ResultSet: any;
           ResultSet = res;
           console.log(res);

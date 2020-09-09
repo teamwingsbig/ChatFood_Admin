@@ -35,9 +35,10 @@
                     <th scope="col" style="width:3.5em">Sl No</th>
                     <th scope="col">Name</th>
                     <th scope="col">Category</th>
-                    <th scope="col">Brnach</th>
+<!--                    <th scope="col">Brnach</th>-->
                     <th scope="col">Varient/Item</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Tax</th>
                     <th scope="col">Required</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -54,14 +55,17 @@
                     <td>
                       {{item.category_name}}
                     </td>
-                    <td>
-                      {{item.branch_name }}
-                    </td>
+<!--                    <td>-->
+<!--                      {{item.branch_name }}-->
+<!--                    </td>-->
                     <td>
                       {{item.vareint_name}}
                     </td>
                     <td>
                       {{item.price}}
+                    </td>
+                    <td>
+                      {{item.tax_perc}} %
                     </td>
                     <td>
                       <span class="badge badge-dot">
@@ -208,7 +212,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="form-group ">
               <label class="form-control-label">Price</label>
               <div class="validation-errors">
@@ -223,7 +227,22 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-4">
+            <div class="form-group ">
+              <label class="form-control-label">Tax Percentage</label>
+              <div class="validation-errors">
+              </div>
+              <input type="tel" required formControlName="tax_perc"
+                     class="form-control form-control-alternative" placeholder="Type Price">
+              <div *ngFor="let validation of validation_messages.tax_perc">
+                <div class="error-message" *ngIf="addonForm.get('tax_perc').hasError(validation.type) &&
+                                        (addonForm.get('tax_perc').dirty || addonForm.get('tax_perc').touched)">
+                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
 <!--            <div class="form-group ">-->
               <div class="text-center">
               <label class="form-control-label">Required</label>
