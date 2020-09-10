@@ -21,6 +21,7 @@ import {ListProductComponent} from '../../pages/Products/list-product/list-produ
 import {AddAddonsCategoryComponent} from '../../pages/Products/Addons/add-addons-category/add-addons-category.component';
 import {AddAddonsComponent} from '../../pages/Products/Addons/add-addons/add-addons.component';
 import {ViewAddonsCategoryComponent} from '../../pages/Products/Addons/view-addons-category/view-addons-category.component';
+import {ViewAddonsComponent} from '../../pages/Products/Addons/view-addons/view-addons.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -45,5 +46,6 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'addAddons', component: AddAddonsComponent},
   {path: 'addAddonsCategory', component: AddAddonsCategoryComponent},
   {path: 'viewAddonsCategory', component: ViewAddonsCategoryComponent},
+  {path: 'viewAddons', component: ViewAddonsComponent},
 
 ];

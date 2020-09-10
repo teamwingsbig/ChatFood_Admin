@@ -19,7 +19,7 @@
               <button (click)="openAddonsForm(addonsTemplate)" class="btn btn-danger">
                       <span class="btn-inner--icon">
                         <i class="ni ni-fat-add"></i>
-                      </span>  Add-ons
+                      </span> Add-ons
               </button>
             </div>
           </div>
@@ -35,7 +35,7 @@
                     <th scope="col" style="width:3.5em">Sl No</th>
                     <th scope="col">Name</th>
                     <th scope="col">Category</th>
-<!--                    <th scope="col">Brnach</th>-->
+                    <!--                    <th scope="col">Brnach</th>-->
                     <th scope="col">Varient/Item</th>
                     <th scope="col">Price</th>
                     <th scope="col">Tax</th>
@@ -55,9 +55,9 @@
                     <td>
                       {{item.category_name}}
                     </td>
-<!--                    <td>-->
-<!--                      {{item.branch_name }}-->
-<!--                    </td>-->
+                    <!--                    <td>-->
+                    <!--                      {{item.branch_name }}-->
+                    <!--                    </td>-->
                     <td>
                       {{item.vareint_name}}
                     </td>
@@ -90,6 +90,7 @@
                 </table>
               </div>
             </div>
+            <br>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
@@ -98,7 +99,7 @@
                             [disabled]="addonsData.length<=0 "
                             (click)="onSubmit()" type="button">{{btn_title}}
                     </button>
-                    <button class="btn btn-primary" type="reset" >Reset</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
                   </div>
                 </div>
               </div>
@@ -243,32 +244,32 @@
             </div>
           </div>
           <div class="col-lg-4">
-<!--            <div class="form-group ">-->
-              <div class="text-center">
+            <!--            <div class="form-group ">-->
+            <div class="text-center">
               <label class="form-control-label">Required</label>
               <div class="validation-errors">
               </div>
-<!--              <input type="tel" required formControlName="price"-->
-<!--                     class="form-control form-control-alternative" placeholder="Type Price">-->
+              <!--              <input type="tel" required formControlName="price"-->
+              <!--                     class="form-control form-control-alternative" placeholder="Type Price">-->
               <ui-switch formControlName="is_required"></ui-switch>
             </div>
           </div>
 
-<!--          <div class="col-lg-6">-->
-<!--            <div class="form-group ">-->
-<!--              <label class="form-control-label">Reorder Point</label>-->
-<!--              <div class="validation-errors">-->
-<!--              </div>-->
-<!--              <input type="tel" required formControlName="reorder_point"-->
-<!--                     class="form-control form-control-alternative" placeholder="Type Re-order point">-->
-<!--              <div *ngFor="let validation of varient_validation_messages.reorder_point">-->
-<!--                <div class="error-message" *ngIf="addonForm.get('reorder_point').hasError(validation.type) &&-->
-<!--                                        (addonForm.get('reorder_point').dirty || addonForm.get('reorder_point').touched)">-->
-<!--                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <!--          <div class="col-lg-6">-->
+          <!--            <div class="form-group ">-->
+          <!--              <label class="form-control-label">Reorder Point</label>-->
+          <!--              <div class="validation-errors">-->
+          <!--              </div>-->
+          <!--              <input type="tel" required formControlName="reorder_point"-->
+          <!--                     class="form-control form-control-alternative" placeholder="Type Re-order point">-->
+          <!--              <div *ngFor="let validation of varient_validation_messages.reorder_point">-->
+          <!--                <div class="error-message" *ngIf="addonForm.get('reorder_point').hasError(validation.type) &&-->
+          <!--                                        (addonForm.get('reorder_point').dirty || addonForm.get('reorder_point').touched)">-->
+          <!--                  <span class="badge badge-pill badge-danger">{{ validation.message }}</span>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
         </div>
       </form>
     </div>

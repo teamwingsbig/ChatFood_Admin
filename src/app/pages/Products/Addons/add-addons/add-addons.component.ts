@@ -192,6 +192,7 @@ export class AddAddonsComponent implements OnInit {
   }
   // to loal table
   pushAddons(values) {
+    alert(JSON.stringify(values));
     const  data = {
       name : values.name,
       branch_id: values.branch_id.split(',')[0],
@@ -207,6 +208,8 @@ export class AddAddonsComponent implements OnInit {
     this.addonsData.push(data);
     this.addonForm.reset();
     this.toastService.showSuccess('Successfully Added', 'Success');
+    this.addonForm.controls['price'].reset(0);
+    this.addonForm.controls['tax_perc'].reset(0);
 
   }
   //  remove varient from table
@@ -217,13 +220,11 @@ export class AddAddonsComponent implements OnInit {
   // to databse
   addAddons() {
     if (this.addonsData.length > 0) {
-      console.log(this.addonsData);
 // choose branch idf from the loca localStorage
       const Data = {
         branch_id : this.addonsData[0].branch_id,
         addons_list : this.addonsData
       };
-      console.log(Data);
       this.productService.addMultipleAddons(Data).subscribe(res => {
           let ResultSet: any;
           ResultSet = res;
@@ -234,6 +235,8 @@ export class AddAddonsComponent implements OnInit {
             this.addonForm.reset();
             //   reset varient data
             this.varientData = [];
+          //  reset addons data
+            this.addonsData = [];
           } else {
             this.toastService.showError('Failed to add', 'Oops !');
           }

@@ -37,4 +37,8 @@ export class ProductService {
     const url = this.ipAddress + 'items/varients/?page_wise=0&item_id=' + item_id;
     return this.http.get(url);
   }
+  fetchAddons() {
+    const url = this.ipAddress + 'items/addons/?page_wise=0';
+    return this.http.get(url);
+  }
 }

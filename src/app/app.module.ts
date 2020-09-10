@@ -38,6 +38,7 @@ import { AddAddonsCategoryComponent } from './pages/Products/Addons/add-addons-c
 import { AddAddonsComponent } from './pages/Products/Addons/add-addons/add-addons.component';
 import { ViewAddonsCategoryComponent } from './pages/Products/Addons/view-addons-category/view-addons-category.component';
 import {UiSwitchModule} from 'ngx-ui-switch';
+import { ViewAddonsComponent } from './pages/Products/Addons/view-addons/view-addons.component';
 
 
 // @ts-ignore
@@ -80,7 +81,8 @@ import {UiSwitchModule} from 'ngx-ui-switch';
     ListProductComponent,
     AddAddonsCategoryComponent,
     AddAddonsComponent,
-    ViewAddonsCategoryComponent
+    ViewAddonsCategoryComponent,
+    ViewAddonsComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
