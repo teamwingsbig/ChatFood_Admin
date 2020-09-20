@@ -22,6 +22,7 @@ import {AddAddonsCategoryComponent} from '../../pages/Products/Addons/add-addons
 import {AddAddonsComponent} from '../../pages/Products/Addons/add-addons/add-addons.component';
 import {ViewAddonsCategoryComponent} from '../../pages/Products/Addons/view-addons-category/view-addons-category.component';
 import {ViewAddonsComponent} from '../../pages/Products/Addons/view-addons/view-addons.component';
+import {ViewOrderComponent} from '../../pages/Orders/view-order/view-order.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -47,5 +48,6 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'addAddonsCategory', component: AddAddonsCategoryComponent},
   {path: 'viewAddonsCategory', component: ViewAddonsCategoryComponent},
   {path: 'viewAddons', component: ViewAddonsComponent},
+  {path: 'viewOrder', component: ViewOrderComponent},
 
 ];
