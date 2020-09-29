@@ -14,4 +14,9 @@ export class OrderService {
     const url = this.ipAddress + 'orders/details/?page_wise=0';
     return this.http.get(url);
   }
+
+  changeOrderStatus(Data) {
+    const url = this.ipAddress + 'orders/details/';
+    return this.http.patch(url, Data);
+  }
 }

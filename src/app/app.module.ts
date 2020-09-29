@@ -42,6 +42,7 @@ import {ViewAddonsComponent} from './pages/Products/Addons/view-addons/view-addo
 import {ConverterPipe} from './Pipes/converter.pipe';
 import {ViewOrderComponent} from './pages/Orders/view-order/view-order.component';
 import {TooltipModule} from 'ngx-bootstrap/tooltip';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 
 
 // @ts-ignore
@@ -64,7 +65,8 @@ import {TooltipModule} from 'ngx-bootstrap/tooltip';
     ClipboardModule,
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
-    UiSwitchModule
+    UiSwitchModule,
+    BsDropdownModule.forRoot()
   ],
   declarations: [
     AppComponent,
