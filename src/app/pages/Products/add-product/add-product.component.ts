@@ -25,6 +25,8 @@ export class AddProductComponent implements OnInit {
   categoryData: any = [];
   varientData: any = [];
   unitData: any = [];
+  previewUrl;
+  fileData: File = null;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -81,6 +83,23 @@ export class AddProductComponent implements OnInit {
       {type: 'required', message: 'Name is required.'},
     ],
   };
+
+  fileProgress(fileInput: any) {
+    if (fileInput.target.files.length > 0) {
+      this.fileData = <File>fileInput.target.files[0];
+      const size = this.fileData.size;
+      if (size <= 10485760) {
+        const reader = new FileReader();
+        reader.readAsDataURL(this.fileData);
+        reader.onload = _event => {
+          this.previewUrl = reader.result;
+        };
+      } else {
+        // this.toast.showErrorTost("Oops !", "File too large !!");
+      }
+    }
+
+  }
 
   ngOnInit(): void {
     this.setVarirntForm();
@@ -168,10 +187,10 @@ export class AddProductComponent implements OnInit {
       description: [
         '',
       ],
-      varients: [
+      sku: [
         '',
       ],
-      sku: [
+      varients: [
         '',
       ],
       price_range: [
@@ -179,6 +198,10 @@ export class AddProductComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])
+      ],
+      images: [
+        '',
+        Validators.required
       ],
       tax_perc: [
         0,
@@ -275,9 +298,21 @@ export class AddProductComponent implements OnInit {
 
   addProduct() {
     if (this.itemForm.valid) {
-      this.itemForm.value.varients = [];
-      this.itemForm.value.varients = this.varientData;
-      this.productService.addProduct(this.itemForm.value).subscribe(res => {
+      let itemFormData: any = new FormData();
+      itemFormData.append('varients', this.varientData);
+      // this.itemForm.value.varients = [];
+      // this.itemForm.value.varients = this.varientData;
+      Object.keys(this.itemForm.value).forEach(key => {
+        if (key === 'varients') {
+          itemFormData.append(key, JSON.stringify(this.varientData));
+          console.log(this.varientData);
+        } else if (key === 'images') {
+          itemFormData.append(key, this.fileData);
+        } else {
+          itemFormData.append(key, this.itemForm.value[key]);
+        }
+      });
+      this.productService.addProduct(itemFormData).subscribe(res => {
           let ResultSet: any;
           ResultSet = res;
           console.log(res);
