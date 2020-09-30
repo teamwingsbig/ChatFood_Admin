@@ -102,19 +102,21 @@
                                 aria-controls="dropdown-basic">
                           {{item.status.name}} <span class="caret"></span>
                         </button>
-                        <ul style="cursor: pointer" id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-                            role="menu" aria-labelledby="button-basic">
-                          <li (click)="openStatusModel(Statustemplate, 2);" *ngIf="item.status.name!='confirmed'" role="menuitem"><a
-                            class="dropdown-item">Confirmed</a></li>
-                          <li (click)="openStatusModel(Statustemplate, 3);" *ngIf="item.status.name!='declained'" role="menuitem"><a
-                            class="dropdown-item">Declined</a></li>
-                          <li (click)="openStatusModel(Statustemplate, 4);" *ngIf="item.status.name!='shipped'" role="menuitem"><a class="dropdown-item">Shipped</a>
-                          </li>
-                          <li (click)="openStatusModel(Statustemplate, 6);" *ngIf="item.status.name!='delivered'" role="menuitem"><a
-                            class="dropdown-item">delivered</a></li>
-                          <li  (click)="openStatusModel(Statustemplate, 1);" *ngIf="item.status.name!='pending'" role="menuitem"><a class="dropdown-item">Pending</a>
-                          </li>
-                        </ul>
+                        <div *ngIf="item.status.name!='declained' &&  item.status.name!='delivered' && item.status.name!='cancelled'">
+                          <ul style="cursor: pointer" id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                              role="menu" aria-labelledby="button-basic">
+                            <li (click)="openStatusModel(Statustemplate, 2);" *ngIf="item.status.name!='confirmed'" role="menuitem"><a
+                              class="dropdown-item">Confirmed</a></li>
+                            <li (click)="openStatusModel(Statustemplate, 3);" *ngIf="item.status.name!='declained'" role="menuitem"><a
+                              class="dropdown-item">Declined</a></li>
+                            <li (click)="openStatusModel(Statustemplate, 4);" *ngIf="item.status.name!='shipped'" role="menuitem"><a class="dropdown-item">Shipped</a>
+                            </li>
+                            <li (click)="openStatusModel(Statustemplate, 6);" *ngIf="item.status.name!='delivered'" role="menuitem"><a
+                              class="dropdown-item">delivered</a></li>
+                            <li  (click)="openStatusModel(Statustemplate, 1);" *ngIf="item.status.name!='pending'" role="menuitem"><a class="dropdown-item">Pending</a>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
 
                       <!--                      ************-->

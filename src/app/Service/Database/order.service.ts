@@ -12,6 +12,7 @@ export class OrderService {
 
   fetchAllOrder() {
     const url = this.ipAddress + 'orders/details/?page_wise=0';
+    alert(url);
     return this.http.get(url);
   }
 

@@ -37,6 +37,7 @@ export class ViewOrderComponent implements OnInit {
     this.orderService.fetchAllOrder().subscribe(res => {
       setTimeout(() => {
         this.orderData = res;
+        console.log(this.orderData);
         this.spinner.hide();
       }, 2000);
     }),
