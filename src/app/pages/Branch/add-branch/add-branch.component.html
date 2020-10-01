@@ -44,8 +44,9 @@
                 <div class="col-lg-4">
                   <div class="form-group ">
                     <label class="form-control-label" for="input-email">Main Location</label>
-                    <select formControlName="main_location_id" required id="input-email" (change)="fetchSublocation($event.target.value)"
-                           class="form-control form-control-alternative">
+                    <select formControlName="main_location_id" required id="input-email"
+                            (change)="fetchSublocation($event.target.value)"
+                            class="form-control form-control-alternative">
                       <option *ngFor="let item of mainLocationData" [value]="item.id">{{item.name}}</option>
                     </select>
                     <div *ngFor="let validation of validation_messages.main_location_id">
@@ -60,7 +61,7 @@
                   <div class="form-group ">
                     <label class="form-control-label" for="input-email">Sub Location</label>
                     <select formControlName="sub_location_id" required
-                           class="form-control form-control-alternative" >
+                            class="form-control form-control-alternative">
                       <option *ngFor="let item of subLocationData" [value]="item.id">{{item.name}}</option>
                     </select>
                     <div *ngFor="let validation of validation_messages.sub_location_id">
@@ -102,7 +103,7 @@
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Email</label>
-                    <input  formControlName="email"
+                    <input formControlName="email"
                            class="form-control form-control-alternative" placeholder="Type Email Address" type="email">
                     <div *ngFor="let validation of validation_messages.email">
                       <div class="error-message" *ngIf="branchForm.get('email').hasError(validation.type) &&
@@ -114,7 +115,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">TRN</label>
                     <input type="email" formControlName="trn"
@@ -127,7 +128,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Minimum Order</label>
                     <input type="email" formControlName="minimum_order"
@@ -140,7 +141,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Estimated Time</label>
                     <input type="email" formControlName="estimated_time"
@@ -148,6 +149,19 @@
                     <div *ngFor="let validation of validation_messages.estimated_time">
                       <div class="error-message" *ngIf="branchForm.get('estimated_time').hasError(validation.type) &&
                         (branchForm.get('estimated_time').dirty || branchForm.get('estimated_time').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Tax type</label>
+                    <input formControlName="tax_type" selecetd value="G" class="custom-control-input" type="radio">
+                    <input formControlName="tax_type" value="G" class="custom-control-input" type="radio">
+                    <div *ngFor="let validation of validation_messages.tax_type">
+                      <div class="error-message" *ngIf="branchForm.get('tax_type').hasError(validation.type) &&
+                        (branchForm.get('tax_type').dirty || branchForm.get('tax_type').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>

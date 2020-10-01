@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -8,62 +8,68 @@ import {HttpErrorResponse} from '@angular/common/http';
   selector: 'app-add-branch',
   templateUrl: './add-branch.component.html',
   styleUrls: ['./add-branch.component.css',
-  '../../../../assets/CSS/toastr.css'],
+    '../../../../assets/CSS/toastr.css'],
   encapsulation: ViewEncapsulation.None
 
 })
 export class AddBranchComponent implements OnInit {
 
   branchForm: FormGroup;
-  mainLocationData : any = [];
+  mainLocationData: any = [];
   subLocationData: any = [];
   title = 'Add Branch';
-  btn_title = 'Save' ;
+  btn_title = 'Save';
+
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
     public toastService: ToastService
-  ) { }
+  ) {
+  }
 
   validation_messages = {
     name: [
-      { type: 'required', message: 'Name is required.' },
-      { type: 'pattern', message: 'Numbers not allowed ' }
+      {type: 'required', message: 'Name is required.'},
+      {type: 'pattern', message: 'Numbers not allowed '}
     ],
     mobile: [
-      { type: 'required', message: 'Mobile No is required.' },
-      { type: 'pattern', message: 'Charecters not allowed ' },
-      { type: 'maxLength', message: 'Invalid Phone No ' }
+      {type: 'required', message: 'Mobile No is required.'},
+      {type: 'pattern', message: 'Charecters not allowed '},
+      {type: 'maxLength', message: 'Invalid Phone No '}
     ],
     main_location_id: [
-      { type: 'required', message: 'Main Location is required.' },
+      {type: 'required', message: 'Main Location is required.'},
     ],
     sub_location_id: [
-      { type: 'required', message: 'Sub Location is required.' },
+      {type: 'required', message: 'Sub Location is required.'},
     ],
     address: [
-      { type: 'required', message: 'Address is required.' },
+      {type: 'required', message: 'Address is required.'},
     ],
     email: [
-      { type: 'required', message: 'Email is required.' },
+      {type: 'required', message: 'Email is required.'},
     ],
     trn: [
-      { type: 'required', message: 'Trn is required.' },
+      {type: 'required', message: 'Trn is required.'},
     ],
     minimum_order: [
-      { type: 'required', message: 'Minimum Order   is required.' },
-      { type: 'pattern', message: 'Invalid Order No ' }
+      {type: 'required', message: 'Minimum Order   is required.'},
+      {type: 'pattern', message: 'Invalid Order No '}
     ],
     estimated_time: [
-      { type: 'required', message: 'Estimated time   is required.' },
+      {type: 'required', message: 'Estimated time   is required.'},
+    ],
+    tax_type: [
+      {type: 'required', message: 'Estimated time   is required.'},
     ]
   };
 
   ngOnInit(): void {
     this.setFormBuilder();
-  //   fetch main location
+    //   fetch main location
     this.fetchMainLocation();
   }
+
   setFormBuilder() {
     this.branchForm = this.formBuilder.group({
       name: [
@@ -106,8 +112,7 @@ export class AddBranchComponent implements OnInit {
       ],
       trn: [
         '',
-        Validators.compose([
-        ])
+        Validators.compose([])
       ],
       mobile: [
         '',
@@ -121,14 +126,27 @@ export class AddBranchComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])
+      ],
+      tax_type: [
+        'gst',
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      currency: [
+        'indian rupees',
+        Validators.compose([
+          Validators.required,
+        ])
       ]
     });
   }
+
   fetchMainLocation() {
     this.masterService.fetchMainLocation().subscribe(data => {
         this.mainLocationData = data;
       },
-      (error : HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
           // console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
@@ -140,11 +158,12 @@ export class AddBranchComponent implements OnInit {
       }
     );
   }
+
   fetchSublocation(parent_location_id) {
     this.masterService.fetchSubLocationByMainLocation(parent_location_id).subscribe(data => {
         this.subLocationData = data;
       },
-      (error : HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
           // console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
@@ -156,17 +175,21 @@ export class AddBranchComponent implements OnInit {
       }
     );
   }
+
   addBrnach() {
-    if(this.branchForm.valid) {
+    if (this.branchForm.valid) {
       this.masterService.addBranch(this.branchForm.value).subscribe(data => {
-          let ResultSet: any ;
+          let ResultSet: any;
           ResultSet = data;
+          console.log(ResultSet);
           if (ResultSet.Status) {
             this.toastService.showSuccess('Successfully Added', 'Success');
             this.branchForm.reset();
+          } else {
+            this.toastService.showError('Faild to add Branch', 'Oops !');
           }
         },
-        (error : HttpErrorResponse) => {
+        (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {
             // console.log('An error occurred:', error.error.message);
             this.toastService.showError('An error occcured', 'Oops !');
@@ -179,9 +202,10 @@ export class AddBranchComponent implements OnInit {
       );
     }
   }
+
   onSubmit() {
     if (this.btn_title === 'Save') {
-        this.addBrnach();
+      this.addBrnach();
     }
   }
 }
