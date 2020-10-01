@@ -5,14 +5,13 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class OrderService {
-  ipAddress = 'http://18.221.217.238:80/';
+  ipAddress = 'http://api.txtbook.live/';
 
   constructor(public http: HttpClient) {
   }
 
   fetchAllOrder() {
     const url = this.ipAddress + 'orders/details/?page_wise=0';
-    alert(url);
     return this.http.get(url);
   }
 
