@@ -5,7 +5,7 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ProductService {
-  ipAddress = 'http://localhost:8000/';
+  ipAddress = 'http://18.221.217.238:80/';
 
   constructor(public http: HttpClient) { }
 

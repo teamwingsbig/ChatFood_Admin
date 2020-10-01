@@ -7,7 +7,7 @@ import {jsGlobalObjectValue} from '@angular/compiler-cli/src/ngtsc/partial_evalu
   providedIn: 'root'
 })
 export class MasterService {
-  ipAddress = 'http://localhost:8000/';
+  ipAddress = 'http://18.221.217.238:80/';
   constructor(public http: HttpClient) { }
 
   addBranch(Data) {
