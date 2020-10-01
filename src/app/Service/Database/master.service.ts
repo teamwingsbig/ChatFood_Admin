@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {jsGlobalObjectValue} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/known_declaration';
+import {ip} from '../../../assets/data/ip.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MasterService {
-  ipAddress = 'http://api.txtbook.live/';
-  constructor(public http: HttpClient) { }
+  ipAddress ;
+  constructor(public http: HttpClient) {
+    this.ipAddress = ip ;
+  }
 
   addBranch(Data) {
     const url = this.ipAddress + 'company/branch/';

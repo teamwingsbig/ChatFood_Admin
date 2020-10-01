@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {ip} from '../../../assets/data/ip.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  ipAddress = 'http://localhost:8000/';
+  ipAddress ;
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient) {
+    this.ipAddress = ip ;
+  }
 
   addAddonsCategory(Data) {
     const url = this.ipAddress + 'items/addoncategory/';
