@@ -155,10 +155,21 @@
                   </div>
                 </div>
                 <div class="col-lg-3">
+
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Tax type</label>
-                    <input formControlName="tax_type" selecetd value="G" class="custom-control-input" type="radio">
-                    <input formControlName="tax_type" value="G" class="custom-control-input" type="radio">
+                    <div class="row">
+                      <div class="custom-control custom-radio mb-3">
+                      <div class="col-lg-6">
+                        <input name="custom-radio-2" value="gst"  formControlName="tax_type" [checked]="true" class="custom-control-input" id="RadioGST" type="radio">
+                        <label class="custom-control-label"    for="RadioGST">GST</label>
+                      </div>
+                      <div class="col-lg-6">
+                        <input name="custom-radio-2" value="vat" formControlName="tax_type" class="custom-control-input" id="RadioVat" type="radio">
+                        <label class="custom-control-label"   for="RadioVat">VAT</label>
+                      </div>
+                      </div>
+                    </div>
                     <div *ngFor="let validation of validation_messages.tax_type">
                       <div class="error-message" *ngIf="branchForm.get('tax_type').hasError(validation.type) &&
                         (branchForm.get('tax_type').dirty || branchForm.get('tax_type').touched)">

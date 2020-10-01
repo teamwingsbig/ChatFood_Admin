@@ -128,7 +128,7 @@ export class AddBranchComponent implements OnInit {
         ])
       ],
       tax_type: [
-        'gst',
+        '',
         Validators.compose([
           Validators.required,
         ])
