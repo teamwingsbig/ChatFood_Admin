@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {ip} from '../../../assets/data/ip.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  ipAddress = 'http://api.txtbook.live/';
+  ipAddress ;
 
   constructor(public http: HttpClient) {
+    this.ipAddress = ip ;
   }
 
   fetchAllOrder() {
