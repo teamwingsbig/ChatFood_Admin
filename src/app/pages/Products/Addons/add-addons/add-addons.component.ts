@@ -6,6 +6,8 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ProductService} from '../../../../Service/Database/product.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {viLocale} from 'ngx-bootstrap/chronos';
+import {AuthService} from '../../../../Service/Authentication/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-addons',
@@ -28,6 +30,7 @@ export class AddAddonsComponent implements OnInit {
   modalRef: BsModalRef;
   addonForm: FormGroup;
   itemData: any = [];
+  public userData : any = [];
   validation_messages = {
     name: [
       {type: 'required', message: 'Name is required.'},
@@ -63,13 +66,32 @@ export class AddAddonsComponent implements OnInit {
     public  masterService: MasterService,
     public  toastService: ToastService,
     private modalService: BsModalService,
-    public productService: ProductService
+    public productService: ProductService,
+    public  authService: AuthService,
+    public  route: Router
+
   ) { }
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.setFormBuilder();
     this.fetchBranch();
     this.fetchAddonsCategory();
+  }
+
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
   }
   setFormBuilder() {
     this.addonForm = this.formBuilder.group({

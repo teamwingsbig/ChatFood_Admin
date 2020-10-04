@@ -4,6 +4,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {AuthService} from '../../../Service/Authentication/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-view-order',
@@ -18,18 +20,37 @@ export class ViewOrderComponent implements OnInit {
   public filter;
   StatusmodalRef: BsModalRef;
   public orderStatus;
+  public userData : any = [];
 
   constructor(
     public  orderService: OrderService,
     public spinner: NgxSpinnerService,
     public toastService: ToastService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public  authService: AuthService,
+    public  route: Router
+
   ) {
 
   }
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.getAllOrders();
+  }
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
   }
 
   getAllOrders() {

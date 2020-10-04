@@ -3,6 +3,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MasterService} from '../../../Service/Database/master.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../Service/Alert/toast.service';
+import {Router} from '@angular/router';
+import {AuthService} from '../../../Service/Authentication/auth.service';
 
 @Component({
   selector: 'app-add-main-location',
@@ -15,6 +17,7 @@ export class AddMainLocationComponent implements OnInit {
   locationForm: FormGroup;
   title = 'Add Main Location';
   btn_title = 'Save' ;
+  public userData : any = [];
   validation_messages = {
     name: [
       { type: 'required', message: 'Location Name is required.' },
@@ -24,11 +27,29 @@ export class AddMainLocationComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
-    public  toastService: ToastService
+    public  toastService: ToastService,
+    public  authService: AuthService,
+    public  route: Router
+
   ) { }
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.setFormBuilder();
+  }
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
   }
   setFormBuilder() {
     this.locationForm = this.formBuilder.group({

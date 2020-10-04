@@ -5,6 +5,8 @@ import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ProductService} from '../../../Service/Database/product.service';
+import {Router} from '@angular/router';
+import {AuthService} from '../../../Service/Authentication/auth.service';
 
 @Component({
   selector: 'app-add-product',
@@ -27,13 +29,16 @@ export class AddProductComponent implements OnInit {
   unitData: any = [];
   previewUrl;
   fileData: File = null;
+  public userData: any = [];
 
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
     public  toastService: ToastService,
     private modalService: BsModalService,
-    public productService: ProductService
+    public productService: ProductService,
+    public  authService: AuthService,
+    public  route: Router
   ) {
   }
 
@@ -102,10 +107,26 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.setVarirntForm();
     this.setFormBuilder();
     this.fetchBranch();
     this.fetchUnit();
+  }
+
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
   }
 
   setVarirntForm() {

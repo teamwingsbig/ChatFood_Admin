@@ -3,28 +3,50 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {AuthService} from '../../../Service/Authentication/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-view-category',
   templateUrl: './view-category.component.html',
   styleUrls: ['./view-category.component.css',
-  '../../../../assets/CSS/toastr.css'],
-  encapsulation : ViewEncapsulation.None
+    '../../../../assets/CSS/toastr.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewCategoryComponent implements OnInit {
   categotyData: any = [];
 
   p = 1;
   public filter;
+  public  userData : any = [];
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
-  ) { }
+    public authService: AuthService,
+    public  route: Router
+  ) {
+  }
 
   ngOnInit(): void {
     this.fetchcategoty();
   }
+
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
+  }
+
   fetchcategoty() {
     this.spinner.show();
     this.maserservice.fetchCategory().subscribe(res => {
