@@ -3,6 +3,8 @@ import {ToastService} from '../../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ProductService} from '../../../../Service/Database/product.service';
+import {Router} from '@angular/router';
+import {AuthService} from '../../../../Service/Authentication/auth.service';
 
 @Component({
   selector: 'app-view-addons-category',
@@ -15,14 +17,34 @@ export class ViewAddonsCategoryComponent implements OnInit {
   categoryData: any = [];
   p = 1;
   public filter;
+  public userData : any = [];
+
   constructor(
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
-    public  productService: ProductService
+    public  productService: ProductService,
+    public  authService: AuthService,
+    public  route: Router
+
   ) { }
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.fetchAddonsCategory();
+  }
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
   }
   fetchAddonsCategory() {
     this.spinner.show();

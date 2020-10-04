@@ -12,7 +12,13 @@ export class AuthService {
     this.ipAddress = ip ;
 
   }
-
+  isLoggedIn() {
+    if (localStorage.getItem('isLoggedIn') == 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
   login(Data) {
     const url = this.ipAddress + 'user/login/';
     return this.http.post(url, Data);

@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {AuthService} from '../../../Service/Authentication/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-unit',
@@ -16,6 +18,7 @@ export class AddUnitComponent implements OnInit {
   title = 'Add Unit';
   btn_title = 'Save';
   branchData: any = [];
+  public userData: any = [];
   validation_messages = {
     name: [
       {type: 'required', message: 'Name is required.'},
@@ -28,10 +31,13 @@ export class AddUnitComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
-    public  toastService: ToastService
+    public  toastService: ToastService,
+    public authService: AuthService,
+    public route: Router
   ) { }
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.setFormBuilder();
     this.fetchBranch();
   }
@@ -51,6 +57,20 @@ export class AddUnitComponent implements OnInit {
         ])
       ],
     });
+  }
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
   }
   fetchBranch() {
     this.masterService.fetchBranch().subscribe(res => {

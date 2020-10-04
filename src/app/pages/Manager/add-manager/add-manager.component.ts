@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
+import {Router} from '@angular/router';
+import {AuthService} from '../../../Service/Authentication/auth.service';
 
 @Component({
   selector: 'app-add-manager',
@@ -16,11 +18,15 @@ export class AddManagerComponent implements OnInit {
   managerForm: FormGroup;
   title = 'Add Manager';
   btn_title = 'Save';
+  public userData : any = [];
 
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
-    public  toastService: ToastService
+    public  toastService: ToastService,
+    public  authService: AuthService,
+    public  route: Router
+
   ) {
   }
 
@@ -55,10 +61,25 @@ export class AddManagerComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.setFormBuilder();
     this.fetchBranch();
   }
 
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
+  }
   fetchBranch() {
     this.masterService.fetchBranch().subscribe(res => {
       this.branchData = res;

@@ -3,6 +3,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {AuthService} from '../../../Service/Authentication/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-view-unit',
@@ -14,17 +16,34 @@ export class ViewUnitComponent implements OnInit {
   unitData : any = [];
 
   p = 1;
+  public userData : any = [];
   public filter;
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
+    public  authService: AuthService,
+    public  route: Router
   ) { }
 
   ngOnInit(): void {
+    this.autherisationProcess();
   this.fetchUnit();
   }
-
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
+  }
   fetchUnit() {
     this.spinner.show();
     this.maserservice.fetchUnits().subscribe(res => {

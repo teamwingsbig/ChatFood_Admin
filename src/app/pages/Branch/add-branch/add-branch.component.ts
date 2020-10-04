@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {AuthService} from '../../../Service/Authentication/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-branch',
@@ -19,11 +21,14 @@ export class AddBranchComponent implements OnInit {
   subLocationData: any = [];
   title = 'Add Branch';
   btn_title = 'Save';
+  userData: any = [];
 
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
-    public toastService: ToastService
+    public toastService: ToastService,
+    public  authService: AuthService,
+    public  route: Router
   ) {
   }
 
@@ -65,9 +70,25 @@ export class AddBranchComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.autherisationProcess();
     this.setFormBuilder();
     //   fetch main location
     this.fetchMainLocation();
+  }
+
+  public autherisationProcess() {
+    // is logged in
+    if (this.authService.isLoggedIn()) {
+      // is admin or not
+      this.userData = this.authService.getUserDetails();
+      // if (this.userData.UserType != 0) {
+      //   // navigate to loggin page
+      //   this.route.navigate(["/dashboard"]);
+      // }
+    } else {
+      // navigate to loggin page
+      this.route.navigate(['/login']);
+    }
   }
 
   setFormBuilder() {
@@ -145,6 +166,7 @@ export class AddBranchComponent implements OnInit {
   fetchMainLocation() {
     this.masterService.fetchMainLocation().subscribe(data => {
         this.mainLocationData = data;
+        console.log(this.mainLocationData);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {

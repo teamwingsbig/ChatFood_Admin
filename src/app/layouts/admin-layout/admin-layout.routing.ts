@@ -39,6 +39,7 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'addCategory', component: AddCategoryComponent},
   {path: 'viewCategory', component: ViewCategoryComponent},
   {path: 'viewUnit', component: ViewUnitComponent},
+  {path: 'addUnit', component: AddUnitComponent},
   {path: 'viewBranch', component: ViewBranchComponent},
   {path: 'addProduct', component: AddProductComponent},
   {path: 'listProducts', component: ListProductComponent},
