@@ -7,6 +7,7 @@ import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ProductService} from '../../../Service/Database/product.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../Service/Authentication/auth.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-product',
@@ -38,7 +39,8 @@ export class AddProductComponent implements OnInit {
     private modalService: BsModalService,
     public productService: ProductService,
     public  authService: AuthService,
-    public  route: Router
+    public  route: Router,
+    public spinner: NgxSpinnerService,
   ) {
   }
 
@@ -318,6 +320,7 @@ export class AddProductComponent implements OnInit {
 
   addProduct() {
     if (this.itemForm.valid) {
+      this.spinner.show();
       let itemFormData: any = new FormData();
       itemFormData.append('varients', this.varientData);
       // this.itemForm.value.varients = [];
@@ -333,18 +336,20 @@ export class AddProductComponent implements OnInit {
         }
       });
       this.productService.addProduct(itemFormData).subscribe(res => {
-          let ResultSet: any;
-          ResultSet = res;
-          console.log(res);
-          if (ResultSet.Status) {
-            this.toastService.showSuccess('Product Successfully Added', 'Success');
-            // reset form
-            this.itemForm.reset();
-            //   reset varient data
-            this.varientData = [];
-          } else {
-            this.toastService.showError('Failed to add Product', 'Oops !');
-          }
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Product Successfully Added', 'Success');
+              // reset form
+              this.itemForm.reset();
+              //   reset varient data
+              this.varientData = [];
+            } else {
+              this.toastService.showError(ResultSet.Error, 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {
