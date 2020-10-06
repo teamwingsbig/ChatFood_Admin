@@ -186,8 +186,7 @@ export class AddProductComponent implements OnInit {
       name: [
         '',
         Validators.compose([
-          Validators.required,
-          Validators.pattern('^[a-zA-Z ]*$')
+          Validators.required
         ])
       ],
       arabic_name: [
