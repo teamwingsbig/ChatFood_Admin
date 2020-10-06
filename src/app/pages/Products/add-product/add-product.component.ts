@@ -339,7 +339,6 @@ export class AddProductComponent implements OnInit {
           setTimeout(() => {
             let ResultSet: any;
             ResultSet = res;
-            console.log(res);
             if (ResultSet.Status) {
               this.toastService.showSuccess('Product Successfully Added', 'Success');
               // reset form
