@@ -5,6 +5,7 @@ import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-category',
@@ -34,7 +35,9 @@ export class AddCategoryComponent implements OnInit {
     public  masterService: MasterService,
     public  toastService: ToastService,
     public authService: AuthService,
-    public route: Router
+    public route: Router,
+    public spinner: NgxSpinnerService,
+
   ) {
   }
 
@@ -107,7 +110,9 @@ export class AddCategoryComponent implements OnInit {
         is_available: 1,
         name: this.categoryForm.value.name
       };
+      this.spinner.show();
       this.masterService.addCategory(data).subscribe(res => {
+        setTimeout(() => {
           let ResultSet: any;
           ResultSet = res;
           console.log(res);
@@ -117,6 +122,8 @@ export class AddCategoryComponent implements OnInit {
           } else {
             this.toastService.showError('Failed to add category', 'Oops !');
           }
+          this.spinner.hide();
+        }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {

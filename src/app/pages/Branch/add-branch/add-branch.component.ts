@@ -5,6 +5,7 @@ import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-branch',
@@ -28,7 +29,8 @@ export class AddBranchComponent implements OnInit {
     public  masterService: MasterService,
     public toastService: ToastService,
     public  authService: AuthService,
-    public  route: Router
+    public  route: Router,
+    public spinner: NgxSpinnerService,
   ) {
   }
 
@@ -200,16 +202,20 @@ export class AddBranchComponent implements OnInit {
 
   addBrnach() {
     if (this.branchForm.valid) {
+      this.spinner.show();
       this.masterService.addBranch(this.branchForm.value).subscribe(data => {
-          let ResultSet: any;
-          ResultSet = data;
-          console.log(ResultSet);
-          if (ResultSet.Status) {
-            this.toastService.showSuccess('Successfully Added', 'Success');
-            this.branchForm.reset();
-          } else {
-            this.toastService.showError('Faild to add Branch', 'Oops !');
-          }
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = data;
+            console.log(ResultSet);
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Added', 'Success');
+              this.branchForm.reset();
+            } else {
+              this.toastService.showError('Faild to add Branch', 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {

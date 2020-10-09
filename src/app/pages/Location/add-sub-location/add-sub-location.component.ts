@@ -5,6 +5,7 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../Service/Authentication/auth.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-sub-location',
@@ -16,34 +17,37 @@ import {AuthService} from '../../../Service/Authentication/auth.service';
 export class AddSubLocationComponent implements OnInit {
   locationForm: FormGroup;
   title = 'Add Sub Location';
-  btn_title = 'Save' ;
+  btn_title = 'Save';
   mainLocationData: any = [];
-  public userData : any = [];
+  public userData: any = [];
 
   validation_messages = {
     name: [
-      { type: 'required', message: 'Location Name is required.' },
-      { type: 'pattern', message: 'Numbers not allowed ' }
+      {type: 'required', message: 'Location Name is required.'},
+      {type: 'pattern', message: 'Numbers not allowed '}
     ],
     parent_location_id: [
-      { type: 'required', message: 'Location Name is required.' },
-      { type: 'pattern', message: 'Numbers not allowed ' }
+      {type: 'required', message: 'Location Name is required.'},
+      {type: 'pattern', message: 'Numbers not allowed '}
     ]
   };
+
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
     public toastService: ToastService,
     public  authService: AuthService,
-    public  route: Router
-
-  ) { }
+    public  route: Router,
+    public spinner: NgxSpinnerService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
     this.fetchLocation();
   }
+
   public autherisationProcess() {
     // is logged in
     if (this.authService.isLoggedIn()) {
@@ -58,11 +62,12 @@ export class AddSubLocationComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
+
   fetchLocation() {
     this.masterService.fetchMainLocation().subscribe(data => {
-      this.mainLocationData = data;
-    },
-      (error : HttpErrorResponse) => {
+        this.mainLocationData = data;
+      },
+      (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
           // console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
@@ -74,6 +79,7 @@ export class AddSubLocationComponent implements OnInit {
       }
     );
   }
+
   setFormBuilder() {
     this.locationForm = this.formBuilder.group({
       name: [
@@ -91,23 +97,28 @@ export class AddSubLocationComponent implements OnInit {
       ]
     });
   }
+
   addSublocation() {
     if (this.locationForm.valid) {
+      this.spinner.show();
       const fd = new FormData();
       Object.keys(this.locationForm.value).forEach(key => {
         fd.append(key, this.locationForm.value[key]);
       });
       this.masterService.addSubLocation(fd).subscribe(res => {
-         let ResultSet: any ;
-          ResultSet = res;
-         if(ResultSet.Status) {
-           this.toastService.showSuccess('Successfully Added', 'Success');
-           this.locationForm.reset();
-         } else {
-           this.toastService.showError('Failed to add', 'Oops !');
-         }
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Added', 'Success');
+              this.locationForm.reset();
+            } else {
+              this.toastService.showError('Failed to add', 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
         },
-        (error : HttpErrorResponse) => {
+        (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {
             // console.log('An error occurred:', error.error.message);
             this.toastService.showError('An error occcured', 'Oops !');
@@ -121,6 +132,7 @@ export class AddSubLocationComponent implements OnInit {
     }
 
   }
+
   onSubmit() {
     if (this.btn_title === 'Save') {
       this.addSublocation();
