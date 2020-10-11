@@ -15,18 +15,20 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {TokenInterceptorService} from '../../Service/Authentication/Token/token-interceptor.service';
 import {ToastrModule} from 'ngx-toastr';
+import {TooltipModule} from 'ngx-bootstrap/tooltip';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
-    FormsModule,
-    HttpClientModule,
-    NgbModule,
-    ClipboardModule,
-    ToastrModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AdminLayoutRoutes),
+        FormsModule,
+        HttpClientModule,
+        NgbModule,
+        ClipboardModule,
+        ToastrModule.forRoot(),
+        TooltipModule
+    ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

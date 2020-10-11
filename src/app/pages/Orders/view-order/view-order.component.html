@@ -85,7 +85,7 @@
                       {{item.delivery_boy}}
                     </td>
                     <td>
-                      AED {{item.amount}}
+                       {{item.amount | currency:'INR':'symbol-narrow'}}
                     </td>
                     <td>
                       {{item.order_type}}
