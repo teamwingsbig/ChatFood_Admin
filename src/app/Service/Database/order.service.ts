@@ -21,4 +21,8 @@ export class OrderService {
     const url = this.ipAddress + 'orders/details/';
     return this.http.patch(url, Data);
   }
+  fetchRecentOrder() {
+    const url = this.ipAddress + 'orders/details/?page_wise=1';
+    return this.http.get(url);
+  }
 }

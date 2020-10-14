@@ -5,6 +5,7 @@ import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-unit',
@@ -33,7 +34,9 @@ export class AddUnitComponent implements OnInit {
     public  masterService: MasterService,
     public  toastService: ToastService,
     public authService: AuthService,
-    public route: Router
+    public route: Router,
+    public spinner: NgxSpinnerService,
+
   ) { }
 
   ngOnInit(): void {
@@ -90,8 +93,10 @@ export class AddUnitComponent implements OnInit {
   }
   addUnit() {
     if (this.unitForm.valid) {
+      this.spinner.show();
       this.masterService.addUnit(this.unitForm.value).subscribe(res => {
-          let ResultSet: any;
+        setTimeout(() => {
+            let ResultSet: any;
           ResultSet = res;
           if (ResultSet.Status) {
             this.toastService.showSuccess('Successfully Added', 'Success');
@@ -99,6 +104,8 @@ export class AddUnitComponent implements OnInit {
           } else {
             this.toastService.showError('Failed to add category', 'Oops !');
           }
+          this.spinner.hide();
+        }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {

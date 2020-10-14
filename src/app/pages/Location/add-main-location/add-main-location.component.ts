@@ -1,42 +1,46 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-  import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../Service/Database/master.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../Service/Authentication/auth.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-main-location',
   templateUrl: './add-main-location.component.html',
   styleUrls: ['./add-main-location.component.css',
-  '../../../../assets/CSS/toastr.css'],
+    '../../../../assets/CSS/toastr.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class AddMainLocationComponent implements OnInit {
   locationForm: FormGroup;
   title = 'Add Main Location';
-  btn_title = 'Save' ;
-  public userData : any = [];
+  btn_title = 'Save';
+  public userData: any = [];
   validation_messages = {
     name: [
-      { type: 'required', message: 'Location Name is required.' },
-      { type: 'pattern', message: 'Numbers not allowed ' }
+      {type: 'required', message: 'Location Name is required.'},
+      {type: 'pattern', message: 'Numbers not allowed '}
     ]
   };
+
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
     public  toastService: ToastService,
     public  authService: AuthService,
-    public  route: Router
-
-  ) { }
+    public  route: Router,
+    public spinner: NgxSpinnerService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
   }
+
   public autherisationProcess() {
     // is logged in
     if (this.authService.isLoggedIn()) {
@@ -51,6 +55,7 @@ export class AddMainLocationComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
+
   setFormBuilder() {
     this.locationForm = this.formBuilder.group({
       name: [
@@ -62,40 +67,47 @@ export class AddMainLocationComponent implements OnInit {
       ],
     });
   }
+
   addLocation() {
-      if (this.locationForm.valid) {
-        const fd = new FormData();
-        Object.keys(this.locationForm.value).forEach(key => {
-          fd.append(key, this.locationForm.value[key]);
-        });
-        this.masterService.addMainLocation(fd).subscribe(res => {
-            let ResultSet: any ;
+    if (this.locationForm.valid) {
+      this.spinner.show();
+      const fd = new FormData();
+      Object.keys(this.locationForm.value).forEach(key => {
+        fd.append(key, this.locationForm.value[key]);
+      });
+      this.masterService.addMainLocation(fd).subscribe(res => {
+          setTimeout(() => {
+
+            let ResultSet: any;
             ResultSet = res;
-            if(ResultSet.Status) {
+            if (ResultSet.Status) {
               this.toastService.showSuccess('Successfully Added', 'Success');
               this.locationForm.reset();
             } else {
               this.toastService.showError('Failed to add', 'Oops !');
             }
-          },
-          (error : HttpErrorResponse) => {
-            if (error.error instanceof Error) {
-              // console.log('An error occurred:', error.error.message);
-              this.toastService.showError('An error occcured', 'Oops !');
-            } else {
-              this.toastService.showError('An error occcured', 'Oops !');
-              // console.log('Backend returned status code: ', error.status);
-              // console.log('Response body:', error.error);
-            }
+            this.spinner.hide();
+          }, 2000);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
           }
-        );
-      }
+        }
+      );
+    }
   }
-  onSubmit() {
-      if (this.btn_title === 'Save') {
-        this.addLocation();
-      } else {
 
-      }
+  onSubmit() {
+    if (this.btn_title === 'Save') {
+      this.addLocation();
+    } else {
+
+    }
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import Chart from 'chart.js';
 
 // core components
@@ -10,6 +10,10 @@ import {
 } from '../../variables/charts';
 import {AuthService} from '../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
+import {OrderService} from '../../Service/Database/order.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {ToastService} from '../../Service/Alert/toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,20 +23,27 @@ import {Router} from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   public datasets: any;
+  public recentOrderData: any = [];
   public data: any;
   public salesChart;
   public clicked: boolean = true;
   public clicked1: boolean = false;
   public userData: any = [];
+  public orderStatus;
+  StatusmodalRef: BsModalRef;
 
   constructor(
     public authService: AuthService,
-    public route: Router
+    public route: Router,
+    public orderService: OrderService,
+    public toastService: ToastService,
+    private modalService: BsModalService,
   ) {
   }
 
   ngOnInit() {
-  this.autherisationProcess();
+    this.autherisationProcess();
+    this.getRecentOrders();
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
       [0, 20, 5, 25, 10, 30, 15, 40, 40]
@@ -75,10 +86,78 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getRecentOrders() {
+    this.orderService.fetchAllOrder().subscribe(res => {
+      this.recentOrderData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          // this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          // this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
 
   public updateOptions() {
     this.salesChart.data.datasets[0].data = this.data;
     this.salesChart.update();
+  }
+
+  confirm(order_id): void {
+    this.changeStatus(order_id);
+    this.StatusmodalRef.hide();
+  }
+
+  changeStatus(order_id) {
+    const Data = {
+      keyword: 'change_status',
+      order_id: order_id,
+      status_id: this.orderStatus,
+      description: 'Approved'
+    };
+    // convert json data to formData
+    // tslint:disable-next-line:prefer-const
+    let formData = new FormData();
+    Object.keys(Data).forEach(key => {
+      formData.append(key, Data[key]);
+    });
+    this.orderService.changeOrderStatus(formData).subscribe(res => {
+      let ResultSet: any;
+      console.log(res);
+      ResultSet = res;
+      if (ResultSet.Status) {
+        this.toastService.showSuccess('Status Successfully changed', 'Success ');
+        this.getRecentOrders();
+      } else {
+        this.toastService.showError(ResultSet.Error, 'Oops ! ');
+
+      }
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  openStatusModel(template: TemplateRef<any>, status) {
+    this.orderStatus = status;
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+
+  decline(): void {
+    this.StatusmodalRef.hide();
   }
 
 }

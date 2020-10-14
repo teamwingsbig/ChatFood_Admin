@@ -8,13 +8,14 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {viLocale} from 'ngx-bootstrap/chronos';
 import {AuthService} from '../../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-addons',
   templateUrl: './add-addons.component.html',
   styleUrls: ['./add-addons.component.css',
-  '../../../../../assets/CSS/toastr.css'],
-  encapsulation : ViewEncapsulation.None
+    '../../../../../assets/CSS/toastr.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddAddonsComponent implements OnInit {
 
@@ -30,7 +31,7 @@ export class AddAddonsComponent implements OnInit {
   modalRef: BsModalRef;
   addonForm: FormGroup;
   itemData: any = [];
-  public userData : any = [];
+  public userData: any = [];
   validation_messages = {
     name: [
       {type: 'required', message: 'Name is required.'},
@@ -61,6 +62,7 @@ export class AddAddonsComponent implements OnInit {
 
     ]
   };
+
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
@@ -68,9 +70,10 @@ export class AddAddonsComponent implements OnInit {
     private modalService: BsModalService,
     public productService: ProductService,
     public  authService: AuthService,
-    public  route: Router
-
-  ) { }
+    public  route: Router,
+    public spinner: NgxSpinnerService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.autherisationProcess();
@@ -93,6 +96,7 @@ export class AddAddonsComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
+
   setFormBuilder() {
     this.addonForm = this.formBuilder.group({
       name: [
@@ -141,6 +145,7 @@ export class AddAddonsComponent implements OnInit {
       ],
     });
   }
+
   fetchAddonsCategory() {
     this.productService.fetchAddonsCategory().subscribe(res => {
       this.categoryData = res;
@@ -157,6 +162,7 @@ export class AddAddonsComponent implements OnInit {
         }
       };
   }
+
   fetchBranch() {
     this.masterService.fetchBranch().subscribe(res => {
       this.branchData = res;
@@ -173,6 +179,7 @@ export class AddAddonsComponent implements OnInit {
         }
       };
   }
+
   fetchItemByBranch(branch_id) {
     // [0]id and [1]name are the values
     branch_id = branch_id.split(',')[0];
@@ -191,6 +198,7 @@ export class AddAddonsComponent implements OnInit {
         }
       };
   }
+
   fetchVarientByItem(item_id) {
     // [0]id and [1]name are the values
     item_id = item_id.split(',')[0];
@@ -209,16 +217,17 @@ export class AddAddonsComponent implements OnInit {
         }
       };
   }
+
   openAddonsForm(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'gray modal-lg'});
   }
+
   // to loal table
   pushAddons(values) {
-    alert(JSON.stringify(values));
-    const  data = {
-      name : values.name,
+    const data = {
+      name: values.name,
       branch_id: values.branch_id.split(',')[0],
-      branch_name : values.branch_id.split(',')[1],
+      branch_name: values.branch_id.split(',')[1],
       category_id: values.category_id.split(',')[0],
       category_name: values.category_id.split(',')[1],
       varient_id: values.varient_id.split(',')[0],
@@ -234,34 +243,39 @@ export class AddAddonsComponent implements OnInit {
     this.addonForm.controls['tax_perc'].reset(0);
 
   }
+
   //  remove varient from table
   removeAddons(index) {
     this.addonsData.splice(index, 1);
     this.toastService.showSuccess('Successfully Deleted', 'Success');
   }
+
   // to databse
   addAddons() {
     if (this.addonsData.length > 0) {
 // choose branch idf from the loca localStorage
       const Data = {
-        branch_id : this.addonsData[0].branch_id,
-        addons_list : this.addonsData
+        branch_id: this.addonsData[0].branch_id,
+        addons_list: this.addonsData
       };
+      this.spinner.show();
       this.productService.addMultipleAddons(Data).subscribe(res => {
-          let ResultSet: any;
-          ResultSet = res;
-          console.log(res);
-          if (ResultSet.Status) {
-            this.toastService.showSuccess(' Successfully Added', 'Success');
-            // reset form
-            this.addonForm.reset();
-            //   reset varient data
-            this.varientData = [];
-          //  reset addons data
-            this.addonsData = [];
-          } else {
-            this.toastService.showError('Failed to add', 'Oops !');
-          }
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess(' Successfully Added', 'Success');
+              // reset form
+              this.addonForm.reset();
+              //   reset varient data
+              this.varientData = [];
+              //  reset addons data
+              this.addonsData = [];
+            } else {
+              this.toastService.showError(ResultSet.Error, 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {
@@ -276,8 +290,9 @@ export class AddAddonsComponent implements OnInit {
       );
     }
   }
+
   onSubmit() {
-    if ( this.btn_title === 'Save') {
+    if (this.btn_title === 'Save') {
       this.addAddons();
     }
   }

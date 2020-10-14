@@ -6,6 +6,7 @@ import {ProductService} from '../../../../Service/Database/product.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-addons-category',
@@ -37,7 +38,8 @@ export class AddAddonsCategoryComponent implements OnInit {
     public toastService: ToastService,
     public  productService: ProductService,
     public  authService: AuthService,
-    public  route: Router
+    public  route: Router,
+    public spinner: NgxSpinnerService,
   ) {
   }
 
@@ -98,15 +100,19 @@ export class AddAddonsCategoryComponent implements OnInit {
 
   addCategory() {
     if (this.categoryForm.valid) {
+      this.spinner.show();
       this.productService.addAddonsCategory(this.categoryForm.value).subscribe(res => {
-          let ResultSet: any;
-          ResultSet = res;
-          if (ResultSet.Status) {
-            this.toastService.showSuccess('Successfully Added', 'Success');
-            this.categoryForm.reset();
-          } else {
-            this.toastService.showError('Failed to add', 'Oops !');
-          }
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Added', 'Success');
+              this.categoryForm.reset();
+            } else {
+              this.toastService.showError(ResultSet.Error, 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {

@@ -5,6 +5,7 @@ import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../Service/Authentication/auth.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-manager',
@@ -18,15 +19,15 @@ export class AddManagerComponent implements OnInit {
   managerForm: FormGroup;
   title = 'Add Manager';
   btn_title = 'Save';
-  public userData : any = [];
+  public userData: any = [];
 
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
     public  toastService: ToastService,
     public  authService: AuthService,
-    public  route: Router
-
+    public  route: Router,
+    public spinner: NgxSpinnerService,
   ) {
   }
 
@@ -80,6 +81,7 @@ export class AddManagerComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
+
   fetchBranch() {
     this.masterService.fetchBranch().subscribe(res => {
       this.branchData = res;
@@ -151,21 +153,23 @@ export class AddManagerComponent implements OnInit {
 
   addManager() {
     if (this.managerForm.valid) {
-      alert(JSON.stringify(this.managerForm.value));
+      this.spinner.show();
       const fd = new FormData();
       Object.keys(this.managerForm.value).forEach(key => {
         fd.append(key, this.managerForm.value[key]);
       });
       this.masterService.addManager(this.managerForm.value).subscribe(res => {
-          let ResultSet: any;
-          ResultSet = res;
-          console.log(ResultSet);
-          if (ResultSet.Status) {
-            this.toastService.showSuccess('Successfully Added', 'Success');
-            this.managerForm.reset();
-          } else {
-            this.toastService.showError('Failed to add category', 'Oops !');
-          }
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Added', 'Success');
+              this.managerForm.reset();
+            } else {
+              this.toastService.showError('Failed to add category', 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {
@@ -180,6 +184,7 @@ export class AddManagerComponent implements OnInit {
       );
     }
   }
+
   onSubmit() {
     if (this.btn_title === 'Save') {
       this.addManager();
