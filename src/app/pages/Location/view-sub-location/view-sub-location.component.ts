@@ -59,6 +59,7 @@ export class ViewSubLocationComponent implements OnInit {
         if (error.error instanceof Error) {
           console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
+          this.spinner.hide();
         } else {
           this.toastService.showError('An error occcured', 'Oops !');
           console.log('Backend returned status code: ', error.status);
