@@ -24,6 +24,7 @@ import {ViewAddonsCategoryComponent} from '../../pages/Products/Addons/view-addo
 import {ViewAddonsComponent} from '../../pages/Products/Addons/view-addons/view-addons.component';
 import {ViewOrderComponent} from '../../pages/Orders/view-order/view-order.component';
 import {AddPromocodeComponent} from '../../pages/Promocode/add-promocode/add-promocode.component';
+import {ViewPromocodeComponent} from '../../pages/Promocode/view-promocode/view-promocode.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -50,5 +51,6 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'viewAddons', component: ViewAddonsComponent},
   {path: 'viewOrder', component: ViewOrderComponent},
   {path: 'addPromocode', component: AddPromocodeComponent},
+  {path: 'viewPromocode', component: ViewPromocodeComponent},
 
 ];

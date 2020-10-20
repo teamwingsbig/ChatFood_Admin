@@ -45,6 +45,7 @@ import {TooltipModule} from 'ngx-bootstrap/tooltip';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { AddPromocodeComponent } from './pages/Promocode/add-promocode/add-promocode.component';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import { ViewPromocodeComponent } from './pages/Promocode/view-promocode/view-promocode.component';
 
 
 // @ts-ignore
@@ -94,7 +95,8 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
     ViewAddonsComponent,
     ConverterPipe,
     ViewOrderComponent,
-    AddPromocodeComponent
+    AddPromocodeComponent,
+    ViewPromocodeComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

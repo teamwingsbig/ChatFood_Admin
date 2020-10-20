@@ -13,8 +13,14 @@ export class PromocodeService {
   ) {
     this.ipAddress = ip;
   }
+
   addPromocode(Data) {
     const url = this.ipAddress + 'promocodes/details/';
     return this.http.post(url, Data);
+  }
+
+  fetchPromocode() {
+    const url = this.ipAddress + 'promocodes/details/';
+    return this.http.get(url);
   }
 }

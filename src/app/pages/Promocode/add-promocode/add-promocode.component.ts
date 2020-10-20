@@ -193,9 +193,7 @@ export class AddPromocodeComponent implements OnInit {
     if (this.promoForm.valid) {
       if (this.selectedBranch.length > 0) {
         this.promoForm.value.branch_list = this.selectedBranch;
-        console.log(this.promoForm.value);
         this.promoService.addPromocode(this.promoForm.value).subscribe(res => {
-          console.log(res);
           let ResultSet: any;
           ResultSet = res;
           if (ResultSet.Status) {
