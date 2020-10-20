@@ -34,11 +34,11 @@
                     <label class="form-control-label" for="input-username">Code</label>
                     <div class="validation-errors">
                     </div>
-                    <input type="text" required formControlName="code" id="input-username"
+                    <input type="text" required formControlName="promo_code" id="input-username"
                            class="form-control form-control-alternative" placeholder="Type Promocode">
-                    <div *ngFor="let validation of validation_messages.code">
-                      <div class="error-message" *ngIf="promoForm.get('code').hasError(validation.type) &&
-                        (promoForm.get('code').dirty || promoForm.get('code').touched)">
+                    <div *ngFor="let validation of validation_messages.promo_code">
+                      <div class="error-message" *ngIf="promoForm.get('promo_code').hasError(validation.type) &&
+                        (promoForm.get('promo_code').dirty || promoForm.get('promo_code').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>
@@ -60,11 +60,17 @@
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group ">
-                    <label class="form-control-label" for="input-email">Branch</label>
-                    <select formControlName="branch_list" required
-                            class="form-control form-control-alternative">
-                      <option *ngFor="let item of branchData" [value]="item.id">{{item.name}}</option>
-                    </select>
+                    <label class="form-control-label">Branch</label>
+                    <ng-multiselect-dropdown class="multiselect-container"
+                                             formControlName="branch_list"
+                                             [placeholder]="'Select Branches'"
+                                             [data]="branchData"
+                                             [settings]="dropdownSettings"
+                                             (onSelect)="onBranchSelect($event)"
+                                             (onSelectAll)="onSelectAll($event)"
+                                             (onDeSelectAll)="onDeSelectAll($event)"
+                                             (onDeSelect)="onBranchDeselect($event)">
+                    </ng-multiselect-dropdown>
                     <div *ngFor="let validation of validation_messages.branch_list">
                       <div class="error-message" *ngIf="promoForm.get('branch_list').hasError(validation.type) &&
                         (promoForm.get('branch_list').dirty || promoForm.get('branch_list').touched)">

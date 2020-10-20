@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
@@ -6,11 +6,14 @@ import {AuthService} from '../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {PromocodeService} from '../../../Service/Database/promocode.service';
+import {IDropdownSettings} from 'ng-multiselect-dropdown';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-add-promocode',
   templateUrl: './add-promocode.component.html',
-  styleUrls: ['./add-promocode.component.css']
+  styleUrls: ['./add-promocode.component.css', '../../../../assets/CSS/toastr.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddPromocodeComponent implements OnInit {
 
@@ -19,6 +22,8 @@ export class AddPromocodeComponent implements OnInit {
   title = 'Add Promocode';
   btn_title = 'Save';
   userData: any = [];
+  selectedBranch = [];
+  dropdownSettings: IDropdownSettings = {};
 
   constructor(
     public formBuilder: FormBuilder,
@@ -32,7 +37,7 @@ export class AddPromocodeComponent implements OnInit {
   }
 
   validation_messages = {
-    code: [
+    promo_code: [
       {type: 'required', message: 'Name is required.'},
       {type: 'pattern', message: 'Numbers not allowed '}
     ],
@@ -62,10 +67,13 @@ export class AddPromocodeComponent implements OnInit {
       {type: 'required', message: 'Branch is required.'},
     ],
   };
+  testArray = [{id: 1, name: 'ss'}, {id: 1, name: 'ss'}, {id: 1, name: 'ss'},];
 
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
+    this.fetchBranch();
+    this.setupDropdownSettings();
   }
 
   public autherisationProcess() {
@@ -85,7 +93,7 @@ export class AddPromocodeComponent implements OnInit {
 
   setFormBuilder() {
     this.promoForm = this.formBuilder.group({
-      code: [
+      promo_code: [
         '',
         Validators.compose([
           Validators.required,
@@ -125,5 +133,97 @@ export class AddPromocodeComponent implements OnInit {
         'perc',
       ]
     });
+  }
+
+  setupDropdownSettings() {
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 5,
+      allowSearchFilter: false
+    };
+  }
+
+  onBranchSelect(items) {
+    // push selected item to array
+    // alert(items.id);
+    this.selectedBranch.push(items.id);
+  }
+
+  onSelectAll(items: any) {
+    // push all selected items to array
+    for (let item of items) {
+      this.selectedBranch.push(item.id);
+    }
+  }
+
+  onBranchDeselect(items: any) {
+    // pop selected item from array
+    const foundIndex = this.selectedBranch.findIndex(({id}) => id === items.id);
+    // avoid dublication of data from array
+    this.selectedBranch = this.selectedBranch.filter((_, index) => index !== foundIndex);
+  }
+
+  onDeSelectAll(items: any) {
+    // pop all items from aray
+    this.selectedBranch = [];
+  }
+
+  fetchBranch() {
+    this.masterService.fetchBranch().subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  addPrmocode() {
+    if (this.promoForm.valid) {
+      if (this.selectedBranch.length > 0) {
+        this.promoForm.value.branch_list = this.selectedBranch;
+        console.log(this.promoForm.value);
+        this.promoService.addPromocode(this.promoForm.value).subscribe(res => {
+          console.log(res);
+          let ResultSet: any;
+          ResultSet = res;
+          if (ResultSet.Status) {
+            this.toastService.showSuccess('Promocode Successfully Added', 'Success');
+            this.promoForm.reset();
+          } else {
+            this.toastService.showError(ResultSet.Error.toU, 'Oops !');
+          }
+        }, (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        });
+      } else {
+        this.toastService.showError('No Branch Selected', 'Oops !');
+      }
+    }
+  }
+
+  onSubmit() {
+    alert(this.btn_title);
+    if (this.btn_title === 'Save') {
+      this.addPrmocode();
+    }
   }
 }
