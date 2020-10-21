@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if(res['Status']) {
           // success
           this.authService.setToLoggedIn();
-          this.authService.setUserDetails(res['user_id'], res['name'], false, false, res['mobile'], res['email'], res['token']);
+          this.authService.setUserDetails(res['user_id'], res['name'], res['is_superuser'], res['is_staff'], res['mobile'], res['email'], res['token']);
           this.router.navigate(['/dashboard']);
         }  else {
         //   fail

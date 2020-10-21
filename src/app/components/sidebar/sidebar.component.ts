@@ -26,7 +26,10 @@ export const ROUTES: RouteInfo[] = [
   {path: '/addAddonsCategory', title: 'Add Addons Category', icon: 'ni-bullet-list-67 text-red', class: ''},
   {path: '/viewAddonsCategory', title: 'View Addons Category', icon: 'ni-key-25 text-info', class: ''},
   {path: '/viewAddons', title: 'View  Addons', icon: 'ni-circle-08 text-pink', class: ''},
-  {path: '/viewOrder', title: 'View  Order', icon: 'ni-circle-08 text-pink', class: ''}
+  {path: '/viewOrder', title: 'View  Order', icon: 'ni-circle-08 text-pink', class: ''},
+  {path: '/addPromocode', title: 'Add  Promocode', icon: 'ni-circle-08 text-pink', class: ''},
+  {path: '/viewPromocode', title: 'View  Promocode', icon: 'ni-circle-08 text-pink', class: ''}
+
 
   // { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
   // { path: '/maps', title: 'Maps',  icon:'ni-pin-3 text-orange', class: '' },

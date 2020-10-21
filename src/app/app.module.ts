@@ -43,6 +43,9 @@ import {ConverterPipe} from './Pipes/converter.pipe';
 import {ViewOrderComponent} from './pages/Orders/view-order/view-order.component';
 import {TooltipModule} from 'ngx-bootstrap/tooltip';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import { AddPromocodeComponent } from './pages/Promocode/add-promocode/add-promocode.component';
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import { ViewPromocodeComponent } from './pages/Promocode/view-promocode/view-promocode.component';
 
 
 // @ts-ignore
@@ -57,6 +60,7 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
     AppRoutingModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot(),
     HttpModule,
     NgxSpinnerModule,
     NgxPaginationModule,
@@ -90,7 +94,9 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
     ViewAddonsCategoryComponent,
     ViewAddonsComponent,
     ConverterPipe,
-    ViewOrderComponent
+    ViewOrderComponent,
+    AddPromocodeComponent,
+    ViewPromocodeComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

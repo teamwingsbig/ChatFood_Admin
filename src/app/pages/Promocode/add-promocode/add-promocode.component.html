@@ -1,0 +1,164 @@
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff"
+             size="default" type="ball-clip-rotate-multiple">
+</ngx-spinner>
+
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">{{title}}</h3>
+            </div>
+            <div class="col-4 text-right">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="promoForm">
+            <h6 class="heading-small text-muted mb-4">Code details</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Code</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="promo_code" id="input-username"
+                           class="form-control form-control-alternative" placeholder="Type Promocode">
+                    <div *ngFor="let validation of validation_messages.promo_code">
+                      <div class="error-message" *ngIf="promoForm.get('promo_code').hasError(validation.type) &&
+                        (promoForm.get('promo_code').dirty || promoForm.get('promo_code').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Expiry Date</label>
+                    <input type="date" required formControlName="exp_date"
+                           class="form-control form-control-alternative" placeholder="Type Date">
+                    <div *ngFor="let validation of validation_messages.exp_date">
+                      <div class="error-message" *ngIf="promoForm.get('exp_date').hasError(validation.type) &&
+                        (promoForm.get('exp_date').dirty || promoForm.get('exp_date').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label">Branch</label>
+                    <ng-multiselect-dropdown class="multiselect-container"
+                                             formControlName="branch_list"
+                                             [placeholder]="'Select Branches'"
+                                             [data]="branchData"
+                                             [settings]="dropdownSettings"
+                                             (onSelect)="onBranchSelect($event)"
+                                             (onSelectAll)="onSelectAll($event)"
+                                             (onDeSelectAll)="onDeSelectAll($event)"
+                                             (onDeSelect)="onBranchDeselect($event)">
+                    </ng-multiselect-dropdown>
+                    <div *ngFor="let validation of validation_messages.branch_list">
+                      <div class="error-message" *ngIf="promoForm.get('branch_list').hasError(validation.type) &&
+                        (promoForm.get('branch_list').dirty || promoForm.get('branch_list').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Discount type</label>
+                    <div class="row">
+                      <div class="custom-control custom-radio mb-3">
+                        <div class="col-lg-12">
+                          <input name="disc_type" value="perc" formControlName="disc_type" [checked]="true"
+                                 class="custom-control-input" id="RadioGST" type="radio">
+                          <label class="custom-control-label" for="RadioGST">Discount By Value</label>
+                        </div>
+                        <div class="col-lg-12">
+                          <input name="disc_type" value="value" formControlName="disc_type" [checked]="false" class="custom-control-input"
+                                 id="RadioVat" type="radio">
+                          <label class="custom-control-label" for="RadioVat">Discount By Percentage</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngFor="let validation of validation_messages.disc_type">
+                      <div class="error-message" *ngIf="promoForm.get('disc_type').hasError(validation.type) &&
+                        (promoForm.get('disc_type').dirty || promoForm.get('disc_type').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="this.promoForm.value.disc_type =='perc'" class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-email">Discount Percentage</label>
+                    <input type="number" required formControlName="disc_perc"
+                           class="form-control form-control-alternative" placeholder="Type Percentage">
+                    <div *ngFor="let validation of validation_messages.disc_perc">
+                      <div class="error-message" *ngIf="promoForm.get('disc_perc').hasError(validation.type) &&
+                        (promoForm.get('disc_perc').dirty || promoForm.get('disc_perc').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="this.promoForm.value.disc_type =='value'" class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-email">Discount Value</label>
+                    <input type="number" required formControlName="disc_price"
+                           class="form-control form-control-alternative" placeholder="Type Value">
+                    <div *ngFor="let validation of validation_messages.disc_price">
+                      <div class="error-message" *ngIf="promoForm.get('disc_price').hasError(validation.type) &&
+                        (promoForm.get('disc_price').dirty || promoForm.get('disc_price').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-email">Recurrence</label>
+                    <input type="number" required formControlName="recurrence"
+                           class="form-control form-control-alternative" placeholder="Type Recurrence">
+                    <div *ngFor="let validation of validation_messages.recurrence">
+                      <div class="error-message" *ngIf="promoForm.get('recurrence').hasError(validation.type) &&
+                        (promoForm.get('recurrence').dirty || promoForm.get('recurrence').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <button class="btn btn-primary" [disabled]="promoForm.invalid"
+                            (click)="onSubmit()" type="submit">{{btn_title}}</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

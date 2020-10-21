@@ -37,8 +37,9 @@
                         <div class="avatar-upload">
                           <div class="avatar-edit">
                             <input type='file' formControlName="images" id="imageUpload" (change)="fileProgress($event)"
-                                   accept=" .png, .jpg, .jpeg" />
-                            <label for="imageUpload"><i style="margin-left: 5px;margin-top: 10px;" class="fa fa-pencil-alt"></i></label>
+                                   accept=" .png, .jpg, .jpeg"/>
+                            <label for="imageUpload"><i style="margin-left: 5px;margin-top: 10px;"
+                                                        class="fa fa-pencil-alt"></i></label>
 
                           </div>
                           <div class="avatar-preview">
@@ -53,15 +54,15 @@
                         <div class="form-group ">
                           <label class="form-control-label">Name</label>
                           <div class="validation-errors">
+                            <div *ngFor="let validation of validation_messages.name">
+                              <div class="error-message" *ngIf="itemForm.get('name').hasError(validation.type) &&
+                        (itemForm.get('name').dirty || itemForm.get('name').touched)">
+                                <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                              </div>
+                            </div>
                           </div>
                           <input type="text" required formControlName="name"
                                  class="form-control form-control-alternative" placeholder="Type Name">
-                          <div *ngFor="let validation of validation_messages.name">
-                            <div class="error-message" *ngIf="itemForm.get('name').hasError(validation.type) &&
-                        (itemForm.get('name').dirty || itemForm.get('name').touched)">
-                              <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
-                            </div>
-                          </div>
                         </div>
                       </div>
                       <div class="col-lg-3">
