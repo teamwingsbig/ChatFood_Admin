@@ -51,9 +51,21 @@ export class ViewMainLocationComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template,);
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
-
+  openViewModel(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  decline(): void {
+    this.modalRef.hide();
+  }
+  confirm(id): void {
+    this.deleteMainLocation(id);
+    this.modalRef.hide();
+  }
+  deleteMainLocation(id) {
+    console.log((id));
+  }
   fetchMainLocation() {
     this.spinner.show();
     this.masetrservice.fetchMainLocation().subscribe(data => {

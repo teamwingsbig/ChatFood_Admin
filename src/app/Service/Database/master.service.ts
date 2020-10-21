@@ -25,6 +25,10 @@ export class MasterService {
     const url = this.ipAddress + 'locations/mainlocations/';
     return this.http.post(url, Data);
   }
+  deleteMainLocation(Data) {
+    const url = this.ipAddress + 'locations/mainlocations/';
+    return this.http.post(url, Data);
+  }
   addSubLocation(Data) {
     const url = this.ipAddress + 'locations/sublocations/';
     return this.http.post(url, Data);
