@@ -37,6 +37,10 @@ export class MasterService {
     const url = this.ipAddress + 'items/units/';
     return this.http.post(url, Data);
   }
+  updateUnit(Data) {
+    const url = this.ipAddress + 'items/units/';
+    return this.http.put(url, Data);
+  }
   addManager(Data) {
     const url = this.ipAddress + 'user/profile/';
     return this.http.post(url, Data);

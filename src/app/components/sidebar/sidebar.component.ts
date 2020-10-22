@@ -18,6 +18,7 @@ export const ROUTES: RouteInfo[] = [
   {path: '/viewMainLocation', title: 'View Main Location', icon: 'ni-circle-08 text-pink', class: ''},
   {path: '/addCategory', title: 'Add Category', icon: 'ni-planet text-blue', class: ''},
   {path: '/viewCategory', title: 'View Category', icon: 'ni-pin-3 text-orange', class: ''},
+  {path: '/addUnit', title: 'Add Unit', icon: 'ni-single-02 text-yellow', class: ''},
   {path: '/viewUnit', title: 'View Unit', icon: 'ni-single-02 text-yellow', class: ''},
   {path: '/viewBranch', title: 'View Branch', icon: 'ni-bullet-list-67 text-red', class: ''},
   {path: '/addProduct', title: 'Add Product', icon: 'ni-key-25 text-info', class: ''},
