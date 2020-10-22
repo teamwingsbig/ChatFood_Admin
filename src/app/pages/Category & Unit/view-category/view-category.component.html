@@ -92,7 +92,7 @@
                         </a>
                         <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                              style="cursor: pointer;">
-                          <a class="dropdown-item">Edit</a>
+                          <a [routerLink]="['/addCategory',{id: item.id | convert,name: item.name | convert,branch_id:item.branch.id | convert }]" class="dropdown-item">Edit</a>
                           <a class="dropdown-item">Delete</a>
                           <ng-template #template>
                             <div class="modal-body text-center">

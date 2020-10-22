@@ -4,7 +4,7 @@ import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../../Service/Authentication/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
@@ -20,6 +20,7 @@ export class AddCategoryComponent implements OnInit {
   btn_title = 'Save';
   branchData: any = [];
   public userData: any = [];
+  categoryID;
   validation_messages = {
     name: [
       {type: 'required', message: 'Name is required.'},
@@ -37,7 +38,7 @@ export class AddCategoryComponent implements OnInit {
     public authService: AuthService,
     public route: Router,
     public spinner: NgxSpinnerService,
-
+    public  router: ActivatedRoute
   ) {
   }
 
@@ -45,6 +46,19 @@ export class AddCategoryComponent implements OnInit {
     this.autherisationProcess();
     this.setItemFormBuilder();
     this.fetchBranch();
+    this.loadCategoryData();
+  }
+
+  loadCategoryData() {
+    if (this.router.snapshot.paramMap.get('id') != null
+      && this.router.snapshot.paramMap.get('name') != null
+      && this.router.snapshot.paramMap.get('branch_id') != null) {
+      this.title = ' Update Category';
+      this.btn_title = 'Update';
+      this.categoryID = atob(this.router.snapshot.paramMap.get('id'));
+      this.categoryForm.controls['name'].setValue(atob(this.router.snapshot.paramMap.get('name')));
+      this.categoryForm.controls['branch_id'].setValue(atob(this.router.snapshot.paramMap.get('branch_id')));
+    }
   }
 
   setItemFormBuilder() {
@@ -112,18 +126,18 @@ export class AddCategoryComponent implements OnInit {
       };
       this.spinner.show();
       this.masterService.addCategory(data).subscribe(res => {
-        setTimeout(() => {
-          let ResultSet: any;
-          ResultSet = res;
-          console.log(res);
-          if (ResultSet.Status) {
-            this.toastService.showSuccess('Successfully Added', 'Success');
-            this.categoryForm.reset();
-          } else {
-            this.toastService.showError('Failed to add category', 'Oops !');
-          }
-          this.spinner.hide();
-        }, 2000);
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            console.log(res);
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Added', 'Success');
+              this.categoryForm.reset();
+            } else {
+              this.toastService.showError('Failed to add category', 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
         },
         (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {
@@ -138,12 +152,47 @@ export class AddCategoryComponent implements OnInit {
       );
     }
   }
-
+  updateCategory() {
+    if (this.categoryForm.valid) {
+      const data = {
+        branch_id: this.categoryForm.value.branch_id,
+        is_available: '1',
+        name: this.categoryForm.value.name,
+        id: this.categoryID
+      };
+      this.spinner.show();
+      this.masterService.updateCategory(data).subscribe(res => {
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Updated', 'Success');
+              this.categoryForm.reset();
+              this.route.navigate(['/addCategory']);
+            } else {
+              this.toastService.showError('Failed to add category', 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
   onSubmit() {
     if (this.btn_title === 'Save') {
       this.addCategory();
     } else {
-
+        this.updateCategory();
     }
   }
 

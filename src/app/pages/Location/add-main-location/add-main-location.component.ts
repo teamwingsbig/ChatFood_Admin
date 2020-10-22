@@ -131,6 +131,8 @@ export class AddMainLocationComponent implements OnInit {
             if (ResultSet.Status) {
               this.toastService.showSuccess('Successfully Updated', 'Success');
               this.locationForm.reset();
+              this.route.navigate(['/addMainLocation']);
+
             } else {
               this.toastService.showError('Failed to add', 'Oops !');
             }

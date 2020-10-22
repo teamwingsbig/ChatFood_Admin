@@ -49,6 +49,11 @@ export class MasterService {
     const url = this.ipAddress + 'items/category/';
     return this.http.post(url, Data);
   }
+  updateCategory(Data) {
+    alert(JSON.stringify(Data));
+    const url = this.ipAddress + 'items/category/';
+    return this.http.put(url, Data);
+  }
   fetchMainLocation() {
     const url = this.ipAddress + 'locations/mainlocations/?page_wise=0';
     return this.http.get(url);

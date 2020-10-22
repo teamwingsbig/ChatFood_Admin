@@ -156,6 +156,8 @@ export class AddUnitComponent implements OnInit {
             if (ResultSet.Status) {
               this.toastService.showSuccess('Successfully Updated', 'Success');
               this.unitForm.reset();
+              this.route.navigate(['/addUnit']);
+
             } else {
               this.toastService.showError('Failed to add', 'Oops !');
             }
