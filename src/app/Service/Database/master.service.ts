@@ -25,10 +25,6 @@ export class MasterService {
     const url = this.ipAddress + 'locations/mainlocations/';
     return this.http.post(url, Data);
   }
-  updateMainLocation(Data) {
-    const url = this.ipAddress + 'locations/mainlocations/';
-    return this.http.put(url, Data);
-  }
   addSubLocation(Data) {
     const url = this.ipAddress + 'locations/sublocations/';
     return this.http.post(url, Data);
