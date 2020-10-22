@@ -53,7 +53,7 @@ export class AddUnitComponent implements OnInit {
     if (this.router.snapshot.paramMap.get('id') != null
       && this.router.snapshot.paramMap.get('name') != null
       && this.router.snapshot.paramMap.get('branch_id') != null) {
-      this.title = ' Update Location';
+      this.title = ' Update Unit';
       this.btn_title = 'Update';
       this.unitID = atob(this.router.snapshot.paramMap.get('id'));
       this.unitForm.controls['name'].setValue(atob(this.router.snapshot.paramMap.get('name')));
