@@ -5,7 +5,7 @@ import {ToastService} from '../../../../Service/Alert/toast.service';
 import {ProductService} from '../../../../Service/Database/product.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../../../Service/Authentication/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
@@ -21,6 +21,7 @@ export class AddAddonsCategoryComponent implements OnInit {
   btn_title = 'Save';
   brnachData: any = [];
   public userData: any = [];
+  public categoryID;
   validation_messages = {
     name: [
       {type: 'required', message: ' Name is required.'},
@@ -40,6 +41,7 @@ export class AddAddonsCategoryComponent implements OnInit {
     public  authService: AuthService,
     public  route: Router,
     public spinner: NgxSpinnerService,
+    public  router: ActivatedRoute
   ) {
   }
 
@@ -47,6 +49,20 @@ export class AddAddonsCategoryComponent implements OnInit {
     this.autherisationProcess();
     this.setFormBuilder();
     this.fetchBranch();
+    this.loadCategoryData();
+  }
+
+
+  loadCategoryData() {
+    if (this.router.snapshot.paramMap.get('id') != null
+      && this.router.snapshot.paramMap.get('name') != null
+      && this.router.snapshot.paramMap.get('branch_id') != null) {
+      this.title = ' Update Add-ons Category';
+      this.btn_title = 'Update';
+      this.categoryID = atob(this.router.snapshot.paramMap.get('id'));
+      this.categoryForm.controls['name'].setValue(atob(this.router.snapshot.paramMap.get('name')));
+      this.categoryForm.controls['branch_id'].setValue(atob(this.router.snapshot.paramMap.get('branch_id')));
+    }
   }
 
   public autherisationProcess() {
@@ -128,9 +144,47 @@ export class AddAddonsCategoryComponent implements OnInit {
     }
   }
 
+  updateCategory() {
+    if (this.categoryForm.valid) {
+      this.spinner.show();
+      const Data = {
+        id: this.categoryID,
+        name: this.categoryForm.value.name,
+        branch_id: this.categoryForm.value.branch_id
+      };
+      this.productService.updateAddonsCategory(Data).subscribe(res => {
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Updated', 'Success');
+              this.categoryForm.reset();
+              this.route.navigate(['/addAddonsCategory']);
+            } else {
+              this.toastService.showError(ResultSet.Error, 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
+
   onSubmit() {
     if (this.btn_title === 'Save') {
       this.addCategory();
+    } else {
+      this.updateCategory();
     }
   }
 }

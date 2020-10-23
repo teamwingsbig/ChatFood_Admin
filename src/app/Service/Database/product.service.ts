@@ -16,6 +16,10 @@ export class ProductService {
     const url = this.ipAddress + 'items/addoncategory/';
     return this.http.post(url, Data);
   }
+  updateAddonsCategory(Data) {
+    const url = this.ipAddress + 'items/addoncategory/';
+    return this.http.put(url, Data);
+  }
   addProduct(Data) {
     const url = this.ipAddress + 'items/details/';
     return this.http.post(url, Data);
