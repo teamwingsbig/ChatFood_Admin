@@ -1,0 +1,177 @@
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff"
+             size="default" type="ball-clip-rotate-multiple">
+</ngx-spinner>
+
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Edit Add-ons</h3>
+            </div>
+            <div class="col-4 text-right">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="addonForm">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group ">
+                  <label class="form-control-label">Name</label>
+                  <div class="validation-errors">
+                  </div>
+                  <input type="tel" required formControlName="name"
+                         class="form-control form-control-alternative" placeholder="Type  Name">
+                  <div *ngFor="let validation of validation_messages.name">
+                    <div class="error-message" *ngIf="addonForm.get('name').hasError(validation.type) &&
+                                        (addonForm.get('name').dirty || addonForm.get('name').touched)">
+                      <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group ">
+                  <label class="form-control-label">Category</label>
+                  <div class="validation-errors">
+                  </div>
+                  <select formControlName="category_id" required
+                          class="form-control form-control-alternative">
+                    <option *ngFor="let item of categoryData"
+                            value="{{item.id}},{{item.name}}">{{item.name}}</option>
+                  </select>
+                  <div *ngFor="let validation of validation_messages.category_id">
+                    <div class="error-message" *ngIf="addonForm.get('category_id').hasError(validation.type) &&
+                                        (addonForm.get('category_id').dirty || addonForm.get('category_id').touched)">
+                      <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group ">
+                  <label class="form-control-label">Branch</label>
+                  <div class="validation-errors">
+                  </div>
+                  <select formControlName="branch_id" required (change)="fetchItemByBranch($event.target.value)"
+                          class="form-control form-control-alternative">
+                    <option *ngFor="let item of branchData"
+                            value="{{item.id}},{{item.name}}">{{item.name}}</option>
+                  </select>
+                  <div *ngFor="let validation of validation_messages.branch_id">
+                    <div class="error-message" *ngIf="addonForm.get('branch_id').hasError(validation.type) &&
+                                        (addonForm.get('branch_id').dirty || addonForm.get('branch_id').touched)">
+                      <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group ">
+                  <label class="form-control-label">Item</label>
+                  <div class="validation-errors">
+                  </div>
+                  <select formControlName="item_id" required (change)="fetchVarientByItem($event.target.value)"
+                          class="form-control form-control-alternative">
+                    <option *ngFor="let item of itemData"
+                            value="{{item.id}},{{item.name}}">{{item.name}}</option>
+                  </select>
+                  <div *ngFor="let validation of validation_messages.item_id">
+                    <div class="error-message" *ngIf="addonForm.get('item_id').hasError(validation.type) &&
+                                        (addonForm.get('item_id').dirty || addonForm.get('item_id').touched)">
+                      <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group ">
+                  <label class="form-control-label">Varient</label>
+                  <div class="validation-errors">
+                  </div>
+                  <select formControlName="varient_id" required
+                          class="form-control form-control-alternative">
+                    <option *ngFor="let item of varientData"
+                            value="{{item.id}},{{item.name}}">{{item.name}}</option>
+                  </select>
+                  <div *ngFor="let validation of validation_messages.varient_id">
+                    <div class="error-message" *ngIf="addonForm.get('varient_id').hasError(validation.type) &&
+                                        (addonForm.get('varient_id').dirty || addonForm.get('varient_id').touched)">
+                      <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group ">
+                  <label class="form-control-label">Price</label>
+                  <div class="validation-errors">
+                  </div>
+                  <input type="tel" required formControlName="price"
+                         class="form-control form-control-alternative" placeholder="Type Price">
+                  <div *ngFor="let validation of validation_messages.price">
+                    <div class="error-message" *ngIf="addonForm.get('price').hasError(validation.type) &&
+                                        (addonForm.get('price').dirty || addonForm.get('price').touched)">
+                      <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group ">
+                  <label class="form-control-label">Tax Percentage</label>
+                  <div class="validation-errors">
+                  </div>
+                  <input type="tel" required formControlName="tax_perc"
+                         class="form-control form-control-alternative" placeholder="Type Price">
+                  <div *ngFor="let validation of validation_messages.tax_perc">
+                    <div class="error-message" *ngIf="addonForm.get('tax_perc').hasError(validation.type) &&
+                                        (addonForm.get('tax_perc').dirty || addonForm.get('tax_perc').touched)">
+                      <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <!--            <div class="form-group ">-->
+                <div class="text-center">
+                  <label class="form-control-label">Required</label>
+                  <div class="validation-errors">
+                  </div>
+                  <!--              <input type="tel" required formControlName="price"-->
+                  <!--                     class="form-control form-control-alternative" placeholder="Type Price">-->
+                  <ui-switch formControlName="is_required"></ui-switch>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <button class="btn btn-primary" [disabled]="addonForm.invalid"
+                          (click)="update()" type="submit">Update</button>
+                  <button class="btn btn-primary" type="reset">Reset</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

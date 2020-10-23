@@ -46,6 +46,7 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { AddPromocodeComponent } from './pages/Promocode/add-promocode/add-promocode.component';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { ViewPromocodeComponent } from './pages/Promocode/view-promocode/view-promocode.component';
+import { EditAddonsComponent } from './pages/Products/Addons/edit-addons/edit-addons.component';
 
 
 // @ts-ignore
@@ -96,7 +97,8 @@ import { ViewPromocodeComponent } from './pages/Promocode/view-promocode/view-pr
     ConverterPipe,
     ViewOrderComponent,
     AddPromocodeComponent,
-    ViewPromocodeComponent
+    ViewPromocodeComponent,
+    EditAddonsComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
