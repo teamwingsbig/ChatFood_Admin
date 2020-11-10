@@ -135,13 +135,13 @@
                                   {{Subitem.unit.name}}
                                 </td>
                                 <td>
-                                  {{Subitem.cost_price}}
+                                  {{Subitem.cost_price | currency:'INR':'symbol-narrow'}}
                                 </td>
                                 <td>
-                                  {{Subitem.selling_price}}
+                                  {{Subitem.selling_price | currency:'INR':'symbol-narrow'}}
                                 </td>
                                 <td>
-                                  {{Subitem.current_stock}}
+                                  {{Subitem.current_stock }}
                                 </td>
                                 <td>
                                   {{Subitem.reorder_point}}
