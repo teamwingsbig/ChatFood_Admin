@@ -328,7 +328,7 @@ export class AddProductComponent implements OnInit {
       Object.keys(this.itemForm.value).forEach(key => {
         if (key === 'varients') {
           itemFormData.append(key, JSON.stringify(this.varientData));
-          console.log(this.varientData);
+          // console.log(this.varientData);
         } else if (key === 'images') {
           itemFormData.append(key, this.fileData);
         } else {

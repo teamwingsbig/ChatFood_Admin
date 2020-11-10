@@ -168,7 +168,6 @@ export class AddBranchComponent implements OnInit {
   fetchMainLocation() {
     this.masterService.fetchMainLocation().subscribe(data => {
         this.mainLocationData = data;
-        console.log(this.mainLocationData);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
@@ -207,12 +206,11 @@ export class AddBranchComponent implements OnInit {
           setTimeout(() => {
             let ResultSet: any;
             ResultSet = data;
-            console.log(ResultSet);
             if (ResultSet.Status) {
               this.toastService.showSuccess('Successfully Added', 'Success');
               this.branchForm.reset();
             } else {
-              this.toastService.showError('Faild to add Branch', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);

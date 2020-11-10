@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../../Service/Database/master.service';
 import {ToastService} from '../../../../Service/Alert/toast.service';
@@ -12,7 +12,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 @Component({
   selector: 'app-edit-addons',
   templateUrl: './edit-addons.component.html',
-  styleUrls: ['./edit-addons.component.css']
+  styleUrls: ['./edit-addons.component.css', '../../../../../assets/CSS/toastr.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditAddonsComponent implements OnInit {
   addonForm: FormGroup;
@@ -81,15 +82,15 @@ export class EditAddonsComponent implements OnInit {
         let ResultSet: any;
         ResultSet = res;
         if (ResultSet.length > 0) {
-          console.log(ResultSet);
           this.addonForm.controls['name'].setValue(ResultSet[0].name);
           this.addonForm.controls['price'].setValue(ResultSet[0].price);
           this.addonForm.controls['category_id'].setValue(ResultSet[0].category.id);
           this.addonForm.controls['branch_id'].setValue(ResultSet[0].branch.id);
           this.fetchItemByBranch(ResultSet[0].branch.id);
+          this.fetchItemByVarient(ResultSet[0].varient.id, ResultSet[0].branch.id);
           this.addonForm.controls['varient_id'].setValue(ResultSet[0].varient.id);
           this.addonForm.controls['is_required'].setValue(ResultSet[0].is_required);
-
+          this.addonForm.controls['id'].setValue(ResultSet[0].id);
 
         }
 
@@ -152,7 +153,10 @@ export class EditAddonsComponent implements OnInit {
         ])
       ],
       is_required: [
-        0,
+        1
+      ],
+      is_showable: [
+        1
       ],
       item_id: [
         '',
@@ -207,6 +211,28 @@ export class EditAddonsComponent implements OnInit {
       };
   }
 
+  fetchItemByVarient(id, branch_id) {
+    // [0]id and [1]name are the values
+    this.productService.fetchItemByVarient(id, branch_id).subscribe(res => {
+      let ResultSet: any;
+      ResultSet = res;
+      this.addonForm.controls['item_id'].setValue(ResultSet[0].id);
+      this.fetchVarientByItem(ResultSet[0].id);
+
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
   fetchItemByBranch(branch_id) {
     // [0]id and [1]name are the values
     this.productService.fetchProductByBranch(branch_id).subscribe(res => {
@@ -242,6 +268,7 @@ export class EditAddonsComponent implements OnInit {
         }
       };
   }
+
   fetchVarientByID(item_id) {
     // [0]id and [1]name are the values
     this.productService.fetchVarientByItem(item_id).subscribe(res => {
@@ -258,5 +285,38 @@ export class EditAddonsComponent implements OnInit {
           // console.log('Response body:', error.error);
         }
       };
+  }
+
+  updateVarients() {
+    alert(JSON.stringify(this.addonForm.value));
+    if (this.addonForm.value) {
+      this.spinner.show();
+      this.productService.updateAddons(this.addonForm.value).subscribe(res => {
+        setTimeout(() => {
+          let ResultSet: any;
+          ResultSet = res;
+          console.log(res);
+          if (ResultSet.Status) {
+            this.toastService.showSuccess('Updated Successfully', 'Success');
+            this.addonForm.reset();
+            this.route.navigate(['/viewAddons']);
+          } else {
+            this.toastService.showError(ResultSet.Error, 'Oops!');
+          }
+          this.spinner.hide();
+        }, 2000);
+      }),
+        // tslint:disable-next-line:no-unused-expression
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        };
+    }
   }
 }
