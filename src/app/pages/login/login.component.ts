@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   Login() {
     if (this.loginForm.valid) {
+      this.authService.clearUserDetails();
       // const fd = new FormData();
       // Object.keys(this.loginForm.value).forEach(key => {
       //   fd.append(key, this.loginForm.value[key]);
