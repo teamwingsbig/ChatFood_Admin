@@ -129,12 +129,11 @@ export class AddCategoryComponent implements OnInit {
           setTimeout(() => {
             let ResultSet: any;
             ResultSet = res;
-            console.log(res);
             if (ResultSet.Status) {
               this.toastService.showSuccess('Successfully Added', 'Success');
               this.categoryForm.reset();
             } else {
-              this.toastService.showError('Failed to add category', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);
@@ -162,6 +161,7 @@ export class AddCategoryComponent implements OnInit {
       };
       this.spinner.show();
       this.masterService.updateCategory(data).subscribe(res => {
+        console.log(res);
           setTimeout(() => {
             let ResultSet: any;
             ResultSet = res;
@@ -170,7 +170,7 @@ export class AddCategoryComponent implements OnInit {
               this.categoryForm.reset();
               this.route.navigate(['/addCategory']);
             } else {
-              this.toastService.showError('Failed to add category', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);
