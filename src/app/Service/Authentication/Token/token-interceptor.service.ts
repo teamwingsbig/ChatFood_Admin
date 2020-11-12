@@ -23,7 +23,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   intercept(req, next) {
-    if (this.isValidRequestForInterceptor(req)) {
+    if (this.isValidRequestForInterceptor(req.url)) {
       const TokenReq = req.clone({
         setHeaders: {
           Authorization: this.Token
@@ -36,13 +36,12 @@ export class TokenInterceptorService implements HttpInterceptor {
 
   }
 
-  private isValidRequestForInterceptor(requestUrl: string) {
+  private isValidRequestForInterceptor(requestUrl: string): boolean  {
     const positionIndicator = 'live/';
     const position = requestUrl.indexOf(positionIndicator);
     let URL_PREFIX;
     if (position > 0) {
       const destination: string = requestUrl.substr(position + positionIndicator.length);
-      alert(destination);
       if (destination === 'user/login/') {
         return false;
       } else {
