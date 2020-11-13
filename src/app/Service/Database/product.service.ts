@@ -26,18 +26,33 @@ export class ProductService {
     const url = this.ipAddress + 'items/details/';
     return this.http.post(url, Data);
   }
+  updateProduct(Data) {
+    const url = this.ipAddress + 'items/details/';
+    return this.http.put(url, Data);
+  }
 
   addMultipleAddons(Data) {
     const url = this.ipAddress + 'items/multipleaddons/';
     return this.http.post(url, Data);
   }
 
+  updateVarients(Data) {
+    const url = this.ipAddress + 'items/varients/';
+    return this.http.put(url, Data);
+  }
+
   updateAddons(Data) {
     const url = this.ipAddress + 'items/addons/';
     return this.http.put(url, Data);
   }
+
   fetchProduct() {
     const url = this.ipAddress + 'items/details/?page_wise=0';
+    return this.http.get(url);
+  }
+
+  fetchProductByID(productID) {
+    const url = this.ipAddress + 'items/details/?page_wise=0&id=' + productID;
     return this.http.get(url);
   }
 

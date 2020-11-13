@@ -5,7 +5,7 @@ import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ProductService} from '../../../Service/Database/product.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../../Service/Authentication/auth.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 
@@ -31,6 +31,8 @@ export class AddProductComponent implements OnInit {
   previewUrl;
   fileData: File = null;
   public userData: any = [];
+  productID;
+  isModelView = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -41,6 +43,7 @@ export class AddProductComponent implements OnInit {
     public  authService: AuthService,
     public  route: Router,
     public spinner: NgxSpinnerService,
+    public  router: ActivatedRoute
   ) {
   }
 
@@ -114,6 +117,7 @@ export class AddProductComponent implements OnInit {
     this.setFormBuilder();
     this.fetchBranch();
     this.fetchUnit();
+    this.loadProductandVarients();
   }
 
   public autherisationProcess() {
@@ -128,6 +132,68 @@ export class AddProductComponent implements OnInit {
     } else {
       // navigate to loggin page
       this.route.navigate(['/login']);
+    }
+  }
+
+  loadProductandVarients() {
+    if (this.router.snapshot.paramMap.get('id') != null) {
+      this.productID = atob(this.router.snapshot.paramMap.get('id'));
+      this.productService.fetchProductByID(this.productID).subscribe(res => {
+        let ResultSet: any;
+        ResultSet = res;
+        if (ResultSet.length > 0) {
+
+          // update btn and title of the page
+          this.btn_title = 'Update';
+          this.title = 'Update Product';
+          this.isModelView = true;
+          this.varient_title = 'Update Variant';
+          this.varient_btn_title = 'Update';
+          // update the item form
+          this.itemForm.controls['name'].setValue(ResultSet[0].name);
+          this.itemForm.controls['arabic_name'].setValue(ResultSet[0].arabic_name);
+          this.itemForm.controls['description'].setValue(ResultSet[0].description);
+          this.itemForm.controls['sku'].setValue(ResultSet[0].sku);
+          this.itemForm.controls['uom'].setValue(ResultSet[0].uom);
+          this.itemForm.controls['tax_perc'].setValue(ResultSet[0].tax_perc);
+          this.itemForm.controls['price_range'].setValue(ResultSet[0].price_range);
+          this.itemForm.controls['branch_id'].setValue(ResultSet[0].branch.id);
+          this.fetchCategoryByBranch(ResultSet[0].branch.id);
+          this.itemForm.controls['category_id'].setValue(ResultSet[0].category.id);
+
+          // update image
+          this.previewUrl = ResultSet[0].images[0].image;
+          // update varient array
+          this.varientData = ResultSet[0].varients;
+
+          // remove image validation
+          this.itemForm.controls['images'].clearValidators();
+          this.itemForm.controls['images'].updateValueAndValidity();
+
+        } else {
+          this.btn_title = 'Save';
+          this.title = 'Add Product';
+          this.isModelView = false;
+          this.varient_title = 'Add Variant';
+          this.varient_btn_title = 'Save';
+        }
+
+      }), (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+    } else {
+      this.btn_title = 'Save';
+      this.title = 'Add Product';
+      this.isModelView = false;
+      this.varient_title = 'Add Variant';
+      this.varient_btn_title = 'Save';
     }
   }
 
@@ -180,6 +246,9 @@ export class AddProductComponent implements OnInit {
           Validators.required,
         ])
       ],
+      id: [
+        ''
+      ]
     });
   }
 
@@ -295,6 +364,7 @@ export class AddProductComponent implements OnInit {
 
 //   add varients to table
   addVarients(varientData) {
+    console.log(varientData);
     if (this.varientForm.valid) {
       const data = {
         'unit_id': varientData.unit_id.split(',')[0],
@@ -365,10 +435,129 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+  updateProduct() {
+    if (this.itemForm.valid) {
+      this.spinner.show();
+      let itemFormData: any = new FormData();
+      // itemFormData.append('varients', this.varientData);
+      itemFormData.append('id', this.productID);
+      itemFormData.append('status', '1');
+      itemFormData.append('is_showable', '1');
+
+      // this.itemForm.value.varients = [];
+      // this.itemForm.value.varients = this.varientData;
+      Object.keys(this.itemForm.value).forEach(key => {
+        if (key === 'varients') {
+          itemFormData.append(key, JSON.stringify(this.varientData));
+          // console.log(this.varientData);
+        } else if (key === 'images') {
+          itemFormData.append(key, this.fileData);
+        } else {
+          itemFormData.append(key, this.itemForm.value[key]);
+        }
+      });
+      this.productService.updateProduct(itemFormData).subscribe(res => {
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = res;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Product Successfully Updated', 'Success');
+              // reset form
+              this.itemForm.reset();
+              //   reset varient data
+              this.varientData = [];
+              this.route.navigate(['/listProducts']);
+            } else {
+              this.toastService.showError(ResultSet.Error, 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
+
+  updateVarients(varientData) {
+    if (this.varientForm.valid) {
+      const data = {
+        'id': varientData.id,
+        'unit_id': varientData.unit_id[0],
+        'unit_name': varientData.unit_id[1],
+        'name': varientData.name,
+        'magnitude': varientData.magnitude,
+        'cost_price': varientData.cost_price,
+        'selling_price': varientData.selling_price,
+        'current_stock': varientData.current_stock,
+        'reorder_point': varientData.reorder_point
+      };
+      if (this.varientForm.valid) {
+        this.spinner.show();
+        this.productService.updateVarients(data).subscribe(res => {
+          console.log(res);
+          setTimeout(() => {
+            let Resultset: any;
+            Resultset = res;
+            if (Resultset.Status) {
+              this.toastService.showSuccess('Updated Successfully', 'Success');
+            } else {
+              this.toastService.showError(Resultset.Error, 'Oops !');
+            }
+            this.spinner.hide();
+            this.loadProductandVarients();
+            this.varientForm.reset();
+          }, 500);
+        }),
+          (error: HttpErrorResponse) => {
+            if (error.error instanceof Error) {
+              // console.log('An error occurred:', error.error.message);
+              this.toastService.showError('An error occcured', 'Oops !');
+            } else {
+              this.toastService.showError('An error occcured', 'Oops !');
+              // console.log('Backend returned status code: ', error.status);
+              // console.log('Response body:', error.error);
+            }
+          };
+      }
+    }
+  }
+
   onSubmit() {
     if (this.btn_title === 'Save') {
       this.addProduct();
+    } else if (this.btn_title === 'Update') {
+      this.updateProduct();
     }
+  }
+
+  onSubmitVarient(varientData) {
+    if (this.varient_btn_title === 'Save') {
+      this.addVarients(varientData);
+    } else if (this.varient_btn_title === 'Update') {
+      this.updateVarients(varientData);
+    }
+  }
+
+  editVarient(template: TemplateRef<any>, varients) {
+    this.openVarientForm(template);
+    this.varientForm.controls['name'].setValue(varients.name);
+    this.varientForm.controls['magnitude'].setValue(varients.magnitude);
+    this.varientForm.controls['unit_id'].setValue([varients.unit.id, varients.unit.name]);
+    this.varientForm.controls['cost_price'].setValue(varients.cost_price);
+    this.varientForm.controls['current_stock'].setValue(varients.current_stock);
+    this.varientForm.controls['selling_price'].setValue(varients.selling_price);
+    this.varientForm.controls['reorder_point'].setValue(varients.reorder_point);
+    this.varientForm.controls['id'].setValue(varients.id);
+
   }
 
   public findInvalidControls() {
