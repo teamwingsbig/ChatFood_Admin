@@ -62,6 +62,7 @@
                     <th scope="col">SubLocation</th>
                     <th scope="col">Min Order</th>
                     <th scope="col">Estimated Time</th>
+                    <th scope="col">Taxt Type</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>
@@ -92,6 +93,9 @@
                     </td>
                     <td>
                       {{item.estimated_time}}
+                    </td>
+                    <td>
+                      {{item.tax_type == 'gst' ? 'GST' : 'Vat'}}
                     </td>
                     <td>
                       <button (click)="openModal(Manageremplate)" class="btn btn-outline-danger btn-sm" type="button">
@@ -157,7 +161,7 @@
                         </a>
                         <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                              style="cursor: pointer;">
-                          <a class="dropdown-item">Edit</a>
+                          <a [routerLink]="['/addBranch',{id:item.id | convert}]" class="dropdown-item">Edit</a>
                           <a class="dropdown-item">Delete</a>
                           <ng-template #template>
                             <div class="modal-body text-center">

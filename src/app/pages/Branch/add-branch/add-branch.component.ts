@@ -4,7 +4,7 @@ import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../../../Service/Authentication/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
@@ -23,6 +23,7 @@ export class AddBranchComponent implements OnInit {
   title = 'Add Branch';
   btn_title = 'Save';
   userData: any = [];
+  branchID;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -31,6 +32,7 @@ export class AddBranchComponent implements OnInit {
     public  authService: AuthService,
     public  route: Router,
     public spinner: NgxSpinnerService,
+    public  router: ActivatedRoute
   ) {
   }
 
@@ -76,6 +78,59 @@ export class AddBranchComponent implements OnInit {
     this.setFormBuilder();
     //   fetch main location
     this.fetchMainLocation();
+    this.loadBranchDetails();
+  }
+
+  loadBranchDetails() {
+    if (this.router.snapshot.paramMap.get('id') != null) {
+      this.spinner.show();
+      this.branchID = atob(this.router.snapshot.paramMap.get('id'));
+      this.masterService.fetchBranchByID(this.branchID).subscribe(res => {
+        let ResultSet: any;
+        ResultSet = res;
+        if (ResultSet.length > 0) {
+          setTimeout(() => {
+
+            // update btn and title of the page
+            this.btn_title = 'Update';
+            this.title = 'Update Branch';
+
+            // update the item form
+            this.branchForm.controls['name'].setValue(ResultSet[0].name);
+            this.branchForm.controls['address'].setValue(ResultSet[0].address);
+            this.branchForm.controls['mobile'].setValue(ResultSet[0].mobile);
+            this.branchForm.controls['email'].setValue(ResultSet[0].email);
+            this.branchForm.controls['trn'].setValue(ResultSet[0].trn);
+            this.branchForm.controls['minimum_order'].setValue(ResultSet[0].minimum_order);
+            this.branchForm.controls['estimated_time'].setValue(ResultSet[0].estimated_time);
+            this.branchForm.controls['tax_type'].setValue(ResultSet[0].tax_type);
+            this.branchForm.controls['main_location_id'].setValue(ResultSet[0].main_location.id);
+            this.fetchSublocation(ResultSet[0].main_location.id);
+            this.branchForm.controls['sub_location_id'].setValue(ResultSet[0].sub_location.id);
+
+            this.spinner.hide();
+          }, 500);
+
+        } else {
+          this.btn_title = 'Save';
+          this.title = 'Add Branch';
+
+        }
+
+      }), (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+    } else {
+      this.btn_title = 'Save';
+      this.title = 'Add Branch';
+    }
   }
 
   public autherisationProcess() {

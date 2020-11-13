@@ -23,7 +23,10 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/?&page_wise=false';
     return this.http.get(url);
   }
-
+  fetchBranchByID(id) {
+    const url = this.ipAddress + 'company/branch/?&page_wise=false';
+    return this.http.get(url);
+  }
 
 
   addMainLocation(Data) {

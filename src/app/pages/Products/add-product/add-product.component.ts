@@ -573,7 +573,7 @@ export class AddProductComponent implements OnInit {
 
   }
   deleteVareint(varient_id){
-    alert(varient_id);
+    alert('will add soon');
   }
 
   openDeleteModel(template: TemplateRef<any>) {
