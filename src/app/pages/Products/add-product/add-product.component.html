@@ -354,10 +354,10 @@
                             {{item.magnitude}}
                           </td>
                           <td>
-                            {{item.selling_price }}
+                            {{item.selling_price | currency:'INR':'symbol-narrow' }}
                           </td>
                           <td>
-                            {{item.cost_price}}
+                            {{item.cost_price | currency:'INR':'symbol-narrow' }}
                           </td>
                           <td>
                             {{item.unit_name}}
@@ -369,7 +369,7 @@
                             {{item.reorder_point}}
                           </td>
                           <td>
-                            <button (click)="removeVarient(i)" class="btn btn-outline-danger btn-sm"
+                            <button (click)="removeVarient(i,deleteTemplate)" class="btn btn-outline-danger btn-sm"
                                     type="button">
                             <span class="btn-inner--icon">
                                 <i class="ni ni fa fa-eye"></i>
@@ -385,12 +385,12 @@
                               <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                                    style="cursor: pointer;">
                                 <a (click)="editVarient(varientTemplate,item)"  class="dropdown-item">Edit</a>
-                                <ng-template #template>
+                                <ng-template #deleteTemplate>
                                   <div class="modal-body text-center">
-                                    <p>Are you sure you want to delete this order ?</p>
-                                    <button (click)="confirm(item.payload.doc.id)" class="btn btn-default" type="button">Yes
+                                    <p>Are you sure you want to delete  ?</p>
+                                    <button (click)="deleteVareint(item.id)" class="btn btn-default" type="button">Yes
                                     </button>
-                                    <button (click)="decline()" class="btn btn-primary" type="button">No</button>
+                                    <button (click)="deleteModelModalRef.hide()" class="btn btn-primary" type="button">No</button>
                                   </div>
                                 </ng-template>
                               </div>

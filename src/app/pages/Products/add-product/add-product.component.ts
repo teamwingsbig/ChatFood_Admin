@@ -18,6 +18,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 })
 export class AddProductComponent implements OnInit {
   modalRef: BsModalRef;
+  deleteModelModalRef: BsModalRef;
+
   title = 'Add Item';
   btn_title = 'Save';
   varient_title = 'Add Varient';
@@ -137,38 +139,42 @@ export class AddProductComponent implements OnInit {
 
   loadProductandVarients() {
     if (this.router.snapshot.paramMap.get('id') != null) {
+      this.spinner.show();
       this.productID = atob(this.router.snapshot.paramMap.get('id'));
       this.productService.fetchProductByID(this.productID).subscribe(res => {
         let ResultSet: any;
         ResultSet = res;
         if (ResultSet.length > 0) {
+          setTimeout(() => {
 
-          // update btn and title of the page
-          this.btn_title = 'Update';
-          this.title = 'Update Product';
-          this.isModelView = true;
-          this.varient_title = 'Update Variant';
-          this.varient_btn_title = 'Update';
-          // update the item form
-          this.itemForm.controls['name'].setValue(ResultSet[0].name);
-          this.itemForm.controls['arabic_name'].setValue(ResultSet[0].arabic_name);
-          this.itemForm.controls['description'].setValue(ResultSet[0].description);
-          this.itemForm.controls['sku'].setValue(ResultSet[0].sku);
-          this.itemForm.controls['uom'].setValue(ResultSet[0].uom);
-          this.itemForm.controls['tax_perc'].setValue(ResultSet[0].tax_perc);
-          this.itemForm.controls['price_range'].setValue(ResultSet[0].price_range);
-          this.itemForm.controls['branch_id'].setValue(ResultSet[0].branch.id);
-          this.fetchCategoryByBranch(ResultSet[0].branch.id);
-          this.itemForm.controls['category_id'].setValue(ResultSet[0].category.id);
+            // update btn and title of the page
+            this.btn_title = 'Update';
+            this.title = 'Update Product';
+            this.isModelView = true;
+            this.varient_title = 'Update Variant';
+            this.varient_btn_title = 'Update';
+            // update the item form
+            this.itemForm.controls['name'].setValue(ResultSet[0].name);
+            this.itemForm.controls['arabic_name'].setValue(ResultSet[0].arabic_name);
+            this.itemForm.controls['description'].setValue(ResultSet[0].description);
+            this.itemForm.controls['sku'].setValue(ResultSet[0].sku);
+            this.itemForm.controls['uom'].setValue(ResultSet[0].uom);
+            this.itemForm.controls['tax_perc'].setValue(ResultSet[0].tax_perc);
+            this.itemForm.controls['price_range'].setValue(ResultSet[0].price_range);
+            this.itemForm.controls['branch_id'].setValue(ResultSet[0].branch.id);
+            this.fetchCategoryByBranch(ResultSet[0].branch.id);
+            this.itemForm.controls['category_id'].setValue(ResultSet[0].category.id);
 
-          // update image
-          this.previewUrl = ResultSet[0].images[0].image;
-          // update varient array
-          this.varientData = ResultSet[0].varients;
+            // update image
+            this.previewUrl = ResultSet[0].images[0].image;
+            // update varient array
+            this.varientData = ResultSet[0].varients;
 
-          // remove image validation
-          this.itemForm.controls['images'].clearValidators();
-          this.itemForm.controls['images'].updateValueAndValidity();
+            // remove image validation
+            this.itemForm.controls['images'].clearValidators();
+            this.itemForm.controls['images'].updateValueAndValidity();
+            this.spinner.hide();
+          }, 500);
 
         } else {
           this.btn_title = 'Save';
@@ -383,9 +389,16 @@ export class AddProductComponent implements OnInit {
   }
 
 //  remove varient from table
-  removeVarient(index) {
-    this.varientData.splice(index, 1);
-    this.toastService.showSuccess('Successfully Deleted', 'Success');
+  removeVarient(index, template: TemplateRef<any>) {
+    if (this.btn_title === 'Save') {
+      //   remove item from the html tale
+      this.varientData.splice(index, 1);
+      this.toastService.showSuccess('Successfully Deleted', 'Success');
+    } else if (this.btn_title === 'Update') {
+      // remove item from the database
+      this.openDeleteModel(template);
+    }
+
   }
 
   addProduct() {
@@ -559,6 +572,13 @@ export class AddProductComponent implements OnInit {
     this.varientForm.controls['id'].setValue(varients.id);
 
   }
+  deleteVareint(varient_id){
+    alert(varient_id);
+  }
+
+  openDeleteModel(template: TemplateRef<any>) {
+    this.deleteModelModalRef = this.modalService.show(template, {class: 'gray modal-lg'});
+  }
 
   public findInvalidControls() {
     const invalid = [];
@@ -571,4 +591,5 @@ export class AddProductComponent implements OnInit {
     console.log(invalid);
     return invalid;
   }
+
 }
