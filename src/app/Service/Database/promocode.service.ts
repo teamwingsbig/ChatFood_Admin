@@ -19,7 +19,16 @@ export class PromocodeService {
     return this.http.post(url, Data);
   }
 
+  updatePromocode(Data) {
+    const url = this.ipAddress + 'promocodes/details/';
+    return this.http.put(url, Data);
+  }
+
   fetchPromocode() {
+    const url = this.ipAddress + 'promocodes/details/';
+    return this.http.get(url);
+  }
+  fetchPromocodeById() {
     const url = this.ipAddress + 'promocodes/details/';
     return this.http.get(url);
   }
