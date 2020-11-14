@@ -19,10 +19,21 @@ export class MasterService {
     return this.http.post(url, Data);
   }
 
+  fetchCompanyProfile() {
+    const url = this.ipAddress + 'company/profile/';
+    return this.http.get(url);
+  }
+
+  updateCompanyProfile(Data) {
+    const url = this.ipAddress + 'company/profile/';
+    return this.http.put(url, Data);
+  }
+
   fetchBranch() {
     const url = this.ipAddress + 'company/branch/?&page_wise=false';
     return this.http.get(url);
   }
+
   fetchBranchByID(id) {
     const url = this.ipAddress + 'company/branch/?&page_wise=false';
     return this.http.get(url);
