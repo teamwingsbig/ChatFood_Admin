@@ -18,6 +18,10 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/';
     return this.http.post(url, Data);
   }
+  updateBranch(Data) {
+    const url = this.ipAddress + 'company/branch/';
+    return this.http.put(url, Data);
+  }
 
   fetchCompanyProfile() {
     const url = this.ipAddress + 'company/profile/';
@@ -30,12 +34,12 @@ export class MasterService {
   }
 
   fetchBranch() {
-    const url = this.ipAddress + 'company/branch/?&page_wise=false';
+    const url = this.ipAddress + 'company/branch/?page_wise=false';
     return this.http.get(url);
   }
 
   fetchBranchByID(id) {
-    const url = this.ipAddress + 'company/branch/?&page_wise=false';
+    const url = this.ipAddress + 'company/branch/?page_wise=false&id=' + id;
     return this.http.get(url);
   }
 

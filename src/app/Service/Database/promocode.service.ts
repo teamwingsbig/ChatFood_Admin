@@ -28,8 +28,9 @@ export class PromocodeService {
     const url = this.ipAddress + 'promocodes/details/';
     return this.http.get(url);
   }
-  fetchPromocodeById() {
-    const url = this.ipAddress + 'promocodes/details/';
+
+  fetchPromocodeById(id) {
+    const url = this.ipAddress + 'promocodes/details/?id=' + id;
     return this.http.get(url);
   }
 }

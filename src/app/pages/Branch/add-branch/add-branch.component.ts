@@ -216,7 +216,8 @@ export class AddBranchComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])
-      ]
+      ],
+      id: []
     });
   }
 
@@ -284,9 +285,43 @@ export class AddBranchComponent implements OnInit {
     }
   }
 
+  updateBranch() {
+    if (this.branchForm.valid) {
+      this.spinner.show();
+      this.branchForm.value.id = this.branchID;
+      this.masterService.updateBranch(this.branchForm.value).subscribe(data => {
+          setTimeout(() => {
+            let ResultSet: any;
+            ResultSet = data;
+            if (ResultSet.Status) {
+              this.toastService.showSuccess('Successfully Updated', 'Success');
+              this.branchForm.reset();
+              this.route.navigate(['/viewBranch']);
+            } else {
+              this.toastService.showError(ResultSet.Error, 'Oops !');
+            }
+            this.spinner.hide();
+          }, 2000);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
+
   onSubmit() {
     if (this.btn_title === 'Save') {
       this.addBrnach();
+    } else if (this.btn_title === 'Update') {
+      this.updateBranch();
     }
   }
 }

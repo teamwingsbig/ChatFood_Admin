@@ -75,6 +75,7 @@ export class AddPromocodeComponent implements OnInit {
     this.setFormBuilder();
     this.fetchBranch();
     this.setupDropdownSettings();
+    this.loadPromocode();
   }
 
   public autherisationProcess() {
@@ -96,12 +97,13 @@ export class AddPromocodeComponent implements OnInit {
     if (this.router.snapshot.paramMap.get('id') != null) {
       this.spinner.show();
       this.promocodeID = atob(this.router.snapshot.paramMap.get('id'));
-      this.masterService.fetchBranchByID(this.promocodeID).subscribe(res => {
+      this.promoService.fetchPromocodeById(this.promocodeID).subscribe(res => {
+        console.log(res);
         let ResultSet: any;
         ResultSet = res;
-        if (ResultSet.length > 0) {
+        if (ResultSet.results.length > 0) {
           setTimeout(() => {
-
+            ResultSet=ResultSet.results;
             // update btn and title of the page
             this.btn_title = 'Update';
             this.title = 'Update Promo code';
@@ -122,6 +124,8 @@ export class AddPromocodeComponent implements OnInit {
         } else {
           this.btn_title = 'Save';
           this.title = 'Add Promo code';
+          this.toastService.showError('No Data Found !','Oops !');
+          this.spinner.hide();
 
         }
 

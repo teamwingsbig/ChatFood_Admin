@@ -21,7 +21,8 @@ import {ToastService} from '../../Service/Alert/toast.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
+  filter;
+  p;
   public datasets: any;
   public recentOrderData: any = [];
   public data: any;
@@ -31,6 +32,8 @@ export class DashboardComponent implements OnInit {
   public userData: any = [];
   public orderStatus;
   StatusmodalRef: BsModalRef;
+  itemModalRef: BsModalRef;
+  addonsModalRef: BsModalRef;
 
   constructor(
     public authService: AuthService,
@@ -158,6 +161,14 @@ export class DashboardComponent implements OnInit {
 
   decline(): void {
     this.StatusmodalRef.hide();
+  }
+
+  openItemModel(template: TemplateRef<any>) {
+    this.itemModalRef = this.modalService.show(template, {class: 'gray modal-lg'});
+  }
+
+  openAddonsModel(template: TemplateRef<any>) {
+    this.addonsModalRef = this.modalService.show(template, {class: 'gray modal-lg'});
   }
 
 }
