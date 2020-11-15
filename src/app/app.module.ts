@@ -48,6 +48,7 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { ViewPromocodeComponent } from './pages/Promocode/view-promocode/view-promocode.component';
 import { EditAddonsComponent } from './pages/Products/Addons/edit-addons/edit-addons.component';
 import { CompanyProfileComponent } from './pages/Company/company-profile/company-profile.component';
+import { ListCustomersComponent } from './pages/Customers/list-customers/list-customers.component';
 
 
 // @ts-ignore
@@ -100,7 +101,8 @@ import { CompanyProfileComponent } from './pages/Company/company-profile/company
     AddPromocodeComponent,
     ViewPromocodeComponent,
     EditAddonsComponent,
-    CompanyProfileComponent
+    CompanyProfileComponent,
+    ListCustomersComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
