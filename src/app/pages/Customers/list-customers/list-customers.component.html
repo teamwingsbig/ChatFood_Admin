@@ -57,8 +57,8 @@
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Mobile</th>
-                    <th scope="col">Approvel</th>
                     <th scope="col">Blocked</th>
+                    <th scope="col">Approvel</th>
                     <th scope="col">Address</th>
                     <th scope="col"></th>
                   </tr>
@@ -136,7 +136,7 @@
                                   {{Subitem.pin}}
                                 </td>
                                 <td>
-                                  {{(Subitem.address_type==='home' || Subitem.address_type==='Home' ) ? 'Home':'Office'}}
+                                  {{(Subitem.address_type === 'home' || Subitem.address_type === 'Home') ? 'Home' : 'Office'}}
                                 </td>
                               </tr>
                               <tr *ngIf="item.address.length<=0">
@@ -158,14 +158,16 @@
                         </a>
                         <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                              style="cursor: pointer;">
-                          <a [routerLink]="['/addPromocode',{id:item.id | convert}]" class="dropdown-item">Edit</a>
-                          <a class="dropdown-item">Delete</a>
-                          <ng-template #template>
+                          <a *ngIf="item.details.is_blocked==false" (click)="openBlockUserModel(blockTemplate)"
+                             class="dropdown-item">Block</a>
+                          <a *ngIf="item.details.is_blocked" (click)="openBlockUserModel(blockTemplate)"
+                             class="dropdown-item">Unblock</a>
+                          <ng-template #blockTemplate>
                             <div class="modal-body text-center">
-                              <p>Are you sure you want to delete this order ?</p>
-                              <button (click)="confirm(item.payload.doc.id)" class="btn btn-default" type="button">Yes
+                              <p>Are you sure you want to {{item.details.is_blocked?'Unblock':'Block'}} ?</p>
+                              <button (click)="item.details.is_blocked?unBlockUser(item.id):blockUser(item.id);blockModalRef.hide()" class="btn btn-default" type="button">Yes
                               </button>
-                              <button (click)="decline()" class="btn btn-primary" type="button">No</button>
+                              <button (click)="blockModalRef.hide()" class="btn btn-primary" type="button">No</button>
                             </div>
                           </ng-template>
                         </div>

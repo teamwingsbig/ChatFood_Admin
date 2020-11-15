@@ -18,13 +18,20 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/';
     return this.http.post(url, Data);
   }
+
   updateBranch(Data) {
     const url = this.ipAddress + 'company/branch/';
     return this.http.put(url, Data);
   }
+
   fetchCustomers() {
     const url = this.ipAddress + 'user/profile/?keyword=all_profile&is_deliveryboy=0&page_wise=0';
     return this.http.get(url);
+  }
+
+  blockUser(Data) {
+    const url = this.ipAddress + 'user/profile/';
+    return this.http.patch(url, Data);
   }
 
   fetchCompanyProfile() {
