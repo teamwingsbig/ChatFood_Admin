@@ -316,7 +316,7 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button [disabled]="varientForm.invalid" (click)="addVarients(varientForm.value);modalRef.hide()"
+                    <button [disabled]="varientForm.invalid" (click)="onSubmitVarient(varientForm.value);modalRef.hide()"
                             class="btn btn-danger"
                             type="button">{{varient_btn_title}}</button>
                     <button (click)="modalRef.hide()" class="btn btn-danger" type="button">Close</button>
@@ -337,6 +337,7 @@
                           <th scope="col">Stock</th>
                           <th scope="col">Reorder Point</th>
                           <th scope="col">Action</th>
+                          <th scope="col"></th>
 
                         </tr>
                         </thead>
@@ -353,10 +354,10 @@
                             {{item.magnitude}}
                           </td>
                           <td>
-                            {{item.selling_price }}
+                            {{item.selling_price | currency:'INR':'symbol-narrow' }}
                           </td>
                           <td>
-                            {{item.cost_price}}
+                            {{item.cost_price | currency:'INR':'symbol-narrow' }}
                           </td>
                           <td>
                             {{item.unit_name}}
@@ -368,13 +369,32 @@
                             {{item.reorder_point}}
                           </td>
                           <td>
-                            <button (click)="removeVarient(i)" class="btn btn-outline-danger btn-sm"
+                            <button (click)="removeVarient(i,deleteTemplate)" class="btn btn-outline-danger btn-sm"
                                     type="button">
                             <span class="btn-inner--icon">
                                 <i class="ni ni fa fa-eye"></i>
                               </span>
                               &nbsp;Delete
                             </button>
+                          </td>
+                          <td class="text-right">
+                            <div ngbDropdown placement="bottom-right">
+                              <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+                                <i class="fas fa-ellipsis-v"></i>
+                              </a>
+                              <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
+                                   style="cursor: pointer;">
+                                <a (click)="editVarient(varientTemplate,item)"  class="dropdown-item">Edit</a>
+                                <ng-template #deleteTemplate>
+                                  <div class="modal-body text-center">
+                                    <p>Are you sure you want to delete  ?</p>
+                                    <button (click)="deleteVareint(item.id)" class="btn btn-default" type="button">Yes
+                                    </button>
+                                    <button (click)="deleteModelModalRef.hide()" class="btn btn-primary" type="button">No</button>
+                                  </div>
+                                </ng-template>
+                              </div>
+                            </div>
                           </td>
                         </tr>
                         <tr class="text-center" *ngIf="varientData.length<=0">
@@ -396,7 +416,7 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <button class="btn btn-primary"
-                          [disabled]="itemForm.invalid   "
+                          [disabled]="itemForm.invalid"
                           (click)="onSubmit()" type="button">{{btn_title}}
                   </button>
                   <button class="btn btn-primary" type="reset">Reset</button>

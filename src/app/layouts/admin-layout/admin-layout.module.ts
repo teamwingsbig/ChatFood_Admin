@@ -16,19 +16,23 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {TokenInterceptorService} from '../../Service/Authentication/Token/token-interceptor.service';
 import {ToastrModule} from 'ngx-toastr';
 import {TooltipModule} from 'ngx-bootstrap/tooltip';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(AdminLayoutRoutes),
-        FormsModule,
-        HttpClientModule,
-        NgbModule,
-        ClipboardModule,
-        ToastrModule.forRoot(),
-        TooltipModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(AdminLayoutRoutes),
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ClipboardModule,
+    ToastrModule.forRoot(),
+    TooltipModule,
+    NgxPaginationModule,
+    Ng2SearchPipeModule
+  ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

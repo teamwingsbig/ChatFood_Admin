@@ -18,7 +18,7 @@
               <div class="card-header border-0">
                 <div class="row align-items-center">
                   <div class="col-8">
-                    <h3 class="mb-0">Branches</h3>
+                    <h3 class="mb-0">Customers</h3>
                   </div>
                   <!--                  <div class="col-4">-->
                   <!--                    <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filter" (change)="onchange()">-->
@@ -41,72 +41,65 @@
                   <!--                      </ul>-->
                   <!--                    </div>-->
                   <!--                  </div>-->
-                  <div class="col-4 text-right">
-                    <a [routerLink]="['/addBranch']" class="btn btn-sm btn-default"
-                       routerLinkActive="router-link-active">
-                      <span class="btn-inner--icon">
-                        <i class="ni ni-fat-add"></i></span> Add Branch</a>
-                  </div>
+                  <!--                  <div class="col-4 text-right">-->
+                  <!--                    <a [routerLink]="['/addPromocode']" class="btn btn-sm btn-default"-->
+                  <!--                       routerLinkActive="router-link-active">-->
+                  <!--                      <span class="btn-inner&#45;&#45;icon">-->
+                  <!--                        <i class="ni ni-fat-add"></i></span> Add Promo code</a>-->
+                  <!--                  </div>-->
                 </div>
               </div>
               <div class="table-responsive">
                 <table class="table align-items-center table-flush">
                   <thead class="thead-light">
                   <tr>
-                    <th scope="col">Branch Name</th>
-                    <!--                    <th scope="col">Date</th>-->
-                    <th scope="col">Address</th>
-                    <th scope="col">Phone No</th>
+                    <th scope="col">Sl No</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">SubLocation</th>
-                    <th scope="col">Min Order</th>
-                    <th scope="col">Estimated Time</th>
-                    <th scope="col">Taxt Type</th>
-                    <th scope="col"></th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Approvel</th>
+                    <th scope="col">Blocked</th>
+                    <th scope="col">Address</th>
                     <th scope="col"></th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let item of brnachData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                    *ngFor="let item of customerData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
                     <td>
                       <div class="media-body">
-                        <span class="mb-0 text-sm">{{item.name}}</span>
+                        <span class="mb-0 text-sm">{{i + 1}}</span>
                       </div>
                     </td>
-                    <td>{{item.address}}</td>
-                    <td>
-                      {{item.mobile}}
-                    </td>
+                    <td>{{item.first_name}}</td>
                     <td>
                       {{item.email}}
                     </td>
                     <td>
-                      {{item.main_location.name}}
+                      {{item.details.mobile}}
                     </td>
                     <td>
-                      {{item.sub_location.name}}
+                      <span class="badge badge-dot">
+                        <i [class]="item.details.is_blocked==false?'bg-danger':'bg-success'"></i>
+                        {{item.details.is_blocked == false ? 'No' : 'Blocked'}}
+                      </span>
                     </td>
                     <td>
-                      {{item.minimum_order}}
+                      <span class="badge badge-dot">
+                        <i [class]="item.details.is_approved==false?'bg-danger':'bg-success'"></i>
+                        {{item.details.is_approved == false ? 'Pending' : 'Approved'}}
+                      </span>
                     </td>
                     <td>
-                      {{item.estimated_time}}
-                    </td>
-                    <td>
-                      {{item.tax_type == 'gst' ? 'GST' : 'Vat'}}
-                    </td>
-                    <td>
-                      <button (click)="openModal(Manageremplate)" class="btn btn-outline-danger btn-sm" type="button">
+                      <button (click)="openModal(Addresstemplate)" class="btn btn-outline-danger btn-sm" type="button">
                         <span class="btn-inner--icon">
                         <i class="ni ni fa fa-eye"></i>
                       </span>
                         &nbsp;View
                       </button>
-                      <ng-template #Manageremplate>
+                      <ng-template #Addresstemplate>
                         <div class="modal-header">
-                          <h4 class="modal-title pull-left text-black-50">Managers </h4>
+                          <h4 class="modal-title pull-left text-black-50">Branches </h4>
                           <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -116,33 +109,37 @@
                             <table class="table align-items-center table-flush">
                               <thead class="thead-light">
                               <tr>
-                                <th scope="col">Name</th>
-                                <!--                    <th scope="col">Date</th>-->
-                                <th scope="col">Phone NO</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Status</th>
-                                <th scope="col"></th>
+                                <th scope="col">Sl No</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Landmark</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Pin</th>
+                                <th scope="col">Address Typr</th>
+
                               </tr>
                               </thead>
                               <tbody class="text-center">
-                              <tr *ngFor="let Subitem of item.managers">
+                              <tr *ngFor="let Subitem of item.address;let indx=index">
                                 <td>
-                                  {{Subitem.first_name}}
+                                  {{indx + 1}}
                                 </td>
                                 <td>
-                                  {{Subitem.details.mobile}}
+                                  {{Subitem.address1}}
                                 </td>
                                 <td>
-                                  {{Subitem.email}}
+                                  {{Subitem.land_mark}}
                                 </td>
                                 <td>
-                                  <span class="badge badge-dot">
-                                      <i [class]="item.is_blocked==true?'bg-danger':'bg-success'"></i>
-                                    {{item.is_blocked == true ? 'Bloced' : 'Active'}}
-                                    </span>
+                                  {{Subitem.city}}
+                                </td>
+                                <td>
+                                  {{Subitem.pin}}
+                                </td>
+                                <td>
+                                  {{(Subitem.address_type==='home' || Subitem.address_type==='Home' ) ? 'Home':'Office'}}
                                 </td>
                               </tr>
-                              <tr *ngIf="item.managers.length<=0">
+                              <tr *ngIf="item.address.length<=0">
                                 <td colspan="5"> No Data Found</td>
                               </tr>
                               </tbody>
@@ -161,7 +158,7 @@
                         </a>
                         <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                              style="cursor: pointer;">
-                          <a [routerLink]="['/addBranch',{id:item.id | convert}]" class="dropdown-item">Edit</a>
+                          <a [routerLink]="['/addPromocode',{id:item.id | convert}]" class="dropdown-item">Edit</a>
                           <a class="dropdown-item">Delete</a>
                           <ng-template #template>
                             <div class="modal-body text-center">
@@ -181,7 +178,7 @@
                   <div class="pagination justify-content-end mb-0">
                     <!-- <pagination-controls (pageChange)="p = $event">
                     </pagination-controls> -->
-                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="brnachData">
+                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="customerData">
                       <ul class="pagination justify-content-end mb-0">
                         <li class="page-item ">
                           <a (click)="pT.previous()" *ngIf="!pT.isFirstPage()" [class.disabled]="pT.isFirstPage()"

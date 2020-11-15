@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {AuthService} from '../../../Service/Authentication/auth.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {PromocodeService} from '../../../Service/Database/promocode.service';
 import {IDropdownSettings} from 'ng-multiselect-dropdown';
@@ -24,7 +24,7 @@ export class AddPromocodeComponent implements OnInit {
   userData: any = [];
   selectedBranch = [];
   dropdownSettings: IDropdownSettings = {};
-
+  promocodeID;
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
@@ -32,7 +32,8 @@ export class AddPromocodeComponent implements OnInit {
     public  authService: AuthService,
     public  route: Router,
     public spinner: NgxSpinnerService,
-    public  promoService: PromocodeService
+    public  promoService: PromocodeService,
+    public  router: ActivatedRoute
   ) {
   }
 
@@ -74,6 +75,7 @@ export class AddPromocodeComponent implements OnInit {
     this.setFormBuilder();
     this.fetchBranch();
     this.setupDropdownSettings();
+    this.loadPromocode();
   }
 
   public autherisationProcess() {
@@ -88,6 +90,58 @@ export class AddPromocodeComponent implements OnInit {
     } else {
       // navigate to loggin page
       this.route.navigate(['/login']);
+    }
+  }
+
+  loadPromocode() {
+    if (this.router.snapshot.paramMap.get('id') != null) {
+      this.spinner.show();
+      this.promocodeID = atob(this.router.snapshot.paramMap.get('id'));
+      this.promoService.fetchPromocodeById(this.promocodeID).subscribe(res => {
+        console.log(res);
+        let ResultSet: any;
+        ResultSet = res;
+        if (ResultSet.results.length > 0) {
+          setTimeout(() => {
+            ResultSet=ResultSet.results;
+            // update btn and title of the page
+            this.btn_title = 'Update';
+            this.title = 'Update Promo code';
+
+            // update the item form
+            this.promoForm.controls['promo_code'].setValue(ResultSet[0].code);
+            this.promoForm.controls['exp_date'].setValue(ResultSet[0].expiry_date);
+            this.promoForm.controls['recurrence'].setValue(ResultSet[0].recurrence);
+            this.promoForm.controls['disc_perc'].setValue(ResultSet[0].disc_perc);
+            this.promoForm.controls['disc_price'].setValue(ResultSet[0].disc_price);
+            this.promoForm.controls['minimum_order'].setValue(ResultSet[0].minimum_order);
+            this.promoForm.controls['estimated_time'].setValue(ResultSet[0].estimated_time);
+            this.promoForm.controls['tax_type'].setValue(ResultSet[0].tax_type);
+
+            this.spinner.hide();
+          }, 500);
+
+        } else {
+          this.btn_title = 'Save';
+          this.title = 'Add Promo code';
+          this.toastService.showError('No Data Found !','Oops !');
+          this.spinner.hide();
+
+        }
+
+      }), (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+    } else {
+      this.btn_title = 'Save';
+      this.title = 'Add Promo code';
     }
   }
 

@@ -18,12 +18,34 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/';
     return this.http.post(url, Data);
   }
-
-  fetchBranch() {
-    const url = this.ipAddress + 'company/branch/?&page_wise=false';
+  updateBranch(Data) {
+    const url = this.ipAddress + 'company/branch/';
+    return this.http.put(url, Data);
+  }
+  fetchCustomers() {
+    const url = this.ipAddress + 'user/profile/?keyword=all_profile&is_deliveryboy=0&page_wise=0';
     return this.http.get(url);
   }
 
+  fetchCompanyProfile() {
+    const url = this.ipAddress + 'company/profile/';
+    return this.http.get(url);
+  }
+
+  updateCompanyProfile(Data) {
+    const url = this.ipAddress + 'company/profile/';
+    return this.http.put(url, Data);
+  }
+
+  fetchBranch() {
+    const url = this.ipAddress + 'company/branch/?page_wise=false';
+    return this.http.get(url);
+  }
+
+  fetchBranchByID(id) {
+    const url = this.ipAddress + 'company/branch/?page_wise=false&id=' + id;
+    return this.http.get(url);
+  }
 
 
   addMainLocation(Data) {

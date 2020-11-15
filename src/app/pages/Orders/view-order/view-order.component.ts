@@ -15,6 +15,9 @@ import {Router} from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewOrderComponent implements OnInit {
+  itemModalRef: BsModalRef;
+  addonsModalRef: BsModalRef;
+
   orderData: any = [];
   p = 1;
   public filter;
@@ -58,7 +61,6 @@ export class ViewOrderComponent implements OnInit {
     this.orderService.fetchAllOrder().subscribe(res => {
       setTimeout(() => {
         this.orderData = res;
-        console.log(this.orderData);
         this.spinner.hide();
       }, 2000);
     }),
@@ -95,7 +97,6 @@ export class ViewOrderComponent implements OnInit {
     });
     this.orderService.changeOrderStatus(formData).subscribe(res => {
       let ResultSet: any;
-      console.log(res);
       ResultSet = res;
       if (ResultSet.Status) {
         this.toastService.showSuccess('Status Successfully changed', 'Success ');
@@ -125,5 +126,11 @@ export class ViewOrderComponent implements OnInit {
 
   decline(): void {
     this.StatusmodalRef.hide();
+  }
+  openItemModel(template: TemplateRef<any>) {
+    this.itemModalRef = this.modalService.show(template, {class: 'gray modal-lg'});
+  }
+  openAddonsModel(template: TemplateRef<any>) {
+    this.addonsModalRef = this.modalService.show(template, {class: 'gray modal-lg'});
   }
 }

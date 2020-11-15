@@ -9,7 +9,7 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">Orders</h5>
-                  <span class="h2 font-weight-bold mb-0">350,897</span>
+                  <span class="h2 font-weight-bold mb-0">{{recentOrderData.length}}</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -386,7 +386,6 @@
           </div>
         </div>
         <div class="table-responsive">
-          <!-- Projects table -->
           <table class="table align-items-center table-flush">
             <thead class="thead-light">
             <tr>
@@ -404,13 +403,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let item of recentOrderData;let i=index;">
-              <th scope="row">
-                {{item.id}}
-              </th>
+            <tr
+              *ngFor="let item of recentOrderData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
               <td>
-                {{item.date | date :'medium'}}
+                <div class="media-body">
+                  <span class="mb-0 text-sm">{{item.id}}</span>
+                </div>
               </td>
+              <td>{{item.date | date :'medium'}}</td>
               <td [tooltip]="item.user.details.mobile">
                 {{item.user.first_name}}
               </td>
@@ -429,12 +429,12 @@
               <td>
                 <div class="btn-group" dropdown>
                   <button id="button-basic" dropdownToggle type="button"
-                          [class]="item.status.name=='cancelled' ? 'btn btn-outline-warning dropdown-toggle'
-                                :item.status.name=='pending' ? 'btn btn-outline-danger dropdown-toggle'
-                                :item.status.name=='delivered' ? 'btn btn-outline-success dropdown-toggle'
-                                :item.status.name=='shipped' ? 'btn btn-outline-info dropdown-toggle'
-                                :item.status.name=='confirmed' ? 'btn btn-outline-primary dropdown-toggle'
-                                :item.status.name=='declained' ? 'btn btn-outline-warning dropdown-toggle' :''"
+                          [class]="item.status.name=='cancelled' ? 'btn btn-sm btn-outline-warning dropdown-toggle'
+                                :item.status.name=='pending' ? 'btn  btn-sm btn-outline-danger dropdown-toggle'
+                                :item.status.name=='delivered' ? 'btn btn-sm btn-outline-success dropdown-toggle'
+                                :item.status.name=='shipped' ? 'btn btn-sm btn-outline-info dropdown-toggle'
+                                :item.status.name=='confirmed' ? 'btn btn-sm btn-outline-primary dropdown-toggle'
+                                :item.status.name=='declained' ? 'btn btn-sm btn-outline-warning dropdown-toggle' :''"
                           aria-controls="dropdown-basic">
                     {{item.status.name}} <span class="caret"></span>
                   </button>
@@ -477,16 +477,18 @@
 
               </td>
               <td>
-                <button (click)="openModal(Manageremplate)" class="btn btn-outline-danger btn-sm" type="button">
+                <button (click)="openItemModel(itemTemplate)" class="btn btn-outline-danger btn-sm" type="button">
                         <span class="btn-inner--icon">
                         <i class="ni ni fa fa-eye"></i>
                       </span>
                   &nbsp;View
                 </button>
-                <ng-template #Manageremplate>
+                <!--                      variant modesl-->
+                <ng-template #itemTemplate>
                   <div class="modal-header">
-                    <h4 class="modal-title pull-left text-black-50">Managers </h4>
-                    <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
+                    <h4 class="modal-title pull-left text-black-50">Variants & Addons </h4>
+                    <button (click)="itemModalRef.hide()" aria-label="Close" class="close pull-right"
+                            type="button">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -495,43 +497,143 @@
                       <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                         <tr>
-                          <th scope="col">Name</th>
+                          <th scope="col">Sl no</th>
+                          <th scope="col">Item</th>
+                          <th scope="col">Variant</th>
                           <!--                    <th scope="col">Date</th>-->
-                          <th scope="col">Phone NO</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Status</th>
-                          <th scope="col"></th>
+                          <th scope="col">Unit</th>
+                          <th scope="col">Qty</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Total</th>
+                          <th scope="col">Addon Price</th>
+                          <th scope="col">Net Amount</th>
+                          <th scope="col">No.Addons</th>
+                          <th scope="col">Addons</th>
                         </tr>
                         </thead>
                         <tbody class="text-center">
-                        <tr *ngFor="let Subitem of item.managers">
+                        <tr *ngFor="let Subitem of item.issued_varients;let i=index">
                           <td>
-                            {{Subitem.first_name}}
+                            {{i + 1}}
                           </td>
                           <td>
-                            {{Subitem.details.mobile}}
+                            {{Subitem.varient.name}}
                           </td>
                           <td>
-                            {{Subitem.email}}
+                            {{Subitem.varient.item.name}}
                           </td>
                           <td>
-                                  <span class="badge badge-dot">
-                                      <i [class]="item.is_blocked==true?'bg-danger':'bg-success'"></i>
-                                    {{item.is_blocked == true ? 'Bloced' : 'Active'}}
-                                    </span>
+                            {{Subitem.varient.unit.name}}
+                          </td>
+                          <td>
+                            {{Subitem.qty}}
+                          </td>
+                          <td>
+                            {{Subitem.rate | currency:'INR':'symbol-narrow'}}
+                          </td>
+                          <td>
+                            {{Subitem.total | currency:'INR':'symbol-narrow'}}
+                          </td>
+                          <td>
+                            {{Subitem.addons_price | currency:'INR':'symbol-narrow'}}
+                          </td>
+                          <td>
+                            {{Subitem.net_amt | currency:'INR':'symbol-narrow'}}
+                          </td>
+                          <td>
+                            {{Subitem.issued_Addons.length}}
+                          </td>
+                          <td>
+                            <button [disabled]="Subitem.issued_Addons.length<=0"
+                                    (click)="openAddonsModel(addonsTemplate)"
+                                    class="btn btn-outline-danger btn-sm"
+                                    type="button">
+                        <span class="btn-inner--icon">
+                        <i class="ni ni fa fa-eye"></i>
+                        </span>
+                              &nbsp;View
+                            </button>
+                            <!--                                  addons moddel-->
+                            <ng-template #addonsTemplate>
+                              <div class="modal-header">
+                                <h4 class="modal-title pull-left text-black-50">Addons </h4>
+                                <button (click)="addonsModalRef.hide()" aria-label="Close"
+                                        class="close pull-right"
+                                        type="button">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="table-responsive">
+                                  <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                    <tr>
+                                      <th scope="col">Sl no</th>
+                                      <th scope="col">Name</th>
+                                      <th scope="col">Category</th>
+                                      <!--                    <th scope="col">Date</th>-->
+                                      <th scope="col">Qty</th>
+                                      <th scope="col">Price</th>
+                                      <th scope="col">Tax</th>
+                                      <th scope="col">Total</th>
+                                      <th scope="col">Net Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    <tr *ngFor="let addons of Subitem.issued_Addons;let in=index">
+                                      <td>
+                                        {{in + 1}}
+                                      </td>
+                                      <td>
+                                        {{addons.addon.name}}
+                                      </td>
+                                      <td>
+                                        {{addons.addon.category.name}}
+                                      </td>
+                                      <td>
+                                        {{addons.qty}}
+                                      </td>
+                                      <td>
+                                        {{addons.price | currency:'INR':'symbol-narrow'}}
+                                      </td>
+                                      <td>
+                                        {{addons.tax | currency:'INR':'symbol-narrow'}}
+                                      </td>
+                                      <td>
+                                        {{addons.total | currency:'INR':'symbol-narrow'}}
+                                      </td>
+                                      <td>
+                                        {{addons.net_amt | currency:'INR':'symbol-narrow'}}
+                                      </td>
+                                    </tr>
+                                    <tr *ngIf="Subitem.issued_Addons<=0">
+                                      <td colspan="5"> No Data Found !</td>
+                                    </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button (click)="addonsModalRef.hide()" class="btn btn-danger" type="button">
+                                  Close
+                                </button>
+                              </div>
+                            </ng-template>
+                            <!--                                  end addons model-->
                           </td>
                         </tr>
-                        <tr *ngIf="item.managers.length<=0">
-                          <td colspan="5"> No Data Found</td>
+                        <tr *ngIf="item.issued_varients.length<=0">
+                          <td colspan="5"> No Data Found !</td>
                         </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button (click)="modalRef.hide()" class="btn btn-danger" type="button">Close</button>
+                    <button (click)="itemModalRef.hide()" class="btn btn-danger" type="button">Close</button>
                   </div>
                 </ng-template>
+                <!--                      end variant model-->
               </td>
               <td class="text-right">
                 <div ngbDropdown placement="bottom-right">
@@ -541,7 +643,7 @@
                   <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                        style="cursor: pointer;">
                     <a class="dropdown-item">Edit</a>
-                    <a class="dropdown-item">Delete</a>
+                    <!--                          <a class="dropdown-item">Delete</a>-->
                     <ng-template #template>
                       <div class="modal-body text-center">
                         <p>Are you sure want to delete this order ?</p>
@@ -554,11 +656,37 @@
                 </div>
               </td>
             </tr>
-            <tr *ngIf="recentOrderData.length<=0">
-              <td class="text-center" colspan="9">No Order Found</td>
-            </tr>
             </tbody>
           </table>
+          <div class="card-footer py-4 ">
+            <div class="pagination justify-content-end mb-0">
+              <!-- <pagination-controls (pageChange)="p = $event">
+              </pagination-controls> -->
+              <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="recentOrderData">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item ">
+                    <a (click)="pT.previous()" *ngIf="!pT.isFirstPage()" [class.disabled]="pT.isFirstPage()"
+                       aria-label="Previous" class="page-link">
+                      <span aria-hidden="true" class="fas fa-angle-left"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <li *ngFor="let page of pT.pages" [class.active]="pT.getCurrent() === page.value"
+                      class="page-item active">
+                    <a (click)="pT.setCurrent(page.value)" class="page-link"> {{ page.label }}
+                    </a>
+                  </li>
+                  <li class="page-item ">
+                    <a (click)="pT.next()" *ngIf="!pT.isLastPage()" [class.disabled]="pT.isLastPage()"
+                       aria-label="Previous" class="page-link">
+                      <i class="fas fa-angle-right"></i>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                </ul>
+              </pagination-template>
+            </div>
+          </div>
         </div>
       </div>
     </div>

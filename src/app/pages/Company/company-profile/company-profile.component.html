@@ -1,0 +1,137 @@
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff"
+             size="default" type="ball-clip-rotate-multiple">
+</ngx-spinner>
+
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Company Profile</h3>
+            </div>
+            <div class="col-4 text-right">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="companyForm">
+            <h6 class="heading-small text-muted mb-4">Company Profile</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Name</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="company_name"
+                           class="form-control form-control-alternative" placeholder="Type Company Name">
+                    <div *ngFor="let validation of validation_messages.name">
+                      <div class="error-message" *ngIf="companyForm.get('company_name').hasError(validation.type) &&
+                        (companyForm.get('company_name').dirty || companyForm.get('company_name').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Address</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="address"
+                           class="form-control form-control-alternative" placeholder="Type Address">
+                    <div *ngFor="let validation of validation_messages.address">
+                      <div class="error-message" *ngIf="companyForm.get('address').hasError(validation.type) &&
+                        (companyForm.get('address').dirty || companyForm.get('address').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Mobile</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="tel" required formControlName="mobile" id="input-username"
+                           class="form-control form-control-alternative" placeholder="Type Mobile No">
+                    <div *ngFor="let validation of validation_messages.mobile">
+                      <div class="error-message" *ngIf="companyForm.get('mobile').hasError(validation.type) &&
+                        (companyForm.get('mobile').dirty || companyForm.get('mobile').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Landline</label>
+                    <input type="tel" formControlName="landline" id="input-first-name"
+                           class="form-control form-control-alternative" placeholder="Type Landline No">
+                    <div *ngFor="let validation of validation_messages.landline">
+                      <div class="error-message" *ngIf="companyForm.get('landline').hasError(validation.type) &&
+                        (companyForm.get('landline').dirty || companyForm.get('landline').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Email</label>
+                    <input id="input-address" formControlName="email"
+                           class="form-control form-control-alternative" placeholder="Type Email" type="email">
+                    <div *ngFor="let validation of validation_messages.email">
+                      <div class="error-message" *ngIf="companyForm.get('email').hasError(validation.type) &&
+                        (companyForm.get('email').dirty || companyForm.get('email').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">TRN No</label>
+                    <input formControlName="trn_no"
+                           class="form-control form-control-alternative" placeholder="Type TRN No" type="text">
+                    <div *ngFor="let validation of validation_messages.trn">
+                      <div class="error-message" *ngIf="companyForm.get('trn_no').hasError(validation.type) &&
+                        (companyForm.get('trn_no').dirty || companyForm.get('trn_no').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <button class="btn btn-primary" [disabled]="companyForm.invalid"
+                            (click)="updateCompanyProfile()" type="submit">Update</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
