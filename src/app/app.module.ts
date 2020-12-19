@@ -49,6 +49,7 @@ import { ViewPromocodeComponent } from './pages/Promocode/view-promocode/view-pr
 import { EditAddonsComponent } from './pages/Products/Addons/edit-addons/edit-addons.component';
 import { CompanyProfileComponent } from './pages/Company/company-profile/company-profile.component';
 import { ListCustomersComponent } from './pages/Customers/list-customers/list-customers.component';
+import { AddCompanyComponent } from './pages/Company/add-company/add-company.component';
 
 
 // @ts-ignore
@@ -102,7 +103,8 @@ import { ListCustomersComponent } from './pages/Customers/list-customers/list-cu
     ViewPromocodeComponent,
     EditAddonsComponent,
     CompanyProfileComponent,
-    ListCustomersComponent
+    ListCustomersComponent,
+    AddCompanyComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]

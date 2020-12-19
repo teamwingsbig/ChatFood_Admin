@@ -28,6 +28,7 @@ import {ViewPromocodeComponent} from '../../pages/Promocode/view-promocode/view-
 import {EditAddonsComponent} from '../../pages/Products/Addons/edit-addons/edit-addons.component';
 import {CompanyProfileComponent} from '../../pages/Company/company-profile/company-profile.component';
 import {ListCustomersComponent} from '../../pages/Customers/list-customers/list-customers.component';
+import {AddCompanyComponent} from '../../pages/Company/add-company/add-company.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -58,6 +59,7 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'editAddons', component: EditAddonsComponent},
   {path: 'Company-Profile', component: CompanyProfileComponent},
   {path: 'list-customers', component: ListCustomersComponent},
+  {path: 'addCompany', component: AddCompanyComponent},
 
 
 ];
