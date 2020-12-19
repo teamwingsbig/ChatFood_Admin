@@ -20,6 +20,7 @@ export class ListCustomersComponent implements OnInit {
   filter;
   p;
   modalRef: BsModalRef;
+  blockModalRef: BsModalRef;
 
   public userData: any = [];
 
@@ -31,7 +32,6 @@ export class ListCustomersComponent implements OnInit {
     public spinner: NgxSpinnerService,
     public masterService: MasterService,
     private modalService: BsModalService,
-
   ) {
   }
 
@@ -39,6 +39,7 @@ export class ListCustomersComponent implements OnInit {
     this.autherisationProcess();
     this.fetchCustomers();
   }
+
   public autherisationProcess() {
     // is logged in
     if (this.authServie.isLoggedIn()) {
@@ -53,6 +54,7 @@ export class ListCustomersComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
+
   fetchCustomers() {
     this.spinner.show();
     this.masterService.fetchCustomers().subscribe(res => {
@@ -73,7 +75,78 @@ export class ListCustomersComponent implements OnInit {
         }
       };
   }
+
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+  }
+
+  openBlockUserModel(template: TemplateRef<any>) {
+    this.blockModalRef = this.modalService.show(template, {class: 'modal-lg'});
+  }
+
+  blockUser(user_id) {
+    this.spinner.show();
+    const formData = new FormData();
+    formData.append('keyword', 'block_user');
+    formData.append('user_id', user_id);
+    formData.append('is_blocked', 'true');
+    this.masterService.blockUser(formData).subscribe(res => {
+      setTimeout(() => {
+        let ResutSet: any;
+        ResutSet = res;
+        if (ResutSet.Status) {
+          this.toastService.showSuccess('Successfully Blocked', 'Success');
+          this.fetchCustomers();
+        } else {
+          this.toastService.showError(ResutSet.Error, 'Oops !');
+        }
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  unBlockUser(user_id) {
+    this.spinner.show();
+    const formData = new FormData();
+    formData.append('keyword', 'block_user');
+    formData.append('user_id', user_id);
+    formData.append('is_blocked', 'false');
+    this.masterService.blockUser(formData).subscribe(res => {
+      setTimeout(() => {
+        let ResutSet: any;
+        ResutSet = res;
+        if (ResutSet.Status) {
+          this.toastService.showSuccess('Successfully Unblocked', 'Success');
+          this.fetchCustomers();
+
+        } else {
+          this.toastService.showError(ResutSet.Error, 'Oops !');
+        }
+        this.spinner.hide();
+
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
   }
 }

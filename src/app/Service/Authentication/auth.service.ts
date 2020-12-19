@@ -8,10 +8,12 @@ import {ip} from '../../../assets/data/ip.json';
 })
 export class AuthService {
   ipAddress;
+
   constructor(public http: HttpClient) {
-    this.ipAddress = ip ;
+    this.ipAddress = ip;
 
   }
+
   isLoggedIn() {
     if (localStorage.getItem('isLoggedIn') == 'true') {
       return true;
@@ -19,6 +21,7 @@ export class AuthService {
       return false;
     }
   }
+
   login(Data) {
     const url = this.ipAddress + 'user/login/';
     return this.http.post(url, Data);
@@ -45,7 +48,7 @@ export class AuthService {
   }
 
   // tslint:disable-next-line:variable-name
-  setUserDetails(user_ID, Name, is_superuser, is_staff, phone, email, token) {
+  setUserDetails(user_ID, Name, is_superuser, is_staff, phone, email, token, user_type) {
     const Data = {
       user_id: user_ID,
       name: Name,
@@ -53,7 +56,8 @@ export class AuthService {
       is_staff: is_staff,
       email: email,
       phone: phone,
-      token: token
+      token: token,
+      user_type: user_type
     };
     localStorage.setItem('UserData', JSON.stringify(Data));
   }
