@@ -48,7 +48,7 @@ export class AuthService {
   }
 
   // tslint:disable-next-line:variable-name
-  setUserDetails(user_ID, Name, is_superuser, is_staff, phone, email, token, user_type) {
+  setUserDetails(user_ID, Name, is_superuser, is_staff, phone, email, token, user_type, comapny_id, branch_id) {
     const Data = {
       user_id: user_ID,
       name: Name,
@@ -57,8 +57,11 @@ export class AuthService {
       email: email,
       phone: phone,
       token: token,
-      user_type: user_type
+      user_type: user_type,
+      company_id: comapny_id,
+      branch_id: branch_id
     };
+
     localStorage.setItem('UserData', JSON.stringify(Data));
   }
 }

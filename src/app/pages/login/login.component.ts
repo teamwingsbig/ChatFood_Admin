@@ -14,6 +14,8 @@ import {ToastService} from '../../Service/Alert/toast.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
+  branch_id;
+  company_id;
   validation_messages = {
     username: [
       {type: 'required', message: 'Username is required.'},
@@ -65,7 +67,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (res['Status']) {
           // success
           this.authService.setToLoggedIn();
-          this.authService.setUserDetails(res['user_id'], res['name'], res['is_superuser'], res['is_staff'], res['mobile'], res['email'], res['token'], this.getUserType(res));
+          // tslint:disable-next-line:max-line-length
+          this.authService.setUserDetails(res['user_id'], res['name'], res['is_superuser'], res['is_staff'], res['mobile'], res['email'], res['token'], this.getUserType(res), this.company_id, this.branch_id);
+
           this.router.navigate(['/dashboard']);
         } else {
           //   fail
@@ -86,12 +90,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   getUserType(Result) {
     if (Result['is_superuser']) {
+      this.company_id = 0;
+      this.branch_id = 0;
       // superuser
       return 0;
     } else if (Result['prvlged_branches'].length > 0 && Result['prvlged_companies'].length <= 0) {
+      this.company_id = 0;
+      this.branch_id = Result['prvlged_branches'][0];
       // branch manager
       return 2;
     } else if (Result['prvlged_companies'].length > 0) {
+      this.company_id = Result['prvlged_companies'][0];
+      this.branch_id = 0;
       // company admin
       return 1;
     }

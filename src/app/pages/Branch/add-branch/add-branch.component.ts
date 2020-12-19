@@ -217,7 +217,8 @@ export class AddBranchComponent implements OnInit {
           Validators.required,
         ])
       ],
-      id: []
+      id: [],
+      company_id: []
     });
   }
 
@@ -258,6 +259,7 @@ export class AddBranchComponent implements OnInit {
   addBrnach() {
     if (this.branchForm.valid) {
       this.spinner.show();
+      this.branchForm.controls['company_id'].setValue(this.userData['company_id']);
       this.masterService.addBranch(this.branchForm.value).subscribe(data => {
           setTimeout(() => {
             let ResultSet: any;

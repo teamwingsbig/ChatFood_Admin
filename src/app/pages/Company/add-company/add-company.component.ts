@@ -69,6 +69,7 @@ export class AddCompanyComponent implements OnInit {
     if (this.authService.isLoggedIn()) {
       // is admin or not
       this.userData = this.authService.getUserDetails();
+
       // if (this.userData.UserType != 0) {
       //   // navigate to loggin page
       //   this.route.navigate(["/dashboard"]);
