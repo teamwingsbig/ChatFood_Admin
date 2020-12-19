@@ -62,14 +62,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       //   fd.append(key, this.loginForm.value[key]);
       // });
       this.authService.login(this.loginForm.value).subscribe(res => {
-        if(res['Status']) {
+        if (res['Status']) {
           // success
           this.authService.setToLoggedIn();
-          this.authService.setUserDetails(res['user_id'], res['name'], res['is_superuser'], res['is_staff'], res['mobile'], res['email'], res['token']);
+          this.authService.setUserDetails(res['user_id'], res['name'], res['is_superuser'], res['is_staff'], res['mobile'], res['email'], res['token'], this.getUserType(res));
           this.router.navigate(['/dashboard']);
-        }  else {
-        //   fail
-          this.toastService.showError('Invalid username or password','Oops !');
+        } else {
+          //   fail
+          this.toastService.showError('Invalid username or password', 'Oops !');
         }
 
         // tslint:disable-next-line:no-unused-expression
@@ -81,6 +81,19 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log('Response body:', error.error);
         }
       };
+    }
+  }
+
+  getUserType(Result) {
+    if (Result['is_superuser']) {
+      // superuser
+      return 0;
+    } else if (Result['prvlged_branches'].length > 0) {
+      // branch manager
+      return 2;
+    } else if (Result['prvlged_companies'].length > 0) {
+      // company admin
+      return 1;
     }
   }
 }
