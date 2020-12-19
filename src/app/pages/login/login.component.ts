@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (Result['is_superuser']) {
       // superuser
       return 0;
-    } else if (Result['prvlged_branches'].length > 0) {
+    } else if (Result['prvlged_branches'].length > 0 && Result['prvlged_companies'].length <= 0) {
       // branch manager
       return 2;
     } else if (Result['prvlged_companies'].length > 0) {
