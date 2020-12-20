@@ -83,7 +83,7 @@ export class AddManagerComponent implements OnInit {
   }
 
   fetchBranch() {
-    this.masterService.fetchBranch().subscribe(res => {
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       this.branchData = res;
     }),
       // tslint:disable-next-line:no-unused-expression

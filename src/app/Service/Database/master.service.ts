@@ -43,6 +43,7 @@ export class MasterService {
     const url = this.ipAddress + 'company/profile/';
     return this.http.put(url, Data);
   }
+
   addCompany(Data) {
     const url = this.ipAddress + 'company/profile/';
     return this.http.post(url, Data);
@@ -50,6 +51,11 @@ export class MasterService {
 
   fetchBranch() {
     const url = this.ipAddress + 'company/branch/?page_wise=false';
+    return this.http.get(url);
+  }
+
+  fetchBranchByCompanyID(id) {
+    const url = this.ipAddress + 'company/branch/?page_wise=0&company_id=' + id;
     return this.http.get(url);
   }
 
