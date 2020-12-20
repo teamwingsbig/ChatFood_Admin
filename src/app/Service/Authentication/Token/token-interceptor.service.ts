@@ -37,7 +37,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   private isValidRequestForInterceptor(requestUrl: string): boolean  {
-    const positionIndicator = 'live/';
+    const positionIndicator = '8000/';
     const position = requestUrl.indexOf(positionIndicator);
     let URL_PREFIX;
     if (position > 0) {
