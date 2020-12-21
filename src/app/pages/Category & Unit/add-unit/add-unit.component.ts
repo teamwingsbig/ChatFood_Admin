@@ -45,8 +45,17 @@ export class AddUnitComponent implements OnInit {
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
-    this.fetchBranch();
+    this.loadBranch();
     this.loadUnitData();
+  }
+
+
+  loadBranch() {
+    if (this.userData.user_type === 1) {
+      this.fetchBranchByID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
   }
 
   loadUnitData() {
@@ -94,8 +103,26 @@ export class AddUnitComponent implements OnInit {
     }
   }
 
-  fetchBranch() {
-    this.masterService.fetchBranch().subscribe(res => {
+  fetchBranchByID() {
+    this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  fetchBranchByCompanyID() {
+    alert(this.userData.company_id);
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       this.branchData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
@@ -140,6 +167,7 @@ export class AddUnitComponent implements OnInit {
       );
     }
   }
+
   updateUnit() {
     if (this.unitForm.valid) {
       this.spinner.show();
@@ -177,11 +205,12 @@ export class AddUnitComponent implements OnInit {
       );
     }
   }
+
   onSubmit() {
     if (this.btn_title === 'Save') {
       this.addUnit();
     } else {
-          this.updateUnit();
+      this.updateUnit();
     }
   }
 

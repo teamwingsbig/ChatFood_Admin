@@ -25,6 +25,7 @@ export class AddPromocodeComponent implements OnInit {
   selectedBranch = [];
   dropdownSettings: IDropdownSettings = {};
   promocodeID;
+
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
@@ -73,7 +74,7 @@ export class AddPromocodeComponent implements OnInit {
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
-    this.fetchBranch();
+    this.loadBranch();
     this.setupDropdownSettings();
     this.loadPromocode();
   }
@@ -103,7 +104,7 @@ export class AddPromocodeComponent implements OnInit {
         ResultSet = res;
         if (ResultSet.results.length > 0) {
           setTimeout(() => {
-            ResultSet=ResultSet.results;
+            ResultSet = ResultSet.results;
             // update btn and title of the page
             this.btn_title = 'Update';
             this.title = 'Update Promo code';
@@ -124,7 +125,7 @@ export class AddPromocodeComponent implements OnInit {
         } else {
           this.btn_title = 'Save';
           this.title = 'Add Promo code';
-          this.toastService.showError('No Data Found !','Oops !');
+          this.toastService.showError('No Data Found !', 'Oops !');
           this.spinner.hide();
 
         }
@@ -226,8 +227,34 @@ export class AddPromocodeComponent implements OnInit {
     this.selectedBranch = [];
   }
 
-  fetchBranch() {
-    this.masterService.fetchBranch().subscribe(res => {
+  loadBranch() {
+    if (this.userData.user_type === 1) {
+      //   admin
+      this.fetchBranchByCompanyID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
+  }
+
+  fetchBranchByID() {
+    this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  fetchBranchByCompanyID() {
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       this.branchData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
@@ -254,7 +281,7 @@ export class AddPromocodeComponent implements OnInit {
             this.toastService.showSuccess('Promocode Successfully Added', 'Success');
             this.promoForm.reset();
           } else {
-            this.toastService.showError(ResultSet.Error.toU, 'Oops !');
+            this.toastService.showError(ResultSet.Error, 'Oops !');
           }
         }, (error: HttpErrorResponse) => {
           if (error.error instanceof Error) {
@@ -273,7 +300,6 @@ export class AddPromocodeComponent implements OnInit {
   }
 
   onSubmit() {
-    alert(this.btn_title);
     if (this.btn_title === 'Save') {
       this.addPrmocode();
     }
