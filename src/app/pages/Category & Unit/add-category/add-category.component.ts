@@ -45,10 +45,17 @@ export class AddCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.autherisationProcess();
     this.setItemFormBuilder();
-    this.fetchBranch();
+    this.loadBranch();
     this.loadCategoryData();
   }
 
+  loadBranch() {
+    if (this.userData.user_type === 1) {
+      this.fetchBranchByCompanyID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
+  }
   loadCategoryData() {
     if (this.router.snapshot.paramMap.get('id') != null
       && this.router.snapshot.paramMap.get('name') != null
@@ -100,8 +107,25 @@ export class AddCategoryComponent implements OnInit {
     }
   }
 
-  fetchBranch() {
-    this.masterService.fetchBranch().subscribe(res => {
+  fetchBranchByID() {
+    this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  fetchBranchByCompanyID() {
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       this.branchData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
