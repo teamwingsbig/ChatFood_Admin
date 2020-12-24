@@ -39,7 +39,7 @@ export class ViewOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.getAllOrders();
+    this.getOrder();
   }
   public autherisationProcess() {
     // is logged in
@@ -56,6 +56,36 @@ export class ViewOrderComponent implements OnInit {
     }
   }
 
+
+  getOrder() {
+    if (this.userData.user_type === 1) {
+      //   admin
+      this.getAllOrders();
+    } else if (this.userData.user_type === 2) {
+      this.getAllOrdersByBranch();
+    }
+  }
+
+  getAllOrdersByBranch() {
+    this.spinner.show();
+    this.orderService.fetchAllOrder(this.userData.branch_id).subscribe(res => {
+      setTimeout(() => {
+        this.orderData = res;
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
   getAllOrders() {
     this.spinner.show();
     this.orderService.fetchAllOrder().subscribe(res => {

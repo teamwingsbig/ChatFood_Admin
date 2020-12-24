@@ -134,7 +134,7 @@ export class AddMainLocationComponent implements OnInit {
               this.route.navigate(['/addMainLocation']);
 
             } else {
-              this.toastService.showError('Failed to add', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);

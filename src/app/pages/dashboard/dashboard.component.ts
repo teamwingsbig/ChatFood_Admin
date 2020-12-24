@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.autherisationProcess();
-    this.getRecentOrders();
+    this.getOrder();
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
       [0, 20, 5, 25, 10, 30, 15, 40, 40]
@@ -89,8 +89,37 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getRecentOrders() {
-    this.orderService.fetchAllOrder().subscribe(res => {
+
+
+  getOrder() {
+    if (this.userData.user_type === 1) {
+      //   admin
+      this.fetchPenidngOrder();
+    } else if (this.userData.user_type === 2) {
+      this.fetchPenidngOrderBybranch();
+    }
+  }
+
+
+  fetchPenidngOrder() {
+    this.orderService.fetchPenidngOrder().subscribe(res => {
+      this.recentOrderData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          // this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          // this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  fetchPenidngOrderBybranch() {
+    this.orderService.fetchPenidngOrder(this.userData.branch_id).subscribe(res => {
       this.recentOrderData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
@@ -135,7 +164,7 @@ export class DashboardComponent implements OnInit {
       ResultSet = res;
       if (ResultSet.Status) {
         this.toastService.showSuccess('Status Successfully changed', 'Success ');
-        this.getRecentOrders();
+        this.getOrder();
       } else {
         this.toastService.showError(ResultSet.Error, 'Oops ! ');
 

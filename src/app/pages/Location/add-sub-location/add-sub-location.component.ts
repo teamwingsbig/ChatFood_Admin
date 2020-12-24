@@ -113,7 +113,7 @@ export class AddSubLocationComponent implements OnInit {
               this.toastService.showSuccess('Successfully Added', 'Success');
               this.locationForm.reset();
             } else {
-              this.toastService.showError('Failed to add', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);
