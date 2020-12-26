@@ -15,6 +15,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class AddCompanyComponent implements OnInit {
 
   companyForm: FormGroup;
+  LogoData: File = null;
+  ImageData: File = null;
 
   validation_messages = {
     company_name: [
@@ -48,6 +50,7 @@ export class AddCompanyComponent implements OnInit {
   };
 
   userData: any = [];
+
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
@@ -56,7 +59,8 @@ export class AddCompanyComponent implements OnInit {
     public  route: Router,
     public spinner: NgxSpinnerService,
     public  router: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.autherisationProcess();
@@ -120,13 +124,13 @@ export class AddCompanyComponent implements OnInit {
         ])
       ],
       logo: [
-        '',
+        [],
         Validators.compose([
           Validators.required,
         ])
       ],
-      backgroundImage: [
-        '',
+      images: [
+        [],
         Validators.compose([
           Validators.required,
         ])
@@ -134,19 +138,42 @@ export class AddCompanyComponent implements OnInit {
     });
   }
 
+  onSelectLogo(fileInput: any) {
+    if (fileInput.target.files.length > 0) {
+      this.LogoData = <File>fileInput.target.files[0];
+    }
+  }
+
+  onSelectImage(fileInput: any) {
+    if (fileInput.target.files.length > 0) {
+      this.ImageData = <File>fileInput.target.files[0];
+    }
+  }
 
   addCompany() {
+    let formData: any = new FormData();
     if (this.companyForm.valid) {
       this.spinner.show();
-      this.masterService.addCompany(this.companyForm.value).subscribe(res => {
+      formData.append('admin_id', 1);
+      Object.keys(this.companyForm.value).forEach(key => {
+        if (key === 'logo') {
+          formData.append(key, this.LogoData);
+
+        } else if (key === 'images') {
+          formData.append(key, this.ImageData);
+
+        } else {
+          formData.append(key, this.companyForm.value[key]);
+        }
+      });
+      this.masterService.addCompany(formData).subscribe(res => {
         setTimeout(() => {
           let ResultSet: any;
           ResultSet = res;
-          console.log(this.companyForm.value);
           console.log((res));
-          console.log((ResultSet.Status));
           if (ResultSet.Status) {
             this.toastService.showSuccess('Company Added Successfully', 'Success');
+            this.companyForm.reset();
           } else {
             this.toastService.showError(ResultSet.Error, 'Oops !');
           }

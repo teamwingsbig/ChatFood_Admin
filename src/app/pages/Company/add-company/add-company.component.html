@@ -36,7 +36,7 @@
                     </div>
                     <input type="text" required formControlName="company_name"
                            class="form-control form-control-alternative" placeholder="Type Company Name">
-                    <div *ngFor="let validation of validation_messages.name">
+                    <div *ngFor="let validation of validation_messages.company_name">
                       <div class="error-message" *ngIf="companyForm.get('company_name').hasError(validation.type) &&
                         (companyForm.get('company_name').dirty || companyForm.get('company_name').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
@@ -123,7 +123,7 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Logo</label>
-                    <input type="file" formControlName="logo"
+                    <input type="file" (change)="onSelectLogo($event)" formControlName="logo"
                            class="form-control form-control-alternative" >
                     <div *ngFor="let validation of validation_messages.logo">
                       <div class="error-message" *ngIf="companyForm.get('logo').hasError(validation.type) &&
@@ -136,11 +136,11 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Background Image</label>
-                    <input id="input-address" formControlName="backgroundImage"
+                    <input  (change)="onSelectImage($event)" formControlName="images"
                            class="form-control form-control-alternative"  type="file">
                     <div *ngFor="let validation of validation_messages.backgroundImage">
-                      <div class="error-message" *ngIf="companyForm.get('backgroundImage').hasError(validation.type) &&
-                        (companyForm.get('backgroundImage').dirty || companyForm.get('backgroundImage').touched)">
+                      <div class="error-message" *ngIf="companyForm.get('images').hasError(validation.type) &&
+                        (companyForm.get('images').dirty || companyForm.get('images').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>
