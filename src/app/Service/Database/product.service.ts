@@ -26,6 +26,7 @@ export class ProductService {
     const url = this.ipAddress + 'items/details/';
     return this.http.post(url, Data);
   }
+
   updateProduct(Data) {
     const url = this.ipAddress + 'items/details/';
     return this.http.put(url, Data);
@@ -61,9 +62,15 @@ export class ProductService {
     return this.http.get(url);
   }
 
-  fetchAddonsCategory() {
-    const url = this.ipAddress + 'items/addoncategory/?page_wise=0';
-    return this.http.get(url);
+  fetchAddonsCategory(branch_id = null) {
+    if (branch_id == null) {
+      const url = this.ipAddress + 'items/addoncategory/?page_wise=0';
+      return this.http.get(url);
+    } else {
+      const url = this.ipAddress + 'items/addoncategory/?page_wise=0&branch_id=' + branch_id;
+      return this.http.get(url);
+    }
+
   }
 
   fetchItemByVarient(id, branch_id) {
@@ -81,9 +88,15 @@ export class ProductService {
     return this.http.get(url);
   }
 
-  fetchAddons() {
-    const url = this.ipAddress + 'items/addons/?page_wise=0';
-    return this.http.get(url);
+  fetchAddons(branch_id = null) {
+    if (branch_id == null) {
+      const url = this.ipAddress + 'items/addons/?page_wise=0';
+      return this.http.get(url);
+    } else {
+      const url = this.ipAddress + 'items/addons/?page_wise=0&branch_id=' + branch_id;
+      return this.http.get(url);
+    }
+
   }
 
   fetchAddonsByID(id) {

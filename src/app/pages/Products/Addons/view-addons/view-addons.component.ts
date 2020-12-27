@@ -31,9 +31,15 @@ export class ViewAddonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.fetchAddons();
+    this.loadAddons();
   }
-
+  loadAddons() {
+    if (this.userData.user_type === 1) {
+      this.fetchAddons();
+    } else if (this.userData.user_type === 2) {
+      this.fetchAddonsByBranch();
+    }
+  }
   public autherisationProcess() {
     // is logged in
     if (this.authService.isLoggedIn()) {
@@ -52,6 +58,27 @@ export class ViewAddonsComponent implements OnInit {
   fetchAddons() {
     this.spinner.show();
     this.productService.fetchAddons().subscribe(data => {
+        setTimeout(() => {
+          this.addonsData = data;
+          this.spinner.hide();
+        }, 2000);
+      },
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          console.log('Backend returned status code: ', error.status);
+          console.log('Response body:', error.error);
+        }
+      }
+    );
+  }
+
+  fetchAddonsByBranch() {
+    this.spinner.show();
+    this.productService.fetchAddons(this.userData.branch_id).subscribe(data => {
         setTimeout(() => {
           this.addonsData = data;
           this.spinner.hide();

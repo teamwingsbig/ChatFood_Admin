@@ -144,7 +144,6 @@ export class MasterService {
       const url = this.ipAddress + 'items/units/?page_wise=0&branch_id=' + branch_id;
       return this.http.get(url);
     }
-
   }
 
   fetchSubLocationByMainLocation(parent_location_id) {

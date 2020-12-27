@@ -30,7 +30,14 @@ export class ViewAddonsCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.fetchAddonsCategory();
+    this.loadAddons();
+  }
+  loadAddons() {
+    if (this.userData.user_type === 1) {
+      this.fetchAddonsCategory();
+    } else if (this.userData.user_type === 2) {
+      this.fetchAddonsCategoryByBranchID();
+    }
   }
   public autherisationProcess() {
     // is logged in
@@ -55,6 +62,27 @@ export class ViewAddonsCategoryComponent implements OnInit {
         }, 2000);
       },
       (error : HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          console.log('Backend returned status code: ', error.status);
+          console.log('Response body:', error.error);
+        }
+      }
+    );
+  }
+
+  fetchAddonsCategoryByBranchID() {
+    this.spinner.show();
+    this.productService.fetchAddonsCategory(this.userData.branch_id).subscribe(data => {
+        setTimeout(() => {
+          this.categoryData = data;
+          this.spinner.hide();
+        }, 2000);
+      },
+      (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
           console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
