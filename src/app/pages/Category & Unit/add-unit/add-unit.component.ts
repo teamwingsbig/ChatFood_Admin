@@ -186,7 +186,7 @@ export class AddUnitComponent implements OnInit {
               this.route.navigate(['/addUnit']);
 
             } else {
-              this.toastService.showError('Failed to add', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);

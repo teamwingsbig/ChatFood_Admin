@@ -117,9 +117,17 @@ export class AddProductComponent implements OnInit {
     this.autherisationProcess();
     this.setVarirntForm();
     this.setFormBuilder();
-    this.fetchBranch();
+    this.loadBranch();
     this.fetchUnit();
     this.loadProductandVarients();
+  }
+
+  loadBranch() {
+    if (this.userData.user_type === 1) {
+      this.fetchBranchbyCompanyID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
   }
 
   public autherisationProcess() {
@@ -313,8 +321,25 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  fetchBranch() {
-    this.masterService.fetchBranch().subscribe(res => {
+  fetchBranchByID() {
+    this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  fetchBranchbyCompanyID() {
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       this.branchData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
