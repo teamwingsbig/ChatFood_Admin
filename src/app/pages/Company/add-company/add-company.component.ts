@@ -10,7 +10,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 @Component({
   selector: 'app-add-company',
   templateUrl: './add-company.component.html',
-  styleUrls: ['./add-company.component.css']
+  styleUrls: ['./add-company.component.css', '../../../../assets/CSS/toastr.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddCompanyComponent implements OnInit {
 

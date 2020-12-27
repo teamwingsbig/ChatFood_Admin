@@ -19,7 +19,7 @@ export class AddAddonsCategoryComponent implements OnInit {
   categoryForm: FormGroup;
   title = 'Add-ons Category';
   btn_title = 'Save';
-  brnachData: any = [];
+  branchData: any = [];
   public userData: any = [];
   public categoryID;
   validation_messages = {
@@ -48,7 +48,7 @@ export class AddAddonsCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
-    this.fetchBranch();
+    this.loadBranch();
     this.loadCategoryData();
   }
 
@@ -80,10 +80,18 @@ export class AddAddonsCategoryComponent implements OnInit {
     }
   }
 
-  fetchBranch() {
-    this.masterService.fetchMainLocation().subscribe(data => {
-        this.brnachData = data;
-      },
+  loadBranch() {
+    if (this.userData.user_type === 1) {
+      this.fetchBranchByCompanyID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
+  }
+  fetchBranchByID() {
+    this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
           // console.log('An error occurred:', error.error.message);
@@ -93,8 +101,24 @@ export class AddAddonsCategoryComponent implements OnInit {
           // console.log('Backend returned status code: ', error.status);
           // console.log('Response body:', error.error);
         }
-      }
-    );
+      };
+  }
+
+  fetchBranchByCompanyID() {
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
   }
 
   setFormBuilder() {

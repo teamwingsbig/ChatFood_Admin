@@ -52,7 +52,7 @@ export class AddUnitComponent implements OnInit {
 
   loadBranch() {
     if (this.userData.user_type === 1) {
-      this.fetchBranchByID();
+      this.fetchBranchByCompanyID();
     } else if (this.userData.user_type === 2) {
       this.fetchBranchByID();
     }
@@ -121,7 +121,6 @@ export class AddUnitComponent implements OnInit {
   }
 
   fetchBranchByCompanyID() {
-    alert(this.userData.company_id);
     this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       this.branchData = res;
     }),
@@ -149,7 +148,7 @@ export class AddUnitComponent implements OnInit {
               this.toastService.showSuccess('Successfully Added', 'Success');
               this.unitForm.reset();
             } else {
-              this.toastService.showError('Failed to add category', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);

@@ -64,6 +64,10 @@ export class MasterService {
     return this.http.get(url);
   }
 
+  fetchCompanyDetails() {
+    const url = this.ipAddress + 'company/additional/mycompanies';
+    return this.http.get(url);
+  }
 
   addMainLocation(Data) {
     const url = this.ipAddress + 'locations/mainlocations/';
