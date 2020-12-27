@@ -14,10 +14,10 @@ export const ROUTES: RouteInfo[] = [
   {path: '/dashboard', title: 'Dashboard', icon: 'ni-tv-2 text-primary', class: '', access: [0, 0, 0]},
   {path: '/addBranch', title: 'Add Branch', icon: 'ni-planet text-blue', class: '', access: [1, 1, 1]},
   {path: '/addManager', title: 'Add Manager', icon: 'ni-pin-3 text-orange', class: '', access: [1, 1, 1]},
-  {path: '/addMainLocation', title: 'Add Main Location', icon: 'ni-single-02 text-yellow', class: '', access: [1, 1, 2]},
-  {path: '/addSubLocation', title: 'Add Sub Location', icon: 'ni-bullet-list-67 text-red', class: '', access: [1, 1, 2]},
-  {path: '/viewSubLocation', title: 'View Sub Location', icon: 'ni-key-25 text-info', class: '', access: [1, 1, 2]},
-  {path: '/viewMainLocation', title: 'View Main Location', icon: 'ni-circle-08 text-pink', class: '', access: [1, 1, 2]},
+  {path: '/addMainLocation', title: 'Add Main Location', icon: 'ni-single-02 text-yellow', class: '', access: [0, 0, 0]},
+  {path: '/addSubLocation', title: 'Add Sub Location', icon: 'ni-bullet-list-67 text-red', class: '', access: [0, 0, 0]},
+  {path: '/viewSubLocation', title: 'View Sub Location', icon: 'ni-key-25 text-info', class: '', access: [0, 0, 0]},
+  {path: '/viewMainLocation', title: 'View Main Location', icon: 'ni-circle-08 text-pink', class: '', access: [0, 0, 0]},
   {path: '/addCategory', title: 'Add Category', icon: 'ni-planet text-blue', class: '', access: [1, 1, 2]},
   {path: '/viewCategory', title: 'View Category', icon: 'ni-pin-3 text-orange', class: '', access: [1, 1, 2]},
   {path: '/addUnit', title: 'Add Unit', icon: 'ni-single-02 text-yellow', class: '', access: [1, 1, 2]},
@@ -70,8 +70,8 @@ export class SidebarComponent implements OnInit {
 
   getAccessright(menu) {
     if (menu['access'][0] === this.userData.user_type ||
-        menu['access'][1] === this.userData.user_type ||
-        menu['access'][2] === this.userData.user_type) {
+      menu['access'][1] === this.userData.user_type ||
+      menu['access'][2] === this.userData.user_type) {
       return true;
     } else {
       return false;

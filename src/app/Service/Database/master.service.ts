@@ -114,9 +114,15 @@ export class MasterService {
     return this.http.get(url);
   }
 
-  fetchCategory() {
-    const url = this.ipAddress + 'items/category/?page_wise=0';
-    return this.http.get(url);
+  fetchCategory(branch_id = null) {
+    if (branch_id == null) {
+      const url = this.ipAddress + 'items/category/?page_wise=0';
+      return this.http.get(url);
+    } else {
+      const url = this.ipAddress + 'items/category/?page_wise=0&branch_id=' + branch_id;
+      return this.http.get(url);
+    }
+
   }
 
   fetchCategoryByBranch(branch_id) {
@@ -129,9 +135,16 @@ export class MasterService {
     return this.http.get(url);
   }
 
-  fetchUnits() {
-    const url = this.ipAddress + 'items/units/?page_wise=0';
-    return this.http.get(url);
+  fetchUnits(branch_id = null) {
+    if (branch_id == null) {
+      const url = this.ipAddress + 'items/units/?page_wise=0';
+      return this.http.get(url);
+    } else {
+
+      const url = this.ipAddress + 'items/units/?page_wise=0&branch_id=' + branch_id;
+      return this.http.get(url);
+    }
+
   }
 
   fetchSubLocationByMainLocation(parent_location_id) {

@@ -29,7 +29,8 @@ export class ViewCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchcategoty();
+    this.autherisationProcess();
+    this.loadCategory();
   }
 
   public autherisationProcess() {
@@ -47,10 +48,39 @@ export class ViewCategoryComponent implements OnInit {
     }
   }
 
+
+  loadCategory() {
+    if (this.userData.user_type === 1) {
+      this.fetchcategoty();
+    } else if (this.userData.user_type === 2) {
+      this.fetchcategotyByBranch()  ;
+    }
+  }
+  fetchcategotyByBranch() {
+    this.spinner.show();
+    this.maserservice.fetchCategory(this.userData.branch_id).subscribe(res => {
+      setTimeout(() => {
+        this.categotyData = res;
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
   fetchcategoty() {
     this.spinner.show();
     this.maserservice.fetchCategory().subscribe(res => {
       setTimeout(() => {
+        console.log(res);
         this.categotyData = res;
         this.spinner.hide();
       }, 2000);
