@@ -50,6 +50,8 @@ import { EditAddonsComponent } from './pages/Products/Addons/edit-addons/edit-ad
 import { CompanyProfileComponent } from './pages/Company/company-profile/company-profile.component';
 import { ListCustomersComponent } from './pages/Customers/list-customers/list-customers.component';
 import { AddCompanyComponent } from './pages/Company/add-company/add-company.component';
+import { ViewManagerComponent } from './pages/Manager/view-manager/view-manager.component';
+import { ViewCompanyComponent } from './pages/Company/view-company/view-company.component';
 
 
 // @ts-ignore
@@ -104,7 +106,9 @@ import { AddCompanyComponent } from './pages/Company/add-company/add-company.com
     EditAddonsComponent,
     CompanyProfileComponent,
     ListCustomersComponent,
-    AddCompanyComponent
+    AddCompanyComponent,
+    ViewManagerComponent,
+    ViewCompanyComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
   bootstrap: [AppComponent]
