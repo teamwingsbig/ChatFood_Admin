@@ -395,7 +395,6 @@ export class AddProductComponent implements OnInit {
 
 //   add varients to table
   addVarients(varientData) {
-    console.log(varientData);
     if (this.varientForm.valid) {
       const data = {
         'unit_id': varientData.unit_id.split(',')[0],
@@ -447,6 +446,7 @@ export class AddProductComponent implements OnInit {
           setTimeout(() => {
             let ResultSet: any;
             ResultSet = res;
+            console.log(res);
             if (ResultSet.Status) {
               this.toastService.showSuccess('Product Successfully Added', 'Success');
               // reset form

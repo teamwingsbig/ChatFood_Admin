@@ -96,19 +96,59 @@
         <!--                  {{menuItem.title}}-->
         <!--              </a>-->
         <!--          </li>-->
-        <div *ngFor="let menuItem of menuItems" >
-          <li *ngIf="getAccessright(menuItem)" class="{{menuItem.class}} nav-item">
-            <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
-              <i class="ni {{menuItem.icon}}"></i>
-              {{menuItem.title}}
-            </a>
-          </li>
+<!--        dashboard-->
+                <div>
+                  <li class="nav-item">
+                    <a routerLinkActive="active" [routerLink]="['/dashboard']" class="nav-link" data-toggle="collapse"
+                       aria-expanded="true">
+                      <i class="ni ni-tv-2 text-primary"></i>
+                      <span class="nav-link-text">
+                      Dashboard
+                      </span>
+                    </a>
+                  </li>
+                </div>
+<!--        end dashboard-->
+
+
+        <div *ngFor="let menuItem of menuItems">
+          <!--          menu heading-->
+          <h6 class="navbar-heading text-muted ml-2  " *ngIf="getLabelAccessright(menuItem)">{{menuItem.label}}</h6>
+          <!--          menu main heading-->
+          <div *ngFor="let mainmenu of menuItem.main">
+            <li *ngIf="getAccessright(mainmenu)" class="{{mainmenu.class}} nav-item" style="cursor: pointer">
+              <a routerLinkActive="active" class="nav-link" data-toggle="collapse"
+                 (click)="mainmenu.visible=!mainmenu.visible"
+                 [attr.aria-expanded]="mainmenu.visible">
+                <i class="ni {{mainmenu.icon}} text-primary"></i>
+                <span class="nav-link-text">
+              {{mainmenu.title}}
+              </span>
+              </a>
+              <!--               sub heading-->
+              <div *ngIf="mainmenu.visible">
+                <div *ngFor="let submenu of mainmenu.sub" class="collapse" id="" aria-expanded="false"
+                     aria-hidden="true"
+                     style="display: block; overflow: hidden;">
+                  <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link" routerlinkactive="active"
+                         [routerLink]="submenu.path"> {{submenu.title}} </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!--               end sub heading-->
+
+            </li>
+          </div>
+          <!--           end main heading-->
         </div>
       </ul>
-      <!-- Divider -->
-      <!--      <hr class="my-3">-->
-      <!-- Heading -->
-      <!--      <h6 class="navbar-heading text-muted">Documentation</h6>-->
+      <!--       Divider-->
+      <!--            <hr class="my-3">-->
+      <!--       Heading-->
+      <!--            <h6 class="navbar-heading text-muted">Documentation</h6>-->
       <!-- Navigation -->
       <!--      <ul class="navbar-nav mb-md-3">-->
       <!--        <li class="nav-item">-->
