@@ -17,7 +17,7 @@ export const ROUTES: RouteInfo[] = [
     label: 'General',
     main: [
       {
-        title: 'Locations', icon: 'ni-tv-2 text-primary', class: '', access: [0, 0, 0],
+        title: 'Locations', icon: 'ni-pin-3 text-danger', class: '', access: [0, 0, 0],
         visible: false,
         sub: [
           {
@@ -35,16 +35,16 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Orders', icon: 'ni-tv-2 text-primary', class: '', access: [0, 1, 0],
+        title: 'Orders', icon: 'ni-bag-17 text-primary', class: '', access: [0, 1, 0],
         visible: false,
         sub: [
           {
-            path: '/viewOrder', title: 'Orders', icon: 'ni-tv-2 text-primary', class: '', access: [0, 1, 0]
+            path: '/viewOrder', title: 'Orders', icon: 'ni-bag-17 text-primary', class: '', access: [0, 1, 0]
           }
         ]
       },
       {
-        title: 'Company', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1],
+        title: 'Company', icon: 'ni-building text-danger', class: '', access: [1, 1, 1],
         visible: false,
         sub: [
           {
@@ -53,7 +53,7 @@ export const ROUTES: RouteInfo[] = [
         ]
       }
       , {
-        title: 'Customers', icon: 'ni-tv-2 text-primary', class: '', access: [0, 0, 0],
+        title: 'Customers', icon: 'fa fa-user text-yellow', class: '', access: [0, 0, 0],
         visible: false,
         sub: [
           {
@@ -67,7 +67,7 @@ export const ROUTES: RouteInfo[] = [
     label: 'Configuration',
     main: [
       {
-        title: 'Branch', icon: 'ni-tv-2 text-primary', class: '', access: [0, 1, 0],
+        title: 'Branch', icon: 'fas fa-code-branch text-primary', class: '', access: [0, 1, 0],
         visible: false,
         sub: [
           {
@@ -79,7 +79,7 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Managers', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1],
+        title: 'Managers', icon: 'ni-hat-3 text-danger', class: '', access: [1, 1, 1],
         sub: [
           {
             path: '/addManager', title: 'Add Manager', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1]
@@ -92,7 +92,7 @@ export const ROUTES: RouteInfo[] = [
     label: 'Products Configuration',
     main: [
       {
-        title: 'Units', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 2],
+        title: 'Units', icon: 'fa fa-balance-scale text-primary', class: '', access: [2, 1, 2],
         visible: false,
         sub: [
           {
@@ -104,7 +104,7 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Categories', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1],
+        title: 'Categories', icon: 'fa fa-list-alt text-danger', class: '', access: [2, 1, 1],
         sub: [
           {
             path: '/addCategory', title: 'Add Category', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1]
@@ -115,7 +115,7 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Products', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1],
+        title: 'Products', icon: 'ni-box-2 text-yellow', class: '', access: [2, 1, 1],
         sub: [
           {
             path: '/addProducts', title: 'Add Product', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1]
@@ -126,7 +126,7 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Add-Ons', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1],
+        title: 'Add-Ons', icon: 'fa fa-plug text-orange', class: '', access: [2, 1, 1],
         sub: [
           {
             path: '/addAddonsCategory', title: 'Add Add-Ons Category', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1]
@@ -148,7 +148,7 @@ export const ROUTES: RouteInfo[] = [
     label: 'Marketing',
     main: [
       {
-        title: 'Promo code', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 2],
+        title: 'Promo code', icon: ' fa fa-tag text-primary', class: '', access: [2, 1, 2],
         visible: false,
         sub: [
           {
