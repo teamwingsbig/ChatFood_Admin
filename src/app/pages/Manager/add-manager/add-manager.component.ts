@@ -163,7 +163,6 @@ export class AddManagerComponent implements OnInit {
           setTimeout(() => {
             let ResultSet: any;
             ResultSet = res;
-            console.log(res);
             if (ResultSet.Status) {
               this.toastService.showSuccess('Successfully Added', 'Success');
               this.managerForm.reset();
