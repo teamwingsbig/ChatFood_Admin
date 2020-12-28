@@ -79,10 +79,10 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Managers', icon: 'ni-tv-2 text-primary', class: '', access: [0, 1, 0],
+        title: 'Managers', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1],
         sub: [
           {
-            path: '/addManager', title: 'Add Manager', icon: 'ni-tv-2 text-primary', class: '', access: [0, 1, 0]
+            path: '/addManager', title: 'Add Manager', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1]
           }
         ]
       }

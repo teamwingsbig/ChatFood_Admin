@@ -155,18 +155,20 @@ export class AddManagerComponent implements OnInit {
     if (this.managerForm.valid) {
       this.spinner.show();
       const fd = new FormData();
+      fd.append('keyword', 'add_manager');
       Object.keys(this.managerForm.value).forEach(key => {
         fd.append(key, this.managerForm.value[key]);
       });
-      this.masterService.addManager(this.managerForm.value).subscribe(res => {
+      this.masterService.addManager(fd).subscribe(res => {
           setTimeout(() => {
             let ResultSet: any;
             ResultSet = res;
+            console.log(res);
             if (ResultSet.Status) {
               this.toastService.showSuccess('Successfully Added', 'Success');
               this.managerForm.reset();
             } else {
-              this.toastService.showError('Failed to add category', 'Oops !');
+              this.toastService.showError(ResultSet.Error, 'Oops !');
             }
             this.spinner.hide();
           }, 2000);
