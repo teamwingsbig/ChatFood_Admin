@@ -118,7 +118,7 @@ export const ROUTES: RouteInfo[] = [
         title: 'Products', icon: 'ni-box-2 text-yellow', class: '', access: [2, 1, 1],
         sub: [
           {
-            path: '/addProducts', title: 'Add Product', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1]
+            path: '/addProduct', title: 'Add Product', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1]
           },
           {
             path: '/listProducts', title: 'List Products', icon: 'ni-tv-2 text-primary', class: '', access: [2, 1, 1]

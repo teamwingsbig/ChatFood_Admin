@@ -89,7 +89,7 @@
                         <div class="form-group ">
                           <label class="form-control-label" for="input-email">Branch</label>
                           <select formControlName="branch_id" required
-                                  (change)="fetchCategoryByBranch($event.target.value)"
+                                  (change)="fetchCategoryByBranch($event.target.value);fetchUnit($event.target.value)"
                                   class="form-control form-control-alternative">
                             <option *ngFor="let item of branchData" [value]="item.id">{{item.name}}</option>
                           </select>

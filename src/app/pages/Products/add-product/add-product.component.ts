@@ -118,7 +118,7 @@ export class AddProductComponent implements OnInit {
     this.setVarirntForm();
     this.setFormBuilder();
     this.loadBranch();
-    this.fetchUnit();
+    // this.fetchUnit();
     this.loadProductandVarients();
   }
 
@@ -372,8 +372,9 @@ export class AddProductComponent implements OnInit {
       };
   }
 
-  fetchUnit() {
-    this.masterService.fetchUnits().subscribe(res => {
+  fetchUnit(branch_id) {
+    this.unitData = [];
+    this.masterService.fetchUnits(branch_id).subscribe(res => {
       this.unitData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
@@ -597,7 +598,8 @@ export class AddProductComponent implements OnInit {
     this.varientForm.controls['id'].setValue(varients.id);
 
   }
-  deleteVareint(varient_id){
+
+  deleteVareint(varient_id) {
     alert('will add soon');
   }
 

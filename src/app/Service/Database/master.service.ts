@@ -140,8 +140,7 @@ export class MasterService {
       const url = this.ipAddress + 'items/units/?page_wise=0';
       return this.http.get(url);
     } else {
-
-      const url = this.ipAddress + 'items/units/?page_wise=0&branch_id=' + branch_id;
+      const url = this.ipAddress + `items/units/?branch_id=${branch_id}&page_wise=0`;
       return this.http.get(url);
     }
   }
