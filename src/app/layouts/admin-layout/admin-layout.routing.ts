@@ -29,6 +29,8 @@ import {EditAddonsComponent} from '../../pages/Products/Addons/edit-addons/edit-
 import {CompanyProfileComponent} from '../../pages/Company/company-profile/company-profile.component';
 import {ListCustomersComponent} from '../../pages/Customers/list-customers/list-customers.component';
 import {AddCompanyComponent} from '../../pages/Company/add-company/add-company.component';
+import {ViewManagerComponent} from '../../pages/Manager/view-manager/view-manager.component';
+import {ViewCompanyComponent} from '../../pages/Company/view-company/view-company.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -60,6 +62,8 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'Company-Profile', component: CompanyProfileComponent},
   {path: 'list-customers', component: ListCustomersComponent},
   {path: 'addCompany', component: AddCompanyComponent},
+  {path: 'viewManager', component: ViewManagerComponent},
+  {path: 'viewCompany', component: ViewCompanyComponent}
 
 
 ];
