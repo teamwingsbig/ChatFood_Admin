@@ -159,6 +159,10 @@ export class MasterService {
     }
   }
 
+  fetchAdminDashbord() {
+    const url = this.ipAddress + 'dashboard/';
+    return this.http.get(url);
+  }
   fetchSubLocationByMainLocation(parent_location_id) {
     const url = this.ipAddress + 'locations/sublocations/?page_wise=0&parent_location_id=' + parent_location_id;
     return this.http.get(url);

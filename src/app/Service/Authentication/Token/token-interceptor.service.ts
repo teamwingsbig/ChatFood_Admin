@@ -15,6 +15,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   ) {
     if (localStorage.hasOwnProperty('UserData')) {
       this.Token = JSON.parse(localStorage.getItem('UserData')).token;
+
     } else {
       this.router.navigate(['/login']);
       // Default token
@@ -37,7 +38,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   private isValidRequestForInterceptor(requestUrl: string): boolean  {
-    const positionIndicator = '8000/';
+    const positionIndicator = 'live/';
     const position = requestUrl.indexOf(positionIndicator);
     let URL_PREFIX;
     if (position > 0) {
