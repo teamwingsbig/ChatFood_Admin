@@ -62,6 +62,7 @@ export class ProductService {
     return this.http.get(url);
   }
 
+
   fetchAddonsCategory(branch_id = null) {
     if (branch_id == null) {
       const url = this.ipAddress + 'items/addoncategory/?page_wise=0';

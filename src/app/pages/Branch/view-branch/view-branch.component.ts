@@ -18,7 +18,8 @@ export class ViewBranchComponent implements OnInit {
   modalRef: BsModalRef;
   brnachData: any = [];
   public userData: any = [];
-
+  public orderStatus;
+  StatusmodalRef: BsModalRef;
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,
@@ -51,6 +52,9 @@ export class ViewBranchComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
 
   fetchBranch() {
     this.spinner.show();
@@ -72,8 +76,35 @@ export class ViewBranchComponent implements OnInit {
         }
       };
   }
+  deleteBranch(branchId) {
+    this.spinner.show();
+    this.maserservice.deleteBranch(branchId).subscribe(res => {
+      setTimeout(() => {
+       console.log(res);
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template,);
+    this.modalRef = this.modalService.show(template, );
+  }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  confirm(branchId): void {
+    this.deleteBranch(branchId);
+    this.StatusmodalRef.hide();
   }
 }

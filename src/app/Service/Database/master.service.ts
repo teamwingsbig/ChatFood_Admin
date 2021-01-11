@@ -23,6 +23,12 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/';
     return this.http.put(url, Data);
   }
+  deleteBranch(branchId) {
+    const url = this.ipAddress + 'company/branch/?id=' + branchId;
+    console.log(url);
+    return this.http.delete(url);
+  }
+
 
   fetchCustomers() {
     const url = this.ipAddress + 'user/profile/?keyword=all_profile&is_deliveryboy=0&page_wise=0';
@@ -93,6 +99,10 @@ export class MasterService {
     const url = this.ipAddress + 'items/units/';
     return this.http.put(url, Data);
   }
+  deleteUnit(unitId) {
+    const url = this.ipAddress + 'items/units/?id=' + unitId;
+    return this.http.delete(url);
+  }
 
   addManager(Data) {
     const url = this.ipAddress + 'user/profile/';
@@ -107,6 +117,10 @@ export class MasterService {
   updateCategory(Data) {
     const url = this.ipAddress + 'items/category/';
     return this.http.put(url, Data);
+  }
+  deleteCategory(categoryId) {
+    const url = this.ipAddress + 'items/category/?id=' + categoryId;
+    return this.http.delete(url);
   }
 
   fetchMainLocation() {
