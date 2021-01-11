@@ -44,11 +44,17 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Company', icon: 'ni-building text-danger', class: '', access: [1, 1, 1],
+        title: 'Company', icon: 'ni-building text-danger', class: '', access: [0, 1, 1],
         visible: false,
         sub: [
           {
             path: '/Company-Profile', title: 'Company profile', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1]
+          },
+          {
+            path: '/addCompany', title: 'Add Company', icon: 'ni-tv-2 text-primary', class: '', access: [0, 0, 0]
+          },
+          {
+            path: '/viewCompany', title: 'View Company', icon: 'ni-tv-2 text-primary', class: '', access: [0, 0, 0]
           }
         ]
       }

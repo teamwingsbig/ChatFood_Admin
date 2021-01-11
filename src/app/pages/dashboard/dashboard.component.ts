@@ -14,6 +14,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {OrderService} from '../../Service/Database/order.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {ToastService} from '../../Service/Alert/toast.service';
+import {MasterService} from '../../Service/Database/master.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
   p;
   public datasets: any;
   public recentOrderData: any = [];
+  public admindashboardData: any = [];
   public data: any;
   public salesChart;
   public clicked: boolean = true;
@@ -39,6 +41,7 @@ export class DashboardComponent implements OnInit {
     public authService: AuthService,
     public route: Router,
     public orderService: OrderService,
+    public masterService: MasterService,
     public toastService: ToastService,
     private modalService: BsModalService,
   ) {
@@ -47,6 +50,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.autherisationProcess();
     this.getOrder();
+    this.loadAdminDashboard();
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
       [0, 20, 5, 25, 10, 30, 15, 40, 40]
@@ -100,6 +104,24 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+
+
+  loadAdminDashboard() {
+    this.masterService.fetchAdminDashbord().subscribe(res => {
+      this.admindashboardData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          // this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          // this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
 
   fetchPenidngOrder() {
     this.orderService.fetchPenidngOrder().subscribe(res => {
@@ -160,7 +182,6 @@ export class DashboardComponent implements OnInit {
     });
     this.orderService.changeOrderStatus(formData).subscribe(res => {
       let ResultSet: any;
-      console.log(res);
       ResultSet = res;
       if (ResultSet.Status) {
         this.toastService.showSuccess('Status Successfully changed', 'Success ');

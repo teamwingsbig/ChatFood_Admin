@@ -64,7 +64,7 @@ export class NavbarComponent implements OnInit {
           // has attached company
           const slug = Resulset.companies[0].slug_name;
           this.router.navigate([]).then(result => {
-            window.open(`https://www.eshopy.live/${slug}`, '_blank');
+            window.open(`https://order.eshopy.live/${slug}`, '_blank');
           });
 
         } else {
