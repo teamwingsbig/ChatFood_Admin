@@ -3,6 +3,7 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {jsGlobalObjectValue} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/known_declaration';
 import {ip} from '../../../assets/data/ip.json';
+import {formatDate} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/';
     return this.http.put(url, Data);
   }
+
   deleteBranch(branchId) {
     const url = this.ipAddress + 'company/branch/?id=' + branchId;
     console.log(url);
@@ -99,6 +101,7 @@ export class MasterService {
     const url = this.ipAddress + 'items/units/';
     return this.http.put(url, Data);
   }
+
   deleteUnit(unitId) {
     const url = this.ipAddress + 'items/units/?id=' + unitId;
     return this.http.delete(url);
@@ -118,6 +121,7 @@ export class MasterService {
     const url = this.ipAddress + 'items/category/';
     return this.http.put(url, Data);
   }
+
   deleteCategory(categoryId) {
     const url = this.ipAddress + 'items/category/?id=' + categoryId;
     return this.http.delete(url);
@@ -160,9 +164,11 @@ export class MasterService {
   }
 
   fetchAdminDashbord() {
-    const url = this.ipAddress + 'dashboard/';
+    const date = formatDate(Date.now(), 'y-MM-dd H:M:S', 'en-US');
+    const url = this.ipAddress + `dashboard/?from_date=${date}&to_date=${date}`;
     return this.http.get(url);
   }
+
   fetchSubLocationByMainLocation(parent_location_id) {
     const url = this.ipAddress + 'locations/sublocations/?page_wise=0&parent_location_id=' + parent_location_id;
     return this.http.get(url);

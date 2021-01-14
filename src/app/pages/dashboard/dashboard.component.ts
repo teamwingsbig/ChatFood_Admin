@@ -94,7 +94,6 @@ export class DashboardComponent implements OnInit {
   }
 
 
-
   getOrder() {
     if (this.userData.user_type === 1) {
       //   admin
@@ -103,7 +102,6 @@ export class DashboardComponent implements OnInit {
       this.fetchPenidngOrderBybranch();
     }
   }
-
 
 
   loadAdminDashboard() {
