@@ -152,7 +152,7 @@ export class AddCompanyComponent implements OnInit {
   }
 
   addCompany() {
-    let formData: any = new FormData();
+    const formData: any = new FormData();
     if (this.companyForm.valid) {
       this.spinner.show();
       formData.append('admin_id', 1);
@@ -173,6 +173,7 @@ export class AddCompanyComponent implements OnInit {
           ResultSet = res;
           console.log((res));
           if (ResultSet.Status) {
+            this.addUser();
             this.toastService.showSuccess('Company Added Successfully', 'Success');
             this.companyForm.reset();
           } else {
@@ -193,6 +194,14 @@ export class AddCompanyComponent implements OnInit {
       };
     }
   }
+  addUser() {
+    const formData = new FormData();
+   formData.append('username', this.companyForm.controls['company_name'].value);
+    formData.append('password', this.companyForm.controls['mobile'].value);
+    formData.append('mobile', this.companyForm.controls['mobile'].value);
+    console.log(formData);
+  }
+
 
   public findInvalidControls() {
     const invalid = [];

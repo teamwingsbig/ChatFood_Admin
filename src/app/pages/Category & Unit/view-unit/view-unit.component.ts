@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthService} from '../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-view-unit',
@@ -13,13 +14,15 @@ import {Router} from '@angular/router';
 })
 export class ViewUnitComponent implements OnInit {
 
-  unitData : any = [];
-
+  unitData: any = [];
+  modalRef: BsModalRef;
   p = 1;
-  public userData : any = [];
+  public userData: any = [];
   public filter;
+  StatusmodalRef: BsModalRef;
   constructor(
     public  maserservice: MasterService,
+    private modalService: BsModalService,
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
     public  authService: AuthService,
@@ -92,5 +95,39 @@ export class ViewUnitComponent implements OnInit {
           // console.log('Response body:', error.error);
         }
       };
+  }
+  deleteUnit(unitId) {
+    this.spinner.show();
+    this.maserservice.deleteUnit(unitId).subscribe(res => {
+      setTimeout(() => {
+        console.log(res);
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, );
+  }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  confirm(branchId): void {
+    this.deleteUnit(branchId);
+    this.StatusmodalRef.hide();
+  }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 }
