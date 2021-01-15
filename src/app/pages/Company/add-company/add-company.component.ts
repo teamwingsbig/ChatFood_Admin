@@ -194,12 +194,20 @@ export class AddCompanyComponent implements OnInit {
       };
     }
   }
+
   addUser() {
-    const formData = new FormData();
-   formData.append('username', this.companyForm.controls['company_name'].value);
-    formData.append('password', this.companyForm.controls['mobile'].value);
-    formData.append('mobile', this.companyForm.controls['mobile'].value);
-    console.log(formData);
+    const formDataUser = new FormData();
+    formDataUser.append('username', this.companyForm.controls['company_name'].value);
+    formDataUser.append('password', this.companyForm.controls['mobile'].value);
+    formDataUser.append('mobile', this.companyForm.controls['mobile'].value);
+    this.masterService.signup(formDataUser).subscribe(res => {
+      setTimeout(() => {
+        let ResultSet: any;
+        ResultSet = res;
+      }, 500);
+      // tslint:disable-next-line:no-unused-expression
+    }), (error: HttpErrorResponse) => {
+    };
   }
 
 

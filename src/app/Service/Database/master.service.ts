@@ -56,6 +56,10 @@ export class MasterService {
     const url = this.ipAddress + 'company/profile/';
     return this.http.post(url, Data);
   }
+  signup(Data) {
+    const url = this.ipAddress + 'user/profile/';
+    return this.http.post(url, Data);
+  }
 
   fetchBranch() {
     const url = this.ipAddress + 'company/branch/?page_wise=false';
