@@ -155,32 +155,52 @@ export class AddCompanyComponent implements OnInit {
     const formData: any = new FormData();
     if (this.companyForm.valid) {
       this.spinner.show();
-      formData.append('admin_id', 1);
-      Object.keys(this.companyForm.value).forEach(key => {
-        if (key === 'logo') {
-          formData.append(key, this.LogoData);
+      const formDataUser = new FormData();
+      formDataUser.append('username', this.companyForm.controls['company_name'].value);
+      formDataUser.append('password', this.companyForm.controls['mobile'].value);
+      formDataUser.append('mobile', this.companyForm.controls['mobile'].value);
+      this.masterService.signup(formDataUser).subscribe((res: any) => {
+        console.log(res);
+        if (res.Status) {
+          formData.append('admin_id', res.id);
+          Object.keys(this.companyForm.value).forEach(key => {
+            if (key === 'logo') {
+              formData.append(key, this.LogoData);
 
-        } else if (key === 'images') {
-          formData.append(key, this.ImageData);
+            } else if (key === 'images') {
+              formData.append(key, this.ImageData);
 
+            } else {
+              formData.append(key, this.companyForm.value[key]);
+            }
+          });
+          this.masterService.addCompany(formData).subscribe(res => {
+            setTimeout(() => {
+              let ResultSet: any;
+              ResultSet = res;
+              if (ResultSet.Status) {
+                this.toastService.showSuccess('Company Added Successfully', 'Success');
+                this.companyForm.reset();
+              } else {
+                this.toastService.showError(ResultSet.Error, 'Oops !');
+              }
+              this.spinner.hide();
+            }, 500);
+
+          }), (error: HttpErrorResponse) => {
+            if (error.error instanceof Error) {
+              // console.log('An error occurred:', error.error.message);
+              this.toastService.showError('An error occcured', 'Oops !');
+            } else {
+              this.toastService.showError('An error occcured', 'Oops !');
+              // console.log('Backend returned status code: ', error.status);
+              // console.log('Response body:', error.error);
+            }
+          };
         } else {
-          formData.append(key, this.companyForm.value[key]);
+          this.toastService.showError(res.Message, 'Oops !');
+
         }
-      });
-      this.masterService.addCompany(formData).subscribe(res => {
-        setTimeout(() => {
-          let ResultSet: any;
-          ResultSet = res;
-          console.log((res));
-          if (ResultSet.Status) {
-            this.addUser();
-            this.toastService.showSuccess('Company Added Successfully', 'Success');
-            this.companyForm.reset();
-          } else {
-            this.toastService.showError(ResultSet.Error, 'Oops !');
-          }
-          this.spinner.hide();
-        }, 500);
 
       }), (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
@@ -194,22 +214,6 @@ export class AddCompanyComponent implements OnInit {
       };
     }
   }
-
-  addUser() {
-    const formDataUser = new FormData();
-    formDataUser.append('username', this.companyForm.controls['company_name'].value);
-    formDataUser.append('password', this.companyForm.controls['mobile'].value);
-    formDataUser.append('mobile', this.companyForm.controls['mobile'].value);
-    this.masterService.signup(formDataUser).subscribe(res => {
-      setTimeout(() => {
-        let ResultSet: any;
-        ResultSet = res;
-      }, 500);
-      // tslint:disable-next-line:no-unused-expression
-    }), (error: HttpErrorResponse) => {
-    };
-  }
-
 
   public findInvalidControls() {
     const invalid = [];
