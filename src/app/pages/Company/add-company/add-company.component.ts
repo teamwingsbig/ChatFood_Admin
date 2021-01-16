@@ -48,6 +48,12 @@ export class AddCompanyComponent implements OnInit {
     trn: [
       {type: 'required', message: 'Trn is required.'},
     ],
+    signature: [
+      {type: 'required', message: 'Signature is required.'},
+    ],
+    key: [
+      {type: 'required', message: 'Key is required.'},
+    ],
   };
 
   userData: any = [];
@@ -131,6 +137,18 @@ export class AddCompanyComponent implements OnInit {
         ])
       ],
       images: [
+        [],
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      key: [
+        [],
+        Validators.compose([
+          Validators.required,
+        ])
+      ],
+      signature: [
         [],
         Validators.compose([
           Validators.required,

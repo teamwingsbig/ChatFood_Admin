@@ -151,6 +151,35 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Signature</label>
+                    <input type="file" (change)="onSelectLogo($event)" formControlName="signature"
+                           class="form-control form-control-alternative" >
+                    <div *ngFor="let validation of validation_messages.logo">
+                      <div class="error-message" *ngIf="companyForm.get('signature').hasError(validation.type) &&
+                        (companyForm.get('signature').dirty || companyForm.get('signature').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Payment API Key</label>
+                    <input formControlName="key"
+                           class="form-control form-control-alternative" placeholder="Type API Key" type="text">
+                    <div *ngFor="let validation of validation_messages.backgroundImage">
+                      <div class="error-message" *ngIf="companyForm.get('key').hasError(validation.type) &&
+                        (companyForm.get('key').dirty || companyForm.get('key').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
                     <button class="btn btn-primary" [disabled]="companyForm.invalid"
                             (click)="addCompany()" type="submit">Submit</button>
                     <button class="btn btn-primary" type="reset">Reset</button>

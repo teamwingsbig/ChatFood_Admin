@@ -56,6 +56,10 @@ export class MasterService {
     const url = this.ipAddress + 'company/profile/';
     return this.http.post(url, Data);
   }
+  deleteCompany(comapnyId) {
+    const url = this.ipAddress + 'company/profile/?id=' + comapnyId;
+    return this.http.delete(url);
+  }
   signup(Data) {
     const url = this.ipAddress + 'user/profile/';
     return this.http.post(url, Data);

@@ -20,27 +20,7 @@
                   <div class="col-8">
                     <h3 class="mb-0">Company List</h3>
                   </div>
-                  <!--                  <div class="col-4">-->
-                  <!--                    <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filter" (change)="onchange()">-->
-                  <!--                  </div>-->
-                  <!--                  <div class="col-4">-->
-                  <!--                    <div class="btn-group" dropdown>-->
-                  <!--                      <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"-->
-                  <!--                              aria-controls="dropdown-animated">-->
-                  <!--                        {{deliveryBoyName}} <span class="caret"></span>-->
-                  <!--                      </button>-->
-                  <!--                      <ul style="cursor: pointer" id="dropdown-animated" *dropdownMenu class="dropdown-menu"-->
-                  <!--                          role="menu" aria-labelledby="button-animated">-->
-                  <!--                        <li (click)="getPendingOrders();deliveryBoyName='Delivery Boys'">-->
-                  <!--                          <a class="dropdown-item">All</a>-->
-                  <!--                        </li>-->
-                  <!--                        <li *ngFor=" let item of deliveryBoysData" role="menuitem"-->
-                  <!--                            (click)="onChangeDeliveryBoy(item.payload.doc.data().uid);deliveryBoyName=item.payload.doc.data().name">-->
-                  <!--                          <a class="dropdown-item">{{item.payload.doc.data().name}}</a>-->
-                  <!--                        </li>-->
-                  <!--                      </ul>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
+
                   <div class="col-4 text-right">
                     <a [routerLink]="['/addCompany']" class="btn btn-sm btn-default"
                        routerLinkActive="router-link-active">
@@ -53,26 +33,24 @@
                 <table class="table align-items-center table-flush">
                   <thead class="thead-light">
                   <tr>
-                    <th scope="col">Branch Name</th>
+                    <th scope="col">Company Name</th>
                     <!--                    <th scope="col">Date</th>-->
                     <th scope="col">Address</th>
                     <th scope="col">Phone No</th>
+                    <th scope="col">LandLine</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">SubLocation</th>
-                    <th scope="col">Min Order</th>
-                    <th scope="col">Estimated Time</th>
-                    <th scope="col">Taxt Type</th>
+                    <th scope="col">TRN</th>
+
                     <th scope="col"></th>
-                    <th scope="col"></th>
+
                   </tr>
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let item of brnachData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                    *ngFor="let item of companyData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
                     <td>
                       <div class="media-body">
-                        <span class="mb-0 text-sm">{{item.name}}</span>
+                        <span class="mb-0 text-sm">{{item.company_name}}</span>
                       </div>
                     </td>
                     <td>{{item.address}}</td>
@@ -80,80 +58,17 @@
                       {{item.mobile}}
                     </td>
                     <td>
+                      {{item.landline}}
+                    </td>
+                    <td>
                       {{item.email}}
                     </td>
                     <td>
-                      {{item.main_location.name}}
+                      {{item.trn_no}}
                     </td>
-                    <td>
-                      {{item.sub_location.name}}
-                    </td>
-                    <td>
-                      {{item.minimum_order}}
-                    </td>
-                    <td>
-                      {{item.estimated_time}}
-                    </td>
-                    <td>
-                      {{item.tax_type == 'gst' ? 'GST' : 'Vat'}}
-                    </td>
-                    <td>
-                      <button (click)="openModal(Manageremplate)" class="btn btn-outline-danger btn-sm" type="button">
-                        <span class="btn-inner--icon">
-                        <i class="ni ni fa fa-eye"></i>
-                      </span>
-                        &nbsp;View
-                      </button>
-                      <ng-template #Manageremplate>
-                        <div class="modal-header">
-                          <h4 class="modal-title pull-left text-black-50">Managers </h4>
-                          <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="table-responsive">
-                            <table class="table align-items-center table-flush">
-                              <thead class="thead-light">
-                              <tr>
-                                <th scope="col">Name</th>
-                                <!--                    <th scope="col">Date</th>-->
-                                <th scope="col">Phone NO</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Status</th>
-                                <th scope="col"></th>
-                              </tr>
-                              </thead>
-                              <tbody class="text-center">
-                              <tr *ngFor="let Subitem of item.managers">
-                                <td>
-                                  {{Subitem.first_name}}
-                                </td>
-                                <td>
-                                  {{Subitem.details.mobile}}
-                                </td>
-                                <td>
-                                  {{Subitem.email}}
-                                </td>
-                                <td>
-                                  <span class="badge badge-dot">
-                                      <i [class]="item.is_blocked==true?'bg-danger':'bg-success'"></i>
-                                    {{item.is_blocked == true ? 'Bloced' : 'Active'}}
-                                    </span>
-                                </td>
-                              </tr>
-                              <tr *ngIf="item.managers.length<=0">
-                                <td colspan="5"> No Data Found</td>
-                              </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button (click)="modalRef.hide()" class="btn btn-danger" type="button">Close</button>
-                        </div>
-                      </ng-template>
-                    </td>
+
+
+
                     <td class="text-right">
                       <div ngbDropdown placement="bottom-right">
                         <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
@@ -161,12 +76,12 @@
                         </a>
                         <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                              style="cursor: pointer;">
-                          <a [routerLink]="['/addBranch',{id:item.id | convert}]" class="dropdown-item">Edit</a>
-                          <a class="dropdown-item">Delete</a>
+                          <a [routerLink]="['/addCompany',{id:item.id | convert}]" class="dropdown-item">Edit</a>
+                          <a class="dropdown-item" (click)="openStatusModel(template);">Delete</a>
                           <ng-template #template>
                             <div class="modal-body text-center">
-                              <p>Are you sure you want to delete this order ?</p>
-                              <button (click)="confirm(item.payload.doc.id)" class="btn btn-default" type="button">Yes
+                              <p>Are you sure you want to delete this Company ?</p>
+                              <button (click)="confirm(item.id)" class="btn btn-default" type="button">Yes
                               </button>
                               <button (click)="decline()" class="btn btn-primary" type="button">No</button>
                             </div>
