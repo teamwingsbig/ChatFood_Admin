@@ -152,8 +152,8 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Signature</label>
-                    <input type="file" (change)="onSelectLogo($event)" formControlName="signature"
-                           class="form-control form-control-alternative" >
+                    <input formControlName="signature"
+                           class="form-control form-control-alternative" placeholder="Type Signature" type="text">
                     <div *ngFor="let validation of validation_messages.logo">
                       <div class="error-message" *ngIf="companyForm.get('signature').hasError(validation.type) &&
                         (companyForm.get('signature').dirty || companyForm.get('signature').touched)">

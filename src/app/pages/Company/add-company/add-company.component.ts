@@ -193,6 +193,7 @@ export class AddCompanyComponent implements OnInit {
             }
           });
           this.masterService.addCompany(formData).subscribe(res => {
+            console.log(res);
             setTimeout(() => {
               let ResultSet: any;
               ResultSet = res;
