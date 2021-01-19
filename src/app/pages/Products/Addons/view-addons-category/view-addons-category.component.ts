@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {ToastService} from '../../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ProductService} from '../../../../Service/Database/product.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../../Service/Authentication/auth.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-view-addons-category',
@@ -17,12 +18,14 @@ export class ViewAddonsCategoryComponent implements OnInit {
   categoryData: any = [];
   p = 1;
   public filter;
-  public userData : any = [];
-
+  public userData: any = [];
+  modalRef: BsModalRef;
+  StatusmodalRef: BsModalRef;
   constructor(
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
     public  productService: ProductService,
+    private modalService: BsModalService,
     public  authService: AuthService,
     public  route: Router
 
@@ -61,7 +64,7 @@ export class ViewAddonsCategoryComponent implements OnInit {
           this.spinner.hide();
         }, 2000);
       },
-      (error : HttpErrorResponse) => {
+      (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
           console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
@@ -93,5 +96,38 @@ export class ViewAddonsCategoryComponent implements OnInit {
         }
       }
     );
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, );
+  }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  deleteAddonsCategory(addonCatId) {
+    this.spinner.show();
+    this.productService.deleteAddonsCategory(addonCatId).subscribe(res => {
+      setTimeout(() => {
+        console.log(res);
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+  confirm(addonId): void {
+    this.deleteAddonsCategory(addonId);
+    this.StatusmodalRef.hide();
+  }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 }

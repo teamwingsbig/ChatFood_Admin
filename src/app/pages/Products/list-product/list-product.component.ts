@@ -20,7 +20,7 @@ export class ListProductComponent implements OnInit {
   public filter;
   modalRef: BsModalRef;
   public userData: any = [];
-
+  StatusmodalRef: BsModalRef;
   constructor(
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
@@ -74,6 +74,22 @@ export class ListProductComponent implements OnInit {
 
   openVarients(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'gray modal-lg'});
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, );
+  }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  deleteProduct(productId) {
+  }
+  confirm(productId): void {
+    console.log(productId);
+    this.deleteProduct(productId);
+    this.StatusmodalRef.hide();
+  }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
 }

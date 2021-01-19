@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {ToastService} from '../../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ProductService} from '../../../../Service/Database/product.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../../Service/Authentication/auth.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-view-addons',
@@ -19,11 +20,13 @@ export class ViewAddonsComponent implements OnInit {
   p = 1;
   public filter;
   public userData: any = [];
-
+  modalRef: BsModalRef;
+  StatusmodalRef: BsModalRef;
   constructor(
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
     public  productService: ProductService,
+    private modalService: BsModalService,
     public  authService: AuthService,
     public  route: Router
   ) {
@@ -95,5 +98,38 @@ export class ViewAddonsComponent implements OnInit {
         }
       }
     );
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, );
+  }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  deleteAddons(addonId) {
+    this.spinner.show();
+    this.productService.deleteAddons(addonId).subscribe(res => {
+      setTimeout(() => {
+        console.log(res);
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+  confirm(addonId): void {
+    this.deleteAddons(addonId);
+    this.StatusmodalRef.hide();
+  }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 }

@@ -16,7 +16,10 @@ export class ProductService {
     const url = this.ipAddress + 'items/addoncategory/';
     return this.http.post(url, Data);
   }
-
+  deleteAddonsCategory(addonsCatId) {
+    const url = this.ipAddress + 'items/addoncategory/?id=' + addonsCatId;
+    return this.http.delete(url);
+  }
   updateAddonsCategory(Data) {
     const url = this.ipAddress + 'items/addoncategory/';
     return this.http.put(url, Data);
@@ -25,6 +28,10 @@ export class ProductService {
   addProduct(Data) {
     const url = this.ipAddress + 'items/details/';
     return this.http.post(url, Data);
+  }
+  deleteProduct(productId) {
+    const url = this.ipAddress + 'items/details/?id=' + productId;
+    return this.http.delete(url);
   }
 
   updateProduct(Data) {
@@ -45,6 +52,10 @@ export class ProductService {
   updateAddons(Data) {
     const url = this.ipAddress + 'items/addons/';
     return this.http.put(url, Data);
+  }
+  deleteAddons(addonId) {
+    const url = this.ipAddress + 'items/addons/?id=' + addonId;
+    return this.http.delete(url);
   }
 
   fetchProduct() {

@@ -21,6 +21,8 @@ export class ViewPromocodeComponent implements OnInit {
   public userData: any = [];
   p = 1;
   public filter;
+  StatusmodalRef: BsModalRef;
+
 
   constructor(
     public  promoService: PromocodeService,
@@ -75,6 +77,36 @@ export class ViewPromocodeComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+    this.modalRef = this.modalService.show(template, );
+  }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  deletePromocode(promocodeId) {
+    this.spinner.show();
+    this.promoService.deletePromocode(promocodeId).subscribe(res => {
+      setTimeout(() => {
+        console.log(res);
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+  confirm(promocodeId): void {
+    this.deletePromocode(promocodeId);
+    this.StatusmodalRef.hide();
+  }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 }

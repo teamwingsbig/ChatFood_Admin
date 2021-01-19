@@ -23,6 +23,10 @@ export class PromocodeService {
     const url = this.ipAddress + 'promocodes/details/';
     return this.http.put(url, Data);
   }
+  deletePromocode(promocodeId) {
+    const url = this.ipAddress + 'promocodes/details/?id=' + promocodeId;
+    return this.http.delete(url);
+  }
 
   fetchPromocode() {
     const url = this.ipAddress + 'promocodes/details/';

@@ -83,6 +83,7 @@ export class AddManagerComponent implements OnInit {
   }
 
   fetchBranch() {
+    console.log(this.userData.company_id);
     this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       this.branchData = res;
     }),

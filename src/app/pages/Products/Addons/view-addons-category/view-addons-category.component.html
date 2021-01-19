@@ -79,11 +79,11 @@
                         <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
                              style="cursor: pointer;">
                           <a [routerLink]="['/addAddonsCategory',{id:item.id |convert,name : item.name | convert, branch_id:item.branch.id | convert}]" class="dropdown-item">Edit</a>
-                          <a class="dropdown-item">Delete</a>
+                          <a class="dropdown-item" (click)="openStatusModel(template);">Delete</a>
                           <ng-template #template>
                             <div class="modal-body text-center">
-                              <p>Are you sure you want to delete this order ?</p>
-                              <button (click)="confirm(item.payload.doc.id)" class="btn btn-default" type="button">Yes
+                              <p>Are you sure you want to delete this Addon Category ?</p>
+                              <button (click)="confirm(item.id)" class="btn btn-default" type="button">Yes
                               </button>
                               <button (click)="decline()" class="btn btn-primary" type="button">No</button>
                             </div>
