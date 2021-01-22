@@ -35,7 +35,7 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Orders', icon: 'ni-bag-17 text-primary', class: '', access: [0, 1, 0],
+        title: 'Orders', icon: 'ni-bag-17 text-primary', class: '', access: [1, 1, 2],
         visible: false,
         sub: [
           {
@@ -44,12 +44,18 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
       {
-        title: 'Company', icon: 'ni-building text-danger', class: '', access: [0, 1, 1],
+        title: 'Company', icon: 'ni-building text-danger', class: '', access: [1, 1, 1],
         visible: false,
         sub: [
           {
             path: '/Company-Profile', title: 'Company profile', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1]
-          },
+          }
+        ]
+      },
+      {
+        title: 'Company', icon: 'ni-building text-danger', class: '', access: [0, , 0],
+        visible: false,
+        sub: [
           {
             path: '/addCompany', title: 'Add Company', icon: 'ni-tv-2 text-primary', class: '', access: [0, 0, 0]
           },
@@ -73,7 +79,7 @@ export const ROUTES: RouteInfo[] = [
     label: 'Configuration',
     main: [
       {
-        title: 'Branch', icon: 'fas fa-code-branch text-primary', class: '', access: [0, 1, 0],
+        title: 'Branch', icon: 'fas fa-code-branch text-primary', class: '', access: [1, 1, 1],
         visible: false,
         sub: [
           {
