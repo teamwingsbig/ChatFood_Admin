@@ -76,7 +76,7 @@ import { ViewCompanyComponent } from './pages/Company/view-company/view-company.
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
     UiSwitchModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
   ],
   declarations: [
     AppComponent,
