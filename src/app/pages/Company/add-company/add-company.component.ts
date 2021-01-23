@@ -173,76 +173,38 @@ export class AddCompanyComponent implements OnInit {
     const formData: any = new FormData();
     if (this.companyForm.valid) {
       this.spinner.show();
-      const formDataUser = new FormData();
-      formDataUser.append('username', this.companyForm.controls['company_name'].value);
-      formDataUser.append('name', this.companyForm.controls['company_name'].value);
-      formDataUser.append('password', this.companyForm.controls['mobile'].value);
-      formDataUser.append('email', this.companyForm.controls['email'].value);
-      formDataUser.append('mobile', this.companyForm.controls['mobile'].value);
-      formDataUser.append('address1', '');
-      formDataUser.append('address2', '');
-      formDataUser.append('land_mark', '');
-      formDataUser.append('latitude', '');
-      formDataUser.append('longitude', '');
-      formDataUser.append('city', '');
-      formDataUser.append('pin', '');
-      formDataUser.append('state', '');
-      formDataUser.append('address_type', 'Home');
-      this.masterService.signup(formDataUser).subscribe((res: any) => {
-        console.log(res);
-        if (res.Status) {
-          formData.append('admin_id', res.id);
-          Object.keys(this.companyForm.value).forEach(key => {
-            if (key === 'logo') {
-              formData.append(key, this.LogoData);
+      formData.append('admin_id', '');
+      Object.keys(this.companyForm.value).forEach(key => {
+        if (key === 'logo') {
+          formData.append(key, this.LogoData);
 
-            } else if (key === 'images') {
-              formData.append(key, this.ImageData);
+        } else if (key === 'images') {
+          formData.append(key, this.ImageData);
 
-            } else {
-              formData.append(key, this.companyForm.value[key]);
-            }
-          });
-          this.masterService.addCompany(formData).subscribe(res => {
-            console.log(res);
-            setTimeout(() => {
-              let ResultSet: any;
-              ResultSet = res;
-              if (ResultSet.Status) {
-                this.toastService.showSuccess('Company Added Successfully', 'Success');
-                this.companyForm.reset();
-              } else {
-                this.toastService.showError(ResultSet.Error, 'Oops !');
-              }
-              this.spinner.hide();
-            }, 500);
-
-          }), (error: HttpErrorResponse) => {
-            if (error.error instanceof Error) {
-              // console.log('An error occurred:', error.error.message);
-              this.toastService.showError('An error occcured', 'Oops !');
-            } else {
-              this.toastService.showError('An error occcured', 'Oops !');
-              // console.log('Backend returned status code: ', error.status);
-              // console.log('Response body:', error.error);
-            }
-          };
         } else {
-          this.toastService.showError(res.Message, 'Oops !');
-          this.spinner.hide();
-
+          formData.append(key, this.companyForm.value[key]);
         }
+      });
+      this.masterService.addCompany(formData).subscribe(res => {
+        console.log(res);
+        setTimeout(() => {
+          let ResultSet: any;
+          ResultSet = res;
+          if (ResultSet.Status) {
+            this.toastService.showSuccess('Company Added Successfully', 'Success');
+            this.companyForm.reset();
+          } else {
+            this.toastService.showError(ResultSet.Error, 'Oops !');
+          }
+          this.spinner.hide();
+        }, 500);
 
       }), (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
           // console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
-          this.spinner.hide();
-
         } else {
           this.toastService.showError('An error occcured', 'Oops !');
-          this.spinner.hide();
-
           // console.log('Backend returned status code: ', error.status);
           // console.log('Response body:', error.error);
         }

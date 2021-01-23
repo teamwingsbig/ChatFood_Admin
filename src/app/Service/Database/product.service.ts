@@ -48,6 +48,10 @@ export class ProductService {
     const url = this.ipAddress + 'items/varients/';
     return this.http.put(url, Data);
   }
+  deleteVarients(variantId) {
+    const url = this.ipAddress + 'items/varients/?id=' + variantId;
+    return this.http.delete(url);
+  }
 
   updateAddons(Data) {
     const url = this.ipAddress + 'items/addons/';
