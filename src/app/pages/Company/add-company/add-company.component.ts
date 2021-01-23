@@ -142,13 +142,13 @@ export class AddCompanyComponent implements OnInit {
           Validators.required,
         ])
       ],
-      key: [
+      key_id: [
         [],
         Validators.compose([
           Validators.required,
         ])
       ],
-      signature: [
+      key_secret: [
         [],
         Validators.compose([
           Validators.required,
@@ -175,8 +175,19 @@ export class AddCompanyComponent implements OnInit {
       this.spinner.show();
       const formDataUser = new FormData();
       formDataUser.append('username', this.companyForm.controls['company_name'].value);
+      formDataUser.append('name', this.companyForm.controls['company_name'].value);
       formDataUser.append('password', this.companyForm.controls['mobile'].value);
+      formDataUser.append('email', this.companyForm.controls['email'].value);
       formDataUser.append('mobile', this.companyForm.controls['mobile'].value);
+      formDataUser.append('address1', '');
+      formDataUser.append('address2', '');
+      formDataUser.append('land_mark', '');
+      formDataUser.append('latitude', '');
+      formDataUser.append('longitude', '');
+      formDataUser.append('city', '');
+      formDataUser.append('pin', '');
+      formDataUser.append('state', '');
+      formDataUser.append('address_type', 'Home');
       this.masterService.signup(formDataUser).subscribe((res: any) => {
         console.log(res);
         if (res.Status) {
@@ -218,6 +229,7 @@ export class AddCompanyComponent implements OnInit {
           };
         } else {
           this.toastService.showError(res.Message, 'Oops !');
+          this.spinner.hide();
 
         }
 
@@ -225,8 +237,12 @@ export class AddCompanyComponent implements OnInit {
         if (error.error instanceof Error) {
           // console.log('An error occurred:', error.error.message);
           this.toastService.showError('An error occcured', 'Oops !');
+          this.spinner.hide();
+
         } else {
           this.toastService.showError('An error occcured', 'Oops !');
+          this.spinner.hide();
+
           // console.log('Backend returned status code: ', error.status);
           // console.log('Response body:', error.error);
         }

@@ -152,11 +152,11 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Signature</label>
-                    <input formControlName="signature"
+                    <input formControlName="key_secret"
                            class="form-control form-control-alternative" placeholder="Type Signature" type="text">
                     <div *ngFor="let validation of validation_messages.logo">
-                      <div class="error-message" *ngIf="companyForm.get('signature').hasError(validation.type) &&
-                        (companyForm.get('signature').dirty || companyForm.get('signature').touched)">
+                      <div class="error-message" *ngIf="companyForm.get('key_secret').hasError(validation.type) &&
+                        (companyForm.get('key_secret').dirty || companyForm.get('key_secret').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>
@@ -164,12 +164,12 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-address">Payment API Key</label>
-                    <input formControlName="key"
-                           class="form-control form-control-alternative" placeholder="Type API Key" type="text">
+                    <label class="form-control-label" for="input-address">Key id</label>
+                    <input formControlName="key_id"
+                           class="form-control form-control-alternative" placeholder="Type API Key id" type="text">
                     <div *ngFor="let validation of validation_messages.backgroundImage">
-                      <div class="error-message" *ngIf="companyForm.get('key').hasError(validation.type) &&
-                        (companyForm.get('key').dirty || companyForm.get('key').touched)">
+                      <div class="error-message" *ngIf="companyForm.get('key_id').hasError(validation.type) &&
+                        (companyForm.get('key_id').dirty || companyForm.get('key_id').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>

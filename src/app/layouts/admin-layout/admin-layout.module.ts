@@ -18,6 +18,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {TooltipModule} from 'ngx-bootstrap/tooltip';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -31,7 +32,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
     ToastrModule.forRoot(),
     TooltipModule,
     NgxPaginationModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    BsDropdownModule.forRoot()
   ],
   declarations: [
     DashboardComponent,
