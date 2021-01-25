@@ -173,7 +173,6 @@ export class AddCompanyComponent implements OnInit {
     const formData: any = new FormData();
     if (this.companyForm.valid) {
       this.spinner.show();
-      formData.append('admin_id', '');
       Object.keys(this.companyForm.value).forEach(key => {
         if (key === 'logo') {
           formData.append(key, this.LogoData);
@@ -186,7 +185,6 @@ export class AddCompanyComponent implements OnInit {
         }
       });
       this.masterService.addCompany(formData).subscribe(res => {
-        console.log(res);
         setTimeout(() => {
           let ResultSet: any;
           ResultSet = res;
