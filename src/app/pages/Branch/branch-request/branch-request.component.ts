@@ -31,7 +31,7 @@ export class BranchRequestComponent implements OnInit {
   }
   fetchBranch() {
     this.spinner.show();
-    this.maserservice.fetchBranch().subscribe(res => {
+    this.maserservice.fetchBranchRequest().subscribe(res => {
       setTimeout(() => {
         this.brnachData = res;
         this.spinner.hide();
