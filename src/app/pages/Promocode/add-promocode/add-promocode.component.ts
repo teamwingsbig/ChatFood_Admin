@@ -228,17 +228,20 @@ export class AddPromocodeComponent implements OnInit {
   }
 
   loadBranch() {
-    if (this.userData.user_type === 1) {
-      //   admin
-      this.fetchBranchByCompanyID();
-    } else if (this.userData.user_type === 2) {
-      this.fetchBranchByID();
-    }
+    // console.log(this.userData.user_type);
+    // if (this.userData.user_type === 1) {
+    //   //   admin
+    //   this.fetchBranchByCompanyID();
+    // } else if (this.userData.user_type === 2) {
+    //   this.fetchBranchByID();
+    // }
+    this.fetchBranchByID();
   }
 
   fetchBranchByID() {
     this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
       this.branchData = res;
+      console.log(res);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

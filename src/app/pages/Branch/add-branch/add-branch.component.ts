@@ -211,6 +211,13 @@ export class AddBranchComponent implements OnInit {
           Validators.required,
         ])
       ],
+      deliveryCharge: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^\\$?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(.[0-9][0-9])?$'),
+        ])
+      ],
       currency: [
         'indian rupees',
         Validators.compose([

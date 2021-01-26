@@ -183,6 +183,23 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Delivery Charge</label>
+                    <input type="email" formControlName="deliveryCharge"
+                           class="form-control form-control-alternative" placeholder="Delivery Charge ">
+                    <div *ngFor="let validation of validation_messages.trn">
+                      <div class="error-message" *ngIf="branchForm.get('trn').hasError(validation.type) &&
+                        (branchForm.get('trn').dirty || branchForm.get('trn').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
                     <button class="btn btn-primary" [disabled]="branchForm.invalid"
