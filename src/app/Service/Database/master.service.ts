@@ -46,6 +46,10 @@ export class MasterService {
     const url = this.ipAddress + 'company/profile/';
     return this.http.get(url);
   }
+  fetchCompany(companyId) {
+    const url = this.ipAddress + 'company/profile/?id=' + companyId;
+    return this.http.get(url);
+  }
 
   updateCompanyProfile(Data) {
     const url = this.ipAddress + 'company/profile/';
@@ -56,12 +60,14 @@ export class MasterService {
     const url = this.ipAddress + 'company/profile/';
     return this.http.post(url, Data);
   }
-
+  updateCompany(Data) {
+    const url = this.ipAddress + 'company/profile/';
+    return this.http.put(url, Data);
+  }
   deleteCompany(comapnyId) {
     const url = this.ipAddress + 'company/profile/?id=' + comapnyId;
     return this.http.delete(url);
   }
-
   signup(Data) {
     const url = this.ipAddress + 'user/profile/';
     return this.http.post(url, Data);
