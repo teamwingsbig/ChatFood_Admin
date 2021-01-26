@@ -31,6 +31,7 @@ import {ListCustomersComponent} from '../../pages/Customers/list-customers/list-
 import {AddCompanyComponent} from '../../pages/Company/add-company/add-company.component';
 import {ViewManagerComponent} from '../../pages/Manager/view-manager/view-manager.component';
 import {ViewCompanyComponent} from '../../pages/Company/view-company/view-company.component';
+import {BranchRequestComponent} from '../../pages/Branch/branch-request/branch-request.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -63,7 +64,8 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'list-customers', component: ListCustomersComponent},
   {path: 'addCompany', component: AddCompanyComponent},
   {path: 'viewManager', component: ViewManagerComponent},
-  {path: 'viewCompany', component: ViewCompanyComponent}
+  {path: 'viewCompany', component: ViewCompanyComponent},
+  {path: 'branchRequest', component: BranchRequestComponent}
 
 
 ];

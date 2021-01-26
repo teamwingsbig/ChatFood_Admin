@@ -1,0 +1,162 @@
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff"
+             size="default" type="ball-clip-rotate-multiple">
+</ngx-spinner>
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-white shadow">
+        <div class="row">
+          <div class="col">
+            <div class="card shadow">
+              <div class="card-header border-0">
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <h3 class="mb-0">New Branch Requests</h3>
+                  </div>
+                  <!--                  <div class="col-4">-->
+                  <!--                    <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filter" (change)="onchange()">-->
+                  <!--                  </div>-->
+                  <!--                  <div class="col-4">-->
+                  <!--                    <div class="btn-group" dropdown>-->
+                  <!--                      <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"-->
+                  <!--                              aria-controls="dropdown-animated">-->
+                  <!--                        {{deliveryBoyName}} <span class="caret"></span>-->
+                  <!--                      </button>-->
+                  <!--                      <ul style="cursor: pointer" id="dropdown-animated" *dropdownMenu class="dropdown-menu"-->
+                  <!--                          role="menu" aria-labelledby="button-animated">-->
+                  <!--                        <li (click)="getPendingOrders();deliveryBoyName='Delivery Boys'">-->
+                  <!--                          <a class="dropdown-item">All</a>-->
+                  <!--                        </li>-->
+                  <!--                        <li *ngFor=" let item of deliveryBoysData" role="menuitem"-->
+                  <!--                            (click)="onChangeDeliveryBoy(item.payload.doc.data().uid);deliveryBoyName=item.payload.doc.data().name">-->
+                  <!--                          <a class="dropdown-item">{{item.payload.doc.data().name}}</a>-->
+                  <!--                        </li>-->
+                  <!--                      </ul>-->
+                  <!--                    </div>-->
+                  <!--                  </div>-->
+                  <div class="col-4 text-right">
+                    <a [routerLink]="['/addBranch']" class="btn btn-sm btn-default"
+                       routerLinkActive="router-link-active">
+                      <span class="btn-inner--icon">
+                        <i class="ni ni-fat-add"></i></span>Branch Request</a>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Branch Name</th>
+                    <!--                    <th scope="col">Date</th>-->
+                    <th scope="col">Company</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">SubLocation</th>
+                    <th scope="col">Delivery Charge</th>
+
+                    <th scope="col"></th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr
+                    *ngFor="let item of brnachData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                    <td>
+                      <div class="media-body">
+                        <span class="mb-0 text-sm">{{item.name}}</span>
+                      </div>
+                    </td>
+                    <td>{{item.company.company_name}}</td>
+                    <td>
+                      {{item.mobile}}
+                    </td>
+                    <td>
+                      {{item.email}}
+                    </td>
+                    <td>
+                      {{item.main_location.name}}
+                    </td>
+                    <td>
+                      {{item.sub_location.name}}
+                    </td>
+
+                    <td>
+                      {{item.delivery_charge}}
+                    </td>
+                    <td>
+                      <div class="btn-group" dropdown>
+                        <button id="button-basic" dropdownToggle type="button"
+                                [class]="item.is_approved==true ? 'btn btn-sm btn-outline-success dropdown-toggle'
+                                :item.is_approved==false ? 'btn  btn-sm btn-outline-danger dropdown-toggle'
+                              :''"
+                                aria-controls="dropdown-basic">
+                          Confirm<span class="caret"></span>
+                        </button>
+
+                      </div>
+
+                      <!--                      ************-->
+                      <!--Start Change Order status model-->
+                      <ng-template #Statustemplate>
+                        <div class="modal-body text-center">
+                          <p>Are you sure want to change order status ?</p>
+                          <button type="button" class="btn btn-default" (click)="confirm(item.id)">
+                            Yes
+                          </button>
+                          <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+                        </div>
+                      </ng-template>
+                      <!--End order status chage model-->
+                      <!--                      ******************-->
+
+                    </td>
+
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="card-footer py-4 ">
+                  <div class="pagination justify-content-end mb-0">
+                    <!-- <pagination-controls (pageChange)="p = $event">
+                    </pagination-controls> -->
+                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="brnachData">
+                      <ul class="pagination justify-content-end mb-0">
+                        <li class="page-item ">
+                          <a (click)="pT.previous()" *ngIf="!pT.isFirstPage()" [class.disabled]="pT.isFirstPage()"
+                             aria-label="Previous" class="page-link">
+                            <span aria-hidden="true" class="fas fa-angle-left"></span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                        </li>
+                        <li *ngFor="let page of pT.pages" [class.active]="pT.getCurrent() === page.value"
+                            class="page-item active">
+                          <a (click)="pT.setCurrent(page.value)" class="page-link"> {{ page.label }}
+                          </a>
+                        </li>
+                        <li class="page-item ">
+                          <a (click)="pT.next()" *ngIf="!pT.isLastPage()" [class.disabled]="pT.isLastPage()"
+                             aria-label="Previous" class="page-link">
+                            <i class="fas fa-angle-right"></i>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                        </li>
+
+                      </ul>
+                    </pagination-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

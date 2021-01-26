@@ -77,6 +77,10 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/?page_wise=false';
     return this.http.get(url);
   }
+  fetchBranchRequest() {
+    const url = this.ipAddress + 'company/branch/?is_approved=false';
+    return this.http.get(url);
+  }
 
   fetchBranchByCompanyID(id) {
     const url = this.ipAddress + 'company/branch/?page_wise=0&company_id=' + id;
