@@ -20,6 +20,7 @@ export class ViewBranchComponent implements OnInit {
   public userData: any = [];
   public orderStatus;
   StatusmodalRef: BsModalRef;
+
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,
@@ -52,13 +53,15 @@ export class ViewBranchComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
+
   openStatusModel(template: TemplateRef<any>) {
     this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
+
   fetchBranch() {
     this.spinner.show();
-    this.maserservice.fetchBranch().subscribe(res => {
+    this.maserservice.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
       setTimeout(() => {
         this.brnachData = res;
         this.spinner.hide();
@@ -76,11 +79,12 @@ export class ViewBranchComponent implements OnInit {
         }
       };
   }
+
   deleteBranch(branchId) {
     this.spinner.show();
     this.maserservice.deleteBranch(branchId).subscribe(res => {
       setTimeout(() => {
-       console.log(res);
+        console.log(res);
         this.spinner.hide();
       }, 2000);
     }),
@@ -98,11 +102,13 @@ export class ViewBranchComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, );
+    this.modalRef = this.modalService.show(template,);
   }
+
   decline(): void {
     this.StatusmodalRef.hide();
   }
+
   confirm(branchId): void {
     this.deleteBranch(branchId);
     this.StatusmodalRef.hide();
