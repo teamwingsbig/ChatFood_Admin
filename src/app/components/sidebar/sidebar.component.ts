@@ -49,6 +49,7 @@ export const ROUTES: RouteInfo[] = [
         sub: [
           {
             path: '/Company-Profile', title: 'Company profile', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1]
+
           }
         ]
       },
@@ -61,6 +62,9 @@ export const ROUTES: RouteInfo[] = [
           },
           {
             path: '/viewCompany', title: 'View Company', icon: 'ni-tv-2 text-primary', class: '', access: [0, 0, 0]
+          },
+          {
+            path: '/branch-requests', title: 'Branch requests', icon: 'ni-tv-2 text-primary', class: '', access: [1, 1, 1]
           }
         ]
       }

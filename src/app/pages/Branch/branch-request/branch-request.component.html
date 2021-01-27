@@ -18,34 +18,24 @@
               <div class="card-header border-0">
                 <div class="row align-items-center">
                   <div class="col-8">
-                    <h3 class="mb-0">New Branch Requests</h3>
+                    <h3 class="mb-0"> Branch Requests</h3>
                   </div>
-                  <!--                  <div class="col-4">-->
-                  <!--                    <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filter" (change)="onchange()">-->
-                  <!--                  </div>-->
-                  <!--                  <div class="col-4">-->
-                  <!--                    <div class="btn-group" dropdown>-->
-                  <!--                      <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"-->
-                  <!--                              aria-controls="dropdown-animated">-->
-                  <!--                        {{deliveryBoyName}} <span class="caret"></span>-->
-                  <!--                      </button>-->
-                  <!--                      <ul style="cursor: pointer" id="dropdown-animated" *dropdownMenu class="dropdown-menu"-->
-                  <!--                          role="menu" aria-labelledby="button-animated">-->
-                  <!--                        <li (click)="getPendingOrders();deliveryBoyName='Delivery Boys'">-->
-                  <!--                          <a class="dropdown-item">All</a>-->
-                  <!--                        </li>-->
-                  <!--                        <li *ngFor=" let item of deliveryBoysData" role="menuitem"-->
-                  <!--                            (click)="onChangeDeliveryBoy(item.payload.doc.data().uid);deliveryBoyName=item.payload.doc.data().name">-->
-                  <!--                          <a class="dropdown-item">{{item.payload.doc.data().name}}</a>-->
-                  <!--                        </li>-->
-                  <!--                      </ul>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
                   <div class="col-4 text-right">
-                    <a [routerLink]="['/addBranch']" class="btn btn-sm btn-default"
-                       routerLinkActive="router-link-active">
-                      <span class="btn-inner--icon">
-                        <i class="ni ni-fat-add"></i></span>Branch Request</a>
+                    <div class="btn-group" dropdown>
+                      <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                              aria-controls="dropdown-animated">
+                        {{status}} <span class="caret"></span>
+                      </button>
+                      <ul style="cursor: pointer" id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                          role="menu" aria-labelledby="button-animated">
+                        <li (click)="onChangeStatus('Blocked');status='Blocked'">
+                          <a class="dropdown-item">Blocked</a>
+                        </li>
+                        <li (click)="onChangeStatus('Approved');status='Approved'">
+                          <a class="dropdown-item">Approved</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -57,11 +47,8 @@
                     <!--                    <th scope="col">Date</th>-->
                     <th scope="col">Company</th>
                     <th scope="col">Phone No</th>
-                    <th scope="col">Email</th>
                     <th scope="col">Location</th>
                     <th scope="col">SubLocation</th>
-                    <th scope="col">Delivery Charge</th>
-
                     <th scope="col"></th>
 
                   </tr>
@@ -79,39 +66,42 @@
                       {{item.mobile}}
                     </td>
                     <td>
-                      {{item.email}}
-                    </td>
-                    <td>
                       {{item.main_location.name}}
                     </td>
                     <td>
                       {{item.sub_location.name}}
                     </td>
-
-                    <td>
-                      {{item.delivery_charge}}
-                    </td>
                     <td>
                       <div class="btn-group" dropdown>
                         <button id="button-basic" dropdownToggle type="button"
                                 [class]="item.is_approved==true ? 'btn btn-sm btn-outline-success dropdown-toggle'
-                                :item.is_approved==false ? 'btn  btn-sm btn-outline-danger dropdown-toggle'
-                              :''"
-                                aria-controls="dropdown-basic">
-                          Confirm<span class="caret"></span>
+                                :'btn  btn-sm btn-outline-danger dropdown-toggle'"
+                                aria-controls="dropdown-basic">{{item.is_approved == true ? 'Approved' : 'Blocked'}}
+                          <span class="caret"></span>
                         </button>
-
+                        <div>
+                          <ul style="cursor: pointer" id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                              role="menu" aria-labelledby="button-basic">
+                            <li (click)="openUpdateForm(Statustemplate);" *ngIf="item.is_approved"
+                                role="menuitem"><a
+                              class="dropdown-item">Block</a></li>
+                            <li (click)="openUpdateForm(Statustemplate);" *ngIf="!item.is_approved"
+                                role="menuitem"><a
+                              class="dropdown-item">Approve</a></li>
+                          </ul>
+                        </div>
                       </div>
 
                       <!--                      ************-->
                       <!--Start Change Order status model-->
                       <ng-template #Statustemplate>
                         <div class="modal-body text-center">
-                          <p>Are you sure want to change order status ?</p>
-                          <button type="button" class="btn btn-default" (click)="confirm(item.id)">
+                          <p>Are you sure want to change branch status ?</p>
+                          <button type="button" class="btn btn-default"
+                                  (click)="updateBranchRequest(item.id,!item.is_approved);modalRef.hide()">
                             Yes
                           </button>
-                          <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+                          <button type="button" class="btn btn-primary" (click)="modalRef.hide()">No</button>
                         </div>
                       </ng-template>
                       <!--End order status chage model-->
@@ -119,6 +109,9 @@
 
                     </td>
 
+                  </tr>
+                  <tr *ngIf="brnachData.length<=0">
+                    <td class="text-center" colspan="5"> No data found !</td>
                   </tr>
                   </tbody>
                 </table>

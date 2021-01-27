@@ -46,6 +46,7 @@ export class MasterService {
     const url = this.ipAddress + 'company/profile/';
     return this.http.get(url);
   }
+
   fetchCompany(companyId) {
     const url = this.ipAddress + 'company/profile/?id=' + companyId;
     return this.http.get(url);
@@ -60,14 +61,17 @@ export class MasterService {
     const url = this.ipAddress + 'company/profile/';
     return this.http.post(url, Data);
   }
+
   updateCompany(Data) {
     const url = this.ipAddress + 'company/profile/';
     return this.http.put(url, Data);
   }
+
   deleteCompany(comapnyId) {
     const url = this.ipAddress + 'company/profile/?id=' + comapnyId;
     return this.http.delete(url);
   }
+
   signup(Data) {
     const url = this.ipAddress + 'user/profile/';
     return this.http.post(url, Data);
@@ -77,9 +81,16 @@ export class MasterService {
     const url = this.ipAddress + 'company/branch/?page_wise=false';
     return this.http.get(url);
   }
-  fetchBranchRequest() {
-    const url = this.ipAddress + 'company/branch/?is_approved=false';
+
+  fetchBranchRequest(status) {
+    const url = this.ipAddress + `company/branch/?is_approved=${status}&page_wise=false`;
     return this.http.get(url);
+  }
+
+
+  updateBranchRequest(Data) {
+    const url = this.ipAddress + `company/branch/`;
+    return this.http.patch(url, Data);
   }
 
   fetchBranchByCompanyID(id) {

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {BsModalService} from 'ngx-bootstrap/modal';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {AuthService} from '../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
 
@@ -14,8 +14,12 @@ import {Router} from '@angular/router';
 })
 export class BranchRequestComponent implements OnInit {
 
+  filter;
   brnachData: any = [];
   public userData: any = [];
+  status = 'Blocked';
+  modalRef: BsModalRef;
+
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,
@@ -23,15 +27,27 @@ export class BranchRequestComponent implements OnInit {
     private modalService: BsModalService,
     public  authServie: AuthService,
     public route: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.fetchBranch();
+    this.fetchBranch(false);
   }
-  fetchBranch() {
+
+  onChangeStatus(status) {
+    if (status == 'Approved') {
+      this.fetchBranch(true);
+
+    } else if (status == 'Blocked') {
+      this.fetchBranch(false);
+    }
+  }
+
+  fetchBranch(status) {
+    this.brnachData = [];
     this.spinner.show();
-    this.maserservice.fetchBranchRequest().subscribe(res => {
+    this.maserservice.fetchBranchRequest(status).subscribe(res => {
       setTimeout(() => {
         this.brnachData = res;
         this.spinner.hide();
@@ -49,6 +65,7 @@ export class BranchRequestComponent implements OnInit {
         }
       };
   }
+
   public autherisationProcess() {
     // is logged in
     if (this.authServie.isLoggedIn()) {
@@ -62,6 +79,41 @@ export class BranchRequestComponent implements OnInit {
       // navigate to loggin page
       this.route.navigate(['/login']);
     }
+  }
+
+  openUpdateForm(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template,);
+  }
+
+  updateBranchRequest(branch_id, status) {
+    this.spinner.show();
+    const data = {
+      branch_id: branch_id,
+      is_approved: status
+    };
+    this.maserservice.updateBranchRequest(data).subscribe((res: any) => {
+      console.log(res);
+      setTimeout(() => {
+        if (res.Status) {
+          this.toastService.showSuccess('Updated successfully', 'Success');
+          this.fetchBranch(status);
+        } else {
+          this.toastService.showError(res.Error, 'Oops !');
+        }
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
   }
 
 }

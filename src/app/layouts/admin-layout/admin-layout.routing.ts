@@ -65,7 +65,7 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'addCompany', component: AddCompanyComponent},
   {path: 'viewManager', component: ViewManagerComponent},
   {path: 'viewCompany', component: ViewCompanyComponent},
-  {path: 'branchRequest', component: BranchRequestComponent}
+  {path: 'branch-requests', component: BranchRequestComponent}
 
 
 ];
