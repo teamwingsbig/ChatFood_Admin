@@ -16,10 +16,12 @@ export class ProductService {
     const url = this.ipAddress + 'items/addoncategory/';
     return this.http.post(url, Data);
   }
+
   deleteAddonsCategory(addonsCatId) {
     const url = this.ipAddress + 'items/addoncategory/?id=' + addonsCatId;
     return this.http.delete(url);
   }
+
   updateAddonsCategory(Data) {
     const url = this.ipAddress + 'items/addoncategory/';
     return this.http.put(url, Data);
@@ -29,6 +31,7 @@ export class ProductService {
     const url = this.ipAddress + 'items/details/';
     return this.http.post(url, Data);
   }
+
   deleteProduct(productId) {
     const url = this.ipAddress + 'items/details/?id=' + productId;
     return this.http.delete(url);
@@ -48,6 +51,7 @@ export class ProductService {
     const url = this.ipAddress + 'items/varients/';
     return this.http.put(url, Data);
   }
+
   deleteVarients(variantId) {
     const url = this.ipAddress + 'items/varients/?id=' + variantId;
     return this.http.delete(url);
@@ -57,13 +61,21 @@ export class ProductService {
     const url = this.ipAddress + 'items/addons/';
     return this.http.put(url, Data);
   }
+
   deleteAddons(addonId) {
     const url = this.ipAddress + 'items/addons/?id=' + addonId;
     return this.http.delete(url);
   }
 
-  fetchProduct() {
-    const url = this.ipAddress + 'items/details/?page_wise=0';
+  fetchProduct(branch_id = null, company_id = null) {
+    let url;
+    if (branch_id != null) {
+      url = this.ipAddress + `items/details/?page_wise=0&branch_id=${branch_id}`;
+
+    } else if (company_id = null) {
+      url = this.ipAddress + `items/details/?page_wise=0&company_id=${company_id}`;
+    }
+    // const url = this.ipAddress + 'items/details/?page_wise=0';
     return this.http.get(url);
   }
 
