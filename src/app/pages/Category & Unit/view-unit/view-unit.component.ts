@@ -31,7 +31,7 @@ export class ViewUnitComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-      this.loadUnit();
+      this.fetchUnit(this.userData.branch_id, this.userData.company_id);
   }
   public autherisationProcess() {
     // is logged in
@@ -56,9 +56,9 @@ export class ViewUnitComponent implements OnInit {
       this.fetchUnitByBranch()  ;
     }
   }
-  fetchUnit() {
+  fetchUnit(branchId = null, companyId = null) {
     this.spinner.show();
-    this.maserservice.fetchUnits().subscribe(res => {
+    this.maserservice.fetchUnits(branchId, companyId).subscribe(res => {
       setTimeout(() => {
         this.unitData = res;
         this.spinner.hide();

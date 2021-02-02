@@ -6,6 +6,7 @@ import {ProductService} from '../../../../Service/Database/product.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../../Service/Authentication/auth.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {concatMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-addons-category',
@@ -33,7 +34,7 @@ export class ViewAddonsCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.loadAddons();
+    this.fetchAddonsCategory(this.userData.branch_id, this.userData.company_id);
   }
   loadAddons() {
     if (this.userData.user_type === 1) {
@@ -56,9 +57,9 @@ export class ViewAddonsCategoryComponent implements OnInit {
       this.route.navigate(['/login']);
     }
   }
-  fetchAddonsCategory() {
+  fetchAddonsCategory(branchId = null, companyId = null) {
     this.spinner.show();
-    this.productService.fetchAddonsCategory().subscribe(data => {
+    this.productService.fetchAddonsCategory(branchId, companyId).subscribe(data => {
         setTimeout(() => {
           this.categoryData = data;
           this.spinner.hide();

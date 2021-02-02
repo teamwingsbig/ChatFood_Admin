@@ -229,13 +229,13 @@ export class AddPromocodeComponent implements OnInit {
 
   loadBranch() {
     // console.log(this.userData.user_type);
-    // if (this.userData.user_type === 1) {
-    //   //   admin
-    //   this.fetchBranchByCompanyID();
-    // } else if (this.userData.user_type === 2) {
-    //   this.fetchBranchByID();
-    // }
-    this.fetchBranchByID();
+    if (this.userData.user_type === 1) {
+      //   admin
+      this.fetchBranchByCompanyID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
+    // this.fetchBranchByID();
   }
 
   fetchBranchByID() {

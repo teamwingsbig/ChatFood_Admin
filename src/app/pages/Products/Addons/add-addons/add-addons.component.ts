@@ -79,7 +79,7 @@ export class AddAddonsComponent implements OnInit {
     this.autherisationProcess();
     this.setFormBuilder();
     this.fetchBranch();
-    this.fetchAddonsCategory();
+    this.fetchAddonsCategory(this.userData.branch_id, this.userData.company_id);
   }
 
   public autherisationProcess() {
@@ -146,9 +146,10 @@ export class AddAddonsComponent implements OnInit {
     });
   }
 
-  fetchAddonsCategory() {
-    this.productService.fetchAddonsCategory().subscribe(res => {
+  fetchAddonsCategory(branchId = null, companyId = null) {
+    this.productService.fetchAddonsCategory(branchId, companyId).subscribe(res => {
       this.categoryData = res;
+      console.log((this.categoryData));
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

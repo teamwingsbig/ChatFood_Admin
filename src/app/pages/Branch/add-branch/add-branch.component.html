@@ -186,7 +186,7 @@
                 <div class="col-lg-3">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Delivery Charge</label>
-                    <input type="email" formControlName="deliveryCharge"
+                    <input type="email" formControlName="delivery_charge"
                            class="form-control form-control-alternative" placeholder="Delivery Charge ">
                     <div *ngFor="let validation of validation_messages.trn">
                       <div class="error-message" *ngIf="branchForm.get('trn').hasError(validation.type) &&

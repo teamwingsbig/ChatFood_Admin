@@ -163,12 +163,14 @@ export class MasterService {
     return this.http.get(url);
   }
 
-  fetchCategory(branch_id = null) {
-    if (branch_id == null) {
-      const url = this.ipAddress + 'items/category/?page_wise=0';
+  fetchCategory(branch_id = null, companyId = null) {
+    let url;
+    if (branch_id != null && branch_id !== 0) {
+      // const url = this.ipAddress + 'items/category/?page_wise=0';
+      url = this.ipAddress + 'items/category/?page_wise=0&branch_id=' + branch_id;
       return this.http.get(url);
-    } else {
-      const url = this.ipAddress + 'items/category/?page_wise=0&branch_id=' + branch_id;
+    } else if (companyId != null && companyId !== 0) {
+      url = this.ipAddress + 'items/category/?page_wise=0&company_id=' + companyId;
       return this.http.get(url);
     }
 
@@ -184,12 +186,13 @@ export class MasterService {
     return this.http.get(url);
   }
 
-  fetchUnits(branch_id = null) {
-    if (branch_id == null) {
-      const url = this.ipAddress + 'items/units/?page_wise=0';
+  fetchUnits(branch_id = null , companyId = null) {
+    let url;
+    if (branch_id != null && branch_id !== 0) {
+       url = this.ipAddress + `items/units/?branch_id=${branch_id}&page_wise=0`;
       return this.http.get(url);
-    } else {
-      const url = this.ipAddress + `items/units/?branch_id=${branch_id}&page_wise=0`;
+    } else if (companyId != null && companyId !== 0) {
+       url = this.ipAddress + `items/units/?company_id=${companyId}&page_wise=0`;
       return this.http.get(url);
     }
   }

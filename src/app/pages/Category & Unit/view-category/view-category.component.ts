@@ -30,7 +30,7 @@ export class ViewCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.loadCategory();
+    this.fetchcategory(this.userData.branch_id, this.userData.company_id);
   }
 
   public autherisationProcess() {
@@ -51,7 +51,7 @@ export class ViewCategoryComponent implements OnInit {
 
   loadCategory() {
     if (this.userData.user_type === 1) {
-      this.fetchcategoty();
+      this.fetchcategory();
     } else if (this.userData.user_type === 2) {
       this.fetchcategotyByBranch()  ;
     }
@@ -76,9 +76,9 @@ export class ViewCategoryComponent implements OnInit {
         }
       };
   }
-  fetchcategoty() {
+  fetchcategory(branchId = null , companyId = null) {
     this.spinner.show();
-    this.maserservice.fetchCategory().subscribe(res => {
+    this.maserservice.fetchCategory(branchId, companyId).subscribe(res => {
       setTimeout(() => {
         console.log(res);
         this.categotyData = res;

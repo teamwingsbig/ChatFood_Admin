@@ -32,9 +32,10 @@ export class ProductService {
     return this.http.post(url, Data);
   }
 
-  deleteProduct(productId) {
-    const url = this.ipAddress + 'items/details/?id=' + productId;
-    return this.http.delete(url);
+  deleteProduct(data) {
+    console.log(data);
+    const url = this.ipAddress + 'items/details/';
+    return this.http.patch(url, data);
   }
 
   updateProduct(Data) {
@@ -62,17 +63,22 @@ export class ProductService {
     return this.http.put(url, Data);
   }
 
-  deleteAddons(addonId) {
-    const url = this.ipAddress + 'items/addons/?id=' + addonId;
-    return this.http.delete(url);
+  deleteAddons(Data) {
+    console.log(Data);
+    const url = this.ipAddress + 'items/addons/';
+    return this.http.patch(url, Data);
   }
 
   fetchProduct(branch_id = null, company_id = null) {
+
     let url;
-    if (branch_id != null) {
+    // tslint:disable-next-line:triple-equals
+    if (branch_id != null && branch_id != 0) {
+      console.log('brandhcid url');
       url = this.ipAddress + `items/details/?page_wise=0&branch_id=${branch_id}`;
 
-    } else if (company_id = null) {
+      // tslint:disable-next-line:triple-equals
+    } else if (company_id != null && company_id != 0) {
       url = this.ipAddress + `items/details/?page_wise=0&company_id=${company_id}`;
     }
     // const url = this.ipAddress + 'items/details/?page_wise=0';
@@ -90,12 +96,13 @@ export class ProductService {
   }
 
 
-  fetchAddonsCategory(branch_id = null) {
-    if (branch_id == null) {
-      const url = this.ipAddress + 'items/addoncategory/?page_wise=0';
+  fetchAddonsCategory(branch_id = null, companyId = null) {
+    let url;
+    if (companyId != null && companyId !== 0) {
+       url = this.ipAddress + 'items/addoncategory/?page_wise=0&company_id=' + companyId;
       return this.http.get(url);
-    } else {
-      const url = this.ipAddress + 'items/addoncategory/?page_wise=0&branch_id=' + branch_id;
+    } else if (branch_id != null && branch_id !== 0) {
+       url = this.ipAddress + 'items/addoncategory/?page_wise=0&branch_id=' + branch_id;
       return this.http.get(url);
     }
 
@@ -116,12 +123,13 @@ export class ProductService {
     return this.http.get(url);
   }
 
-  fetchAddons(branch_id = null) {
-    if (branch_id == null) {
-      const url = this.ipAddress + 'items/addons/?page_wise=0';
+  fetchAddons(branch_id = null, companyId = null) {
+    let url;
+    if (companyId != null && companyId !== 0) {
+      url = this.ipAddress + 'items/addons/?page_wise=0&company_id=' + companyId;
       return this.http.get(url);
-    } else {
-      const url = this.ipAddress + 'items/addons/?page_wise=0&branch_id=' + branch_id;
+    } else if (branch_id != null && branch_id !== 0 ) {
+       url = this.ipAddress + 'items/addons/?page_wise=0&branch_id=' + branch_id;
       return this.http.get(url);
     }
 

@@ -70,6 +70,9 @@ export class AddBranchComponent implements OnInit {
     ],
     tax_type: [
       {type: 'required', message: 'Estimated time   is required.'},
+    ],
+    delivery_charge: [
+      {type: 'required', message: 'Delivery Charge   is required.'},
     ]
   };
 
@@ -211,7 +214,7 @@ export class AddBranchComponent implements OnInit {
           Validators.required,
         ])
       ],
-      deliveryCharge: [
+      delivery_charge: [
         '',
         Validators.compose([
           Validators.required,

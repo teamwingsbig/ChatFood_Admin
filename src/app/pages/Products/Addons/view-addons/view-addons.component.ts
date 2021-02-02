@@ -34,7 +34,7 @@ export class ViewAddonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.loadAddons();
+    this.fetchAddons(this.userData.branch_id, this.userData.company_id);
   }
   loadAddons() {
     if (this.userData.user_type === 1) {
@@ -58,9 +58,9 @@ export class ViewAddonsComponent implements OnInit {
     }
   }
 
-  fetchAddons() {
+  fetchAddons(brancId = null, companyId = null) {
     this.spinner.show();
-    this.productService.fetchAddons().subscribe(data => {
+    this.productService.fetchAddons(brancId, companyId).subscribe(data => {
         setTimeout(() => {
           this.addonsData = data;
           this.spinner.hide();
@@ -106,8 +106,12 @@ export class ViewAddonsComponent implements OnInit {
     this.StatusmodalRef.hide();
   }
   deleteAddons(addonId) {
+    const data = {
+      item_id: addonId,
+      keyword: 'delete_item'
+    };
     this.spinner.show();
-    this.productService.deleteAddons(addonId).subscribe(res => {
+    this.productService.deleteAddons(data).subscribe(res => {
       setTimeout(() => {
         console.log(res);
         this.spinner.hide();

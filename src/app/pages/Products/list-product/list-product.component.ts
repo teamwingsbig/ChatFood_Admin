@@ -33,7 +33,7 @@ export class ListProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.autherisationProcess();
-    this.fetchProducts();
+    this.fetchProducts(this.userData.branch_id, this.userData.company_id);
   }
 
   public autherisationProcess() {
@@ -51,9 +51,9 @@ export class ListProductComponent implements OnInit {
     }
   }
 
-  fetchProducts() {
+  fetchProducts(branchId = null, companyId = null) {
     this.spinner.show();
-    this.productService.fetchProduct().subscribe(res => {
+    this.productService.fetchProduct(branchId, companyId).subscribe(res => {
       setTimeout(() => {
         this.productData = res;
         this.spinner.hide();
@@ -82,6 +82,36 @@ export class ListProductComponent implements OnInit {
     this.StatusmodalRef.hide();
   }
   deleteProduct(productId) {
+    const data = {
+      item_id: productId,
+      keyword: 'delete_item'
+    };
+    this.spinner.show();
+    this.productService.deleteProduct(data).subscribe(res => {
+        setTimeout(() => {
+          let ResultSet: any;
+          ResultSet = res;
+          if (ResultSet.Status) {
+            this.toastService.showSuccess('Product Successfully Deleted', 'Success');
+            // reset form
+            this.route.navigate(['/listProducts']);
+          } else {
+            this.toastService.showError(ResultSet.Error, 'Oops !');
+          }
+          this.spinner.hide();
+        }, 2000);
+      },
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      }
+    );
   }
   confirm(productId): void {
     console.log(productId);
