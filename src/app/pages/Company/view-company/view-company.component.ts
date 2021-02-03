@@ -16,6 +16,8 @@ export class ViewCompanyComponent implements OnInit {
   companyData: any = [];
   StatusmodalRef: BsModalRef;
   modalRef: BsModalRef;
+  public filter;
+  p = 1;
   public userData: any = [];
   constructor(  public  authServie: AuthService,   public toastService: ToastService,
                 public spinner: NgxSpinnerService,

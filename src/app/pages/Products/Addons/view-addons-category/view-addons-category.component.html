@@ -8,7 +8,7 @@
   <div class="container-fluid d-flex align-items-center">
   </div>
 </div>
-<div class="container-fluid mt--7">
+<div class="container-fluid mt--7">locationData
   <div class="row">
     <div class="col-xl-12 order-xl-1">
       <div class="card bg-white shadow">
@@ -98,7 +98,7 @@
                   <div class="pagination justify-content-end mb-0">
                     <!-- <pagination-controls (pageChange)="p = $event">
                     </pagination-controls> -->
-                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="locationData">
+                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="categoryData">
                       <ul class="pagination justify-content-end mb-0">
                         <li class="page-item ">
                           <a (click)="pT.previous()" *ngIf="!pT.isFirstPage()" [class.disabled]="pT.isFirstPage()"

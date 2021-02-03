@@ -19,7 +19,7 @@ export class BranchRequestComponent implements OnInit {
   public userData: any = [];
   status = 'Blocked';
   modalRef: BsModalRef;
-
+  p = 1;
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,

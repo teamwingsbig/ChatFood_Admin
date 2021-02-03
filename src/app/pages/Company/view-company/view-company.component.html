@@ -96,7 +96,7 @@
                   <div class="pagination justify-content-end mb-0">
                     <!-- <pagination-controls (pageChange)="p = $event">
                     </pagination-controls> -->
-                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="brnachData">
+                    <pagination-template #pT="paginationApi" (pageChange)="p = $event" *ngIf="companyData">
                       <ul class="pagination justify-content-end mb-0">
                         <li class="page-item ">
                           <a (click)="pT.previous()" *ngIf="!pT.isFirstPage()" [class.disabled]="pT.isFirstPage()"

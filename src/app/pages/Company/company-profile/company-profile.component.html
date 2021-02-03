@@ -36,7 +36,7 @@
                     </div>
                     <input type="text" required formControlName="company_name"
                            class="form-control form-control-alternative" placeholder="Type Company Name">
-                    <div *ngFor="let validation of validation_messages.name">
+                    <div *ngFor="let validation of validation_messages.company_name">
                       <div class="error-message" *ngIf="companyForm.get('company_name').hasError(validation.type) &&
                         (companyForm.get('company_name').dirty || companyForm.get('company_name').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
