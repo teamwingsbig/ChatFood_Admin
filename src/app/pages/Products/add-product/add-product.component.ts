@@ -120,6 +120,7 @@ export class AddProductComponent implements OnInit {
     this.loadBranch();
     // this.fetchUnit();
     this.loadProductandVarients();
+  console.log(this.userData.branch_id);
   }
 
   loadBranch() {
@@ -173,6 +174,7 @@ export class AddProductComponent implements OnInit {
             this.fetchCategoryByBranch(ResultSet[0].branch.id);
             this.itemForm.controls['category_id'].setValue(ResultSet[0].category.id);
 
+            this.fetchUnit(ResultSet[0].branch.id);
             // update image
             this.previewUrl = ResultSet[0].images[0].image;
             // update varient array
@@ -373,9 +375,11 @@ export class AddProductComponent implements OnInit {
   }
 
   fetchUnit(branch_id) {
+    console.log(branch_id);
     this.unitData = [];
     this.masterService.fetchUnits(branch_id).subscribe(res => {
       this.unitData = res;
+      console.log(this.unitData);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
@@ -391,6 +395,7 @@ export class AddProductComponent implements OnInit {
   }
 
   openVarientForm(template: TemplateRef<any>) {
+
     this.modalRef = this.modalService.show(template, {class: 'gray modal-lg'});
   }
 
@@ -527,8 +532,9 @@ export class AddProductComponent implements OnInit {
 
   updateVarients(varientData) {
     if (this.varientForm.valid) {
+      console.log("Produtc");
       const data = {
-        'id': varientData.id,
+        'item_id': this.productID,
         'unit_id': varientData.unit_id[0],
         'unit_name': varientData.unit_id[1],
         'name': varientData.name,
@@ -540,13 +546,14 @@ export class AddProductComponent implements OnInit {
       };
       if (this.varientForm.valid) {
         this.spinner.show();
-        this.productService.updateVarients(data).subscribe(res => {
+        console.log(data);
+        this.productService.saveVarients(data).subscribe(res => {
           console.log(res);
           setTimeout(() => {
             let Resultset: any;
             Resultset = res;
             if (Resultset.Status) {
-              this.toastService.showSuccess('Updated Successfully', 'Success');
+              this.toastService.showSuccess('New Variant Added Successfully', 'Success');
             } else {
               this.toastService.showError(Resultset.Error, 'Oops !');
             }
@@ -603,7 +610,10 @@ export class AddProductComponent implements OnInit {
     this.productService.deleteVarients(varient_id).subscribe(res => {
       setTimeout(() => {
         console.log(res);
+
         this.spinner.hide();
+        this.toastService.showSuccess('Deleted Successfully variant', 'Success');
+        this.loadProductandVarients();
       }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
