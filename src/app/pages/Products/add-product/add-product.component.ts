@@ -532,7 +532,6 @@ export class AddProductComponent implements OnInit {
 
   updateVarients(varientData) {
     if (this.varientForm.valid) {
-      console.log("Produtc");
       const data = {
         'item_id': this.productID,
         'unit_id': varientData.unit_id[0],
@@ -612,7 +611,7 @@ export class AddProductComponent implements OnInit {
         console.log(res);
 
         this.spinner.hide();
-        this.toastService.showSuccess('Deleted Successfully variant', 'Success');
+        this.toastService.showSuccess('Variant Deleted Successfully', 'Success');
         this.loadProductandVarients();
       }, 2000);
     }),
