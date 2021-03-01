@@ -120,6 +120,7 @@ export class AddProductComponent implements OnInit {
     this.loadBranch();
     // this.fetchUnit();
     this.loadProductandVarients();
+  console.log(this.userData.branch_id);
   }
 
   loadBranch() {
@@ -173,6 +174,7 @@ export class AddProductComponent implements OnInit {
             this.fetchCategoryByBranch(ResultSet[0].branch.id);
             this.itemForm.controls['category_id'].setValue(ResultSet[0].category.id);
 
+            this.fetchUnit(ResultSet[0].branch.id);
             // update image
             this.previewUrl = ResultSet[0].images[0].image;
             // update varient array
@@ -181,7 +183,6 @@ export class AddProductComponent implements OnInit {
             // remove image validation
             this.itemForm.controls['images'].clearValidators();
             this.itemForm.controls['images'].updateValueAndValidity();
-            this.fetchUnit(ResultSet[0].branch.id);
             this.spinner.hide();
           }, 500);
 
@@ -374,9 +375,11 @@ export class AddProductComponent implements OnInit {
   }
 
   fetchUnit(branch_id) {
+    console.log(branch_id);
     this.unitData = [];
     this.masterService.fetchUnits(branch_id).subscribe(res => {
       this.unitData = res;
+      console.log(this.unitData);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
@@ -392,6 +395,7 @@ export class AddProductComponent implements OnInit {
   }
 
   openVarientForm(template: TemplateRef<any>) {
+
     this.modalRef = this.modalService.show(template, {class: 'gray modal-lg'});
   }
 
@@ -420,12 +424,10 @@ export class AddProductComponent implements OnInit {
       //   remove item from the html tale
       this.varientData.splice(index, 1);
       this.toastService.showSuccess('Successfully Deleted', 'Success');
-
     } else if (this.btn_title === 'Update') {
       // remove item from the database
       this.openDeleteModel(template);
     }
-
 
   }
 
@@ -531,7 +533,7 @@ export class AddProductComponent implements OnInit {
   updateVarients(varientData) {
     if (this.varientForm.valid) {
       const data = {
-        'id': varientData.id,
+        'item_id': this.productID,
         'unit_id': varientData.unit_id[0],
         'unit_name': varientData.unit_id[1],
         'name': varientData.name,
@@ -543,13 +545,14 @@ export class AddProductComponent implements OnInit {
       };
       if (this.varientForm.valid) {
         this.spinner.show();
-        this.productService.updateVarients(data).subscribe(res => {
+        console.log(data);
+        this.productService.saveVarients(data).subscribe(res => {
           console.log(res);
           setTimeout(() => {
             let Resultset: any;
             Resultset = res;
             if (Resultset.Status) {
-              this.toastService.showSuccess('Updated Successfully', 'Success');
+              this.toastService.showSuccess('New Variant Added Successfully', 'Success');
             } else {
               this.toastService.showError(Resultset.Error, 'Oops !');
             }
@@ -584,7 +587,7 @@ export class AddProductComponent implements OnInit {
     if (this.varient_btn_title === 'Save') {
       this.addVarients(varientData);
     } else if (this.varient_btn_title === 'Update') {
-      this.saveVareint();
+      this.updateVarients(varientData);
     }
   }
 
@@ -603,14 +606,13 @@ export class AddProductComponent implements OnInit {
 
   deleteVareint(varient_id) {
     this.spinner.show();
-    this.productService.deleteVarients(varient_id).subscribe((res: any) => {
+    this.productService.deleteVarients(varient_id).subscribe(res => {
       setTimeout(() => {
-        console.log(res.Status);
-        if (res.Status) {
-          this.toastService.showSuccess('Variant Succesfully Deleted', 'Success');
-          this.loadProductandVarients();
-        }
+        console.log(res);
+
         this.spinner.hide();
+        this.toastService.showSuccess('Variant Deleted Successfully', 'Success');
+        this.loadProductandVarients();
       }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
@@ -624,44 +626,6 @@ export class AddProductComponent implements OnInit {
           // console.log('Response body:', error.error);
         }
       };
-  }
-  saveVareint() {
-    if (this.varientForm.valid) {
-      this.spinner.show();
-      const data = {
-        'unit_id': this.varientForm.value.unit_id.split(',')[0],
-        'name': this.varientForm.value.name,
-        'item_id': this.productID,
-        'magnitude': this.varientForm.value.magnitude,
-        'cost_price': this.varientForm.value.cost_price,
-        'selling_price': this.varientForm.value.selling_price,
-        'current_stock': this.varientForm.value.current_stock,
-        'reorder_point': this.varientForm.value.reorder_point
-      };
-      this.productService.saveVarients(data).subscribe((res: any) => {
-        setTimeout(() => {
-          console.log(res.Status);
-          if (res.Status) {
-            this.toastService.showSuccess('Variant Succesfully Added', 'Success');
-            this.loadProductandVarients();
-          }
-          this.spinner.hide();
-        }, 2000);
-      }),
-        // tslint:disable-next-line:no-unused-expression
-        (error: HttpErrorResponse) => {
-          if (error.error instanceof Error) {
-            // console.log('An error occurred:', error.error.message);
-            this.toastService.showError('An error occcured', 'Oops !');
-          } else {
-            this.toastService.showError('An error occcured', 'Oops !');
-            // console.log('Backend returned status code: ', error.status);
-            // console.log('Response body:', error.error);
-          }
-        };
-
-    }
-
   }
 
   openDeleteModel(template: TemplateRef<any>) {
