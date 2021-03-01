@@ -119,7 +119,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">TRN</label>
                     <input type="email" formControlName="trn"
@@ -132,7 +132,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Minimum Order</label>
                     <input type="email" formControlName="minimum_order"
@@ -145,7 +145,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Estimated Time</label>
                     <input type="email" formControlName="estimated_time"
@@ -158,19 +158,22 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-3">
+
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Tax type</label>
                     <div class="row">
                       <div class="custom-control custom-radio mb-3">
-                      <div class="col-lg-6">
-                        <input name="tax_type" value="gst"  formControlName="tax_type" [checked]="true" class="custom-control-input" id="RadioGST" type="radio">
-                        <label class="custom-control-label"    for="RadioGST">GST</label>
-                      </div>
-                      <div class="col-lg-6">
-                        <input name="tax_type" value="vat" formControlName="tax_type" class="custom-control-input" id="RadioVat" type="radio">
-                        <label class="custom-control-label"   for="RadioVat">VAT</label>
-                      </div>
+                        <div class="col-lg-6">
+                          <input name="tax_type" value="gst"  formControlName="tax_type" [checked]="true" class="custom-control-input" id="RadioGST" type="radio">
+                          <label class="custom-control-label"    for="RadioGST">GST</label>
+                        </div>
+                        <div class="col-lg-6">
+                          <input name="tax_type" value="vat" formControlName="tax_type" class="custom-control-input" id="RadioVat" type="radio">
+                          <label class="custom-control-label"   for="RadioVat">VAT</label>
+                        </div>
                       </div>
                     </div>
                     <div *ngFor="let validation of validation_messages.tax_type">
@@ -181,9 +184,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-first-name">Delivery Charge</label>
                     <input type="email" formControlName="delivery_charge"

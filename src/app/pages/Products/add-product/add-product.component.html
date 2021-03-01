@@ -388,7 +388,7 @@
                                 <ng-template #deleteTemplate>
                                   <div class="modal-body text-center">
                                     <p>Are you sure you want to delete  ?</p>
-                                    <button (click)="deleteVareint(item.id)" class="btn btn-default" type="button">Yes
+                                    <button (click)="deleteVareint(item.id);deleteModelModalRef.hide()" class="btn btn-default" type="button">Yes
                                     </button>
                                     <button (click)="deleteModelModalRef.hide()" class="btn btn-primary" type="button">No</button>
                                   </div>

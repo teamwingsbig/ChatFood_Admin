@@ -181,6 +181,7 @@ export class AddProductComponent implements OnInit {
             // remove image validation
             this.itemForm.controls['images'].clearValidators();
             this.itemForm.controls['images'].updateValueAndValidity();
+            this.fetchUnit(ResultSet[0].branch.id);
             this.spinner.hide();
           }, 500);
 
@@ -419,10 +420,12 @@ export class AddProductComponent implements OnInit {
       //   remove item from the html tale
       this.varientData.splice(index, 1);
       this.toastService.showSuccess('Successfully Deleted', 'Success');
+
     } else if (this.btn_title === 'Update') {
       // remove item from the database
       this.openDeleteModel(template);
     }
+
 
   }
 
@@ -581,7 +584,7 @@ export class AddProductComponent implements OnInit {
     if (this.varient_btn_title === 'Save') {
       this.addVarients(varientData);
     } else if (this.varient_btn_title === 'Update') {
-      this.updateVarients(varientData);
+      this.saveVareint();
     }
   }
 
@@ -600,9 +603,13 @@ export class AddProductComponent implements OnInit {
 
   deleteVareint(varient_id) {
     this.spinner.show();
-    this.productService.deleteVarients(varient_id).subscribe(res => {
+    this.productService.deleteVarients(varient_id).subscribe((res: any) => {
       setTimeout(() => {
-        console.log(res);
+        console.log(res.Status);
+        if (res.Status) {
+          this.toastService.showSuccess('Variant Succesfully Deleted', 'Success');
+          this.loadProductandVarients();
+        }
         this.spinner.hide();
       }, 2000);
     }),
@@ -617,6 +624,44 @@ export class AddProductComponent implements OnInit {
           // console.log('Response body:', error.error);
         }
       };
+  }
+  saveVareint() {
+    if (this.varientForm.valid) {
+      this.spinner.show();
+      const data = {
+        'unit_id': this.varientForm.value.unit_id.split(',')[0],
+        'name': this.varientForm.value.name,
+        'item_id': this.productID,
+        'magnitude': this.varientForm.value.magnitude,
+        'cost_price': this.varientForm.value.cost_price,
+        'selling_price': this.varientForm.value.selling_price,
+        'current_stock': this.varientForm.value.current_stock,
+        'reorder_point': this.varientForm.value.reorder_point
+      };
+      this.productService.saveVarients(data).subscribe((res: any) => {
+        setTimeout(() => {
+          console.log(res.Status);
+          if (res.Status) {
+            this.toastService.showSuccess('Variant Succesfully Added', 'Success');
+            this.loadProductandVarients();
+          }
+          this.spinner.hide();
+        }, 2000);
+      }),
+        // tslint:disable-next-line:no-unused-expression
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        };
+
+    }
+
   }
 
   openDeleteModel(template: TemplateRef<any>) {
