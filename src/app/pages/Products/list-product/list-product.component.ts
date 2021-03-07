@@ -35,7 +35,6 @@ export class ListProductComponent implements OnInit {
     this.autherisationProcess();
     this.fetchProducts(this.userData.branch_id, this.userData.company_id);
   }
-
   public autherisationProcess() {
     // is logged in
     if (this.authService.isLoggedIn()) {

@@ -337,7 +337,7 @@
                           <th scope="col">Stock</th>
                           <th scope="col">Reorder Point</th>
                           <th scope="col">Action</th>
-                          <th scope="col"></th>
+<!--                          <th scope="col"></th>-->
 
                         </tr>
                         </thead>
@@ -377,25 +377,25 @@
                               &nbsp;Delete
                             </button>
                           </td>
-                          <td class="text-right">
-                            <div ngbDropdown placement="bottom-right">
-                              <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
-                                <i class="fas fa-ellipsis-v"></i>
-                              </a>
-                              <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu
-                                   style="cursor: pointer;">
-                                <a (click)="editVarient(varientTemplate,item)"  class="dropdown-item">Edit</a>
+<!--                          <td class="text-right">-->
+<!--                            <div ngbDropdown placement="bottom-right">-->
+<!--                              <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>-->
+<!--                                <i class="fas fa-ellipsis-v"></i>-->
+<!--                              </a>-->
+<!--                              <div class=" dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu-->
+<!--                                   style="cursor: pointer;">-->
+<!--                                <a (click)="editVarient(varientTemplate,item)"  class="dropdown-item">Edit</a>-->
                                 <ng-template #deleteTemplate>
                                   <div class="modal-body text-center">
                                     <p>Are you sure you want to delete  ?</p>
-                                    <button (click)="deleteVareint(item.id)" class="btn btn-default" type="button">Yes
+                                    <button (click)="deleteVareint(item.id);deleteModelModalRef.hide()" class="btn btn-default" type="button">Yes
                                     </button>
                                     <button (click)="deleteModelModalRef.hide()" class="btn btn-primary" type="button">No</button>
                                   </div>
                                 </ng-template>
-                              </div>
-                            </div>
-                          </td>
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </td>-->
                         </tr>
                         <tr class="text-center" *ngIf="varientData.length<=0">
                           <td colspan="9" class="text-lg">No Data Found !</td>

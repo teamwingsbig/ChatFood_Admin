@@ -78,7 +78,7 @@ export class AddAddonsComponent implements OnInit {
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
-    this.fetchBranch();
+  this.loadBranch();
     this.fetchAddonsCategory(this.userData.branch_id, this.userData.company_id);
   }
 
@@ -163,7 +163,47 @@ export class AddAddonsComponent implements OnInit {
         }
       };
   }
-
+  fetchBranchbyCompanyID() {
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
+      this.branchData = res;
+      console.log(res);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+  loadBranch() {
+    console.log(this.userData.user_type);
+    if (this.userData.user_type === 1) {
+      this.fetchBranchbyCompanyID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
+  }
+  fetchBranchByID() {
+    this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
   fetchBranch() {
     this.masterService.fetchBranch().subscribe(res => {
       this.branchData = res;

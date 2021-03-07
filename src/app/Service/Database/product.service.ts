@@ -52,6 +52,12 @@ export class ProductService {
     const url = this.ipAddress + 'items/varients/';
     return this.http.put(url, Data);
   }
+  saveVarients(Data) {
+    const url = this.ipAddress + 'items/varients/';
+    return this.http.post(url, Data);
+  }
+
+
 
   deleteVarients(variantId) {
     const url = this.ipAddress + 'items/varients/?id=' + variantId;
