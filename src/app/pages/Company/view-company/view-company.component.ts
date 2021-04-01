@@ -78,8 +78,13 @@ export class ViewCompanyComponent implements OnInit {
   deleteCompany(companyId) {
     this.spinner.show();
     this.maserservice.deleteCompany(companyId).subscribe(res => {
+      if (res.status){
+        this.toastService.showSuccess('Company Deleted Succesfully', 'Success');
+      }else {
+        this.toastService.showError(res.Error, 'Oops !');
+      }
       setTimeout(() => {
-        console.log(res);
+
         this.spinner.hide();
       }, 2000);
     }),

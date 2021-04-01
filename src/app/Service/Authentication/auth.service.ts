@@ -22,6 +22,10 @@ export class AuthService {
     }
   }
 
+  deleteAllLocalStorage() {
+    localStorage.clear();
+  }
+
   login(Data) {
     const url = this.ipAddress + 'user/login/';
     return this.http.post(url, Data);
