@@ -28,18 +28,20 @@ export class AddCompanyComponent implements OnInit {
     ],
     mobile: [
       {type: 'required', message: 'Mobile No is required.'},
-      {type: 'pattern', message: 'Characters not allowed '},
+      {type: 'pattern', message: 'Invalid Phone No '},
       {type: 'maxLength', message: 'Invalid Phone No '}
     ],
     address: [
       {type: 'required', message: 'Address is required.'},
     ],
     landline: [
-      {type: 'pattern', message: 'Characters not allowed '},
+      {type: 'pattern', message: 'Invalid Phone No '},
+      {type: 'required', message: 'Mobile No is required.'},
       {type: 'maxLength', message: 'Invalid Phone No '}
     ],
     email: [
       {type: 'required', message: 'Email is required.'},
+      {type: 'pattern', message: 'Invalid Email Address'},
     ],
     logo: [
       {type: 'required', message: 'Logo is required.'},
@@ -171,19 +173,20 @@ export class AddCompanyComponent implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[0-9]*$')
+          Validators.pattern('^((\\\\+91-?)|0)?[0-9]{10}$')
         ])
       ],
       landline: [
         '',
         Validators.compose([
-          Validators.pattern('^[0-9]*$')
+          Validators.pattern('^((\\\\+91-?)|0)?[0-9]{10}$')
         ])
       ],
       email: [
         '',
         Validators.compose([
           Validators.required,
+          Validators.email
         ])
       ],
       logo: [
