@@ -18,6 +18,18 @@ import set = Reflect.set;
 })
 export class CompanyProfileComponent implements OnInit {
 
+  constructor(
+    public formBuilder: FormBuilder,
+    public  masterService: MasterService,
+    public toastService: ToastService,
+    public  authService: AuthService,
+    public  route: Router,
+    public spinner: NgxSpinnerService,
+    public  router: ActivatedRoute
+  ) {
+
+  }
+
   companyForm: FormGroup;
 
   validation_messages = {
@@ -46,25 +58,13 @@ export class CompanyProfileComponent implements OnInit {
   };
 
   userData: any = [];
-
-  constructor(
-    public formBuilder: FormBuilder,
-    public  masterService: MasterService,
-    public toastService: ToastService,
-    public  authService: AuthService,
-    public  route: Router,
-    public spinner: NgxSpinnerService,
-    public  router: ActivatedRoute
-  ) {
-
-  }
+  companyId;
 
   ngOnInit(): void {
     this.autherisationProcess();
     this.setFormBuilder();
     this.loadCompanyProfile();
   }
-
   public autherisationProcess() {
     // is logged in
     if (this.authService.isLoggedIn()) {
@@ -127,7 +127,9 @@ export class CompanyProfileComponent implements OnInit {
       setTimeout(() => {
         let ResultSet: any;
         ResultSet = res;
+        console.log(ResultSet.results[0]);
         if (ResultSet.results.length > 0) {
+          this.companyId = ResultSet.results[0].id;
           this.companyForm.controls['company_name'].setValue(ResultSet.results[0].company_name);
           this.companyForm.controls['address'].setValue(ResultSet.results[0].address);
           this.companyForm.controls['mobile'].setValue(ResultSet.results[0].mobile);
@@ -152,9 +154,14 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   updateCompanyProfile() {
+    const formData: any = new FormData();
     if (this.companyForm.valid) {
+      formData.append('id', this.companyId);
+      Object.keys(this.companyForm.value).forEach(key => {
+        formData.append(key, this.companyForm.value[key]);
+      });
       this.spinner.show();
-      this.masterService.updateCompanyProfile(this.companyForm.value).subscribe(res => {
+      this.masterService.updateCompanyProfile(formData).subscribe(res => {
         setTimeout(() => {
           let ResultSet: any;
           ResultSet = res;
