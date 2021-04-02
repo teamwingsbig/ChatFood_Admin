@@ -59,7 +59,7 @@ export class AddPromocodeComponent implements OnInit {
       {type: 'pattern', message: 'Characters not allowed '},
       {type: 'maxLength', message: 'Invalid value '}
     ],
-    exp_date: [
+    ex_date: [
       {type: 'required', message: 'Date is required.'},
     ],
     disc_type: [
@@ -111,7 +111,7 @@ export class AddPromocodeComponent implements OnInit {
 
             // update the item form
             this.promoForm.controls['promo_code'].setValue(ResultSet[0].code);
-            this.promoForm.controls['exp_date'].setValue(ResultSet[0].expiry_date);
+            this.promoForm.controls['ex_date'].setValue(ResultSet[0].expiry_date);
             this.promoForm.controls['recurrence'].setValue(ResultSet[0].recurrence);
             this.promoForm.controls['disc_perc'].setValue(ResultSet[0].disc_perc);
             this.promoForm.controls['disc_price'].setValue(ResultSet[0].disc_price);
@@ -161,7 +161,7 @@ export class AddPromocodeComponent implements OnInit {
           Validators.pattern('^[0-9]*$')
         ])
       ],
-      exp_date: [
+      ex_date: [
         '',
         Validators.compose([
           Validators.required,

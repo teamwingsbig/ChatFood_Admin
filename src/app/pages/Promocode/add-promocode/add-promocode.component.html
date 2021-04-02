@@ -48,11 +48,11 @@
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-email">Expiry Date</label>
-                    <input type="date" required formControlName="exp_date"
+                    <input type="date" required formControlName="ex_date"
                            class="form-control form-control-alternative" placeholder="Type Date">
-                    <div *ngFor="let validation of validation_messages.exp_date">
-                      <div class="error-message" *ngIf="promoForm.get('exp_date').hasError(validation.type) &&
-                        (promoForm.get('exp_date').dirty || promoForm.get('exp_date').touched)">
+                    <div *ngFor="let validation of validation_messages.ex_date">
+                      <div class="error-message" *ngIf="promoForm.get('ex_date').hasError(validation.type) &&
+                        (promoForm.get('ex_date').dirty || promoForm.get('ex_date').touched)">
                         <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
                       </div>
                     </div>

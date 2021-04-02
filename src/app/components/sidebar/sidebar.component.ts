@@ -83,6 +83,18 @@ export const ROUTES: RouteInfo[] = [
     label: 'Configuration',
     main: [
       {
+        title: 'Pickup point', icon: 'ni ni-map-big text-primary', class: '', access: [1, 1, 1],
+        visible: false,
+        sub: [
+          {
+            path: '/pickup-points/add', title: 'Add Pickup points', icon: 'ni-tv-2 text-primary', class: '', access: [0, 1, 0]
+          },
+          {
+            path: '/pickup-points', title: 'View Pickup points', icon: 'ni-tv-2 text-primary', class: '', access: [0, 1, 0]
+          }
+        ]
+      },
+      {
         title: 'Branch', icon: 'fas fa-code-branch text-primary', class: '', access: [1, 1, 1],
         visible: false,
         sub: [

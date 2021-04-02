@@ -128,7 +128,7 @@ export class CompanyProfileComponent implements OnInit {
         let ResultSet: any;
         ResultSet = res;
         if (ResultSet.results.length > 0) {
-          this.companyId = ResultSet.results[0].id;
+            this.companyId = ResultSet.results[0].id;
           this.companyForm.controls['company_name'].setValue(ResultSet.results[0].company_name);
           this.companyForm.controls['address'].setValue(ResultSet.results[0].address);
           this.companyForm.controls['mobile'].setValue(ResultSet.results[0].mobile);
