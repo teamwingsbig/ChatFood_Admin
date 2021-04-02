@@ -153,7 +153,6 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   updateCompanyProfile() {
-    alert(this.companyId);
     const formData: any = new FormData();
     if (this.companyForm.valid) {
       formData.append('id', this.companyId);

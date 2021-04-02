@@ -1,0 +1,162 @@
+<ngx-spinner [fullScreen]="true" bdColor="rgba(0, 0, 0, 0.8)" color="#fff"
+             size="default" type="ball-clip-rotate-multiple">
+</ngx-spinner>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">{{editMode ? 'Edit Pickup point' : 'Add New Pick point'}}</h3>
+            </div>
+            <div class="col-4 text-right">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="pickupForm">
+            <h6 class="heading-small text-muted mb-4">Location details</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group ">
+                    <label class="form-control-label">Name</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="name"
+                           class="form-control form-control-alternative" placeholder="Type Name">
+                    <div *ngFor="let validation of validation_messages.name">
+                      <div class="error-message" *ngIf="pickupForm.get('name').hasError(validation.type) &&
+                        (pickupForm.get('name').dirty || pickupForm.get('name').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Address</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="address"
+                           class="form-control form-control-alternative" placeholder="Type Name">
+                    <div *ngFor="let validation of validation_messages.address">
+                      <div class="error-message" *ngIf="pickupForm.get('address').hasError(validation.type) &&
+                        (pickupForm.get('address').dirty || pickupForm.get('address').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Main Location</label>
+                    <div class="validation-errors">
+                    </div>
+                    <select type="text" required formControlName="main_location_id"
+                            (change)="fetchSublocation($event.target.value)"
+                            class="form-control form-control-alternative">
+                      <option *ngFor="let item of mainLocationData" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    <div *ngFor="let validation of validation_messages.main_location_id">
+                      <div class="error-message" *ngIf="pickupForm.get('main_location_id').hasError(validation.type) &&
+                        (pickupForm.get('main_location_id').dirty || pickupForm.get('main_location_id').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Sub Location</label>
+                    <div class="validation-errors">
+                    </div>
+                    <select type="text" required formControlName="sub_location_id"
+                            class="form-control form-control-alternative">
+                      <option *ngFor="let item of subLocationData" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    <div *ngFor="let validation of validation_messages.sub_location_id">
+                      <div class="error-message" *ngIf="pickupForm.get('sub_location_id').hasError(validation.type) &&
+                        (pickupForm.get('sub_location_id').dirty || pickupForm.get('sub_location_id').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Branch</label>
+                    <div class="validation-errors">
+                    </div>
+                    <select class="form-control form-control-alternative" formControlName="branch_id">
+                      <option *ngFor="let item of branchData" [value]="item.id">{{item.name}}</option>
+                    </select>
+                    <div *ngFor="let validation of validation_messages.branch_id">
+                      <div class="error-message" *ngIf="pickupForm.get('branch_id').hasError(validation.type) &&
+                        (pickupForm.get('branch_id').dirty || pickupForm.get('branch_id').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Mobile</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="mobile"
+                           class="form-control form-control-alternative" placeholder="Type Name">
+                    <div *ngFor="let validation of validation_messages.mobile">
+                      <div class="error-message" *ngIf="pickupForm.get('mobile').hasError(validation.type) &&
+                        (pickupForm.get('mobile').dirty || pickupForm.get('mobile').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group ">
+                    <label class="form-control-label" for="input-username">Estimated time</label>
+                    <div class="validation-errors">
+                    </div>
+                    <input type="text" required formControlName="estimated_time"
+                           class="form-control form-control-alternative" placeholder="Type Name">
+                    <div *ngFor="let validation of validation_messages.estimated_time">
+                      <div class="error-message" *ngIf="pickupForm.get('name').hasError(validation.type) &&
+                        (pickupForm.get('name').dirty || pickupForm.get('name').touched)">
+                        <span class="badge badge-pill badge-danger">{{ validation.message }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <button class="btn btn-primary" [disabled]="pickupForm.invalid"
+                            (click)="onSubmit()" type="submit">{{editMode ? 'Update' : 'Save'}}</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
