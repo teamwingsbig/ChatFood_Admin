@@ -78,7 +78,6 @@ export class AddCompanyComponent implements OnInit {
     this.autherisationProcess();
     this.setFormBuilder();
     this.loadCompanyData();
-
   }
 
   public autherisationProcess() {

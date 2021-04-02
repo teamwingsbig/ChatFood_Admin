@@ -32,6 +32,8 @@ import {AddCompanyComponent} from '../../pages/Company/add-company/add-company.c
 import {ViewManagerComponent} from '../../pages/Manager/view-manager/view-manager.component';
 import {ViewCompanyComponent} from '../../pages/Company/view-company/view-company.component';
 import {BranchRequestComponent} from '../../pages/Branch/branch-request/branch-request.component';
+import {CreatePikeupPointComponent} from '../../pages/Pickeup Points/create-pickeup-points/create-pikeup-point/create-pikeup-point.component';
+import {PickupPointsComponent} from '../../pages/Pickeup Points/pickup-points/pickup-points.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -65,7 +67,9 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'addCompany', component: AddCompanyComponent},
   {path: 'viewManager', component: ViewManagerComponent},
   {path: 'viewCompany', component: ViewCompanyComponent},
-  {path: 'branch-requests', component: BranchRequestComponent}
+  {path: 'branch-requests', component: BranchRequestComponent},
+  {path: 'pickup-points/add', component: CreatePikeupPointComponent},
+  {path: 'pickup-points', component: PickupPointsComponent}
 
 
 ];

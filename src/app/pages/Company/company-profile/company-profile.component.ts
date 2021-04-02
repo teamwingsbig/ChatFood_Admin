@@ -123,11 +123,10 @@ export class CompanyProfileComponent implements OnInit {
 
   loadCompanyProfile() {
     this.spinner.show();
-    this.masterService.fetchCompanyProfile().subscribe(res => {
+    this.masterService.fetchCompany(this.userData.company_id).subscribe(res => {
       setTimeout(() => {
         let ResultSet: any;
         ResultSet = res;
-        console.log(ResultSet.results[0]);
         if (ResultSet.results.length > 0) {
           this.companyId = ResultSet.results[0].id;
           this.companyForm.controls['company_name'].setValue(ResultSet.results[0].company_name);
@@ -154,6 +153,7 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   updateCompanyProfile() {
+    alert(this.companyId);
     const formData: any = new FormData();
     if (this.companyForm.valid) {
       formData.append('id', this.companyId);
