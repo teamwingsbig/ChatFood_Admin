@@ -77,7 +77,7 @@ export class ViewCompanyComponent implements OnInit {
   }
   deleteCompany(companyId) {
     this.spinner.show();
-    this.maserservice.deleteCompany(companyId).subscribe(res => {
+    this.maserservice.deleteCompany(companyId).subscribe((res: any) => {
       if (res.status){
         this.toastService.showSuccess('Company Deleted Succesfully', 'Success');
       }else {
