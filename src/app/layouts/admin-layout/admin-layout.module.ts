@@ -22,19 +22,20 @@ import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
-    FormsModule,
-    HttpClientModule,
-    NgbModule,
-    ClipboardModule,
-    ToastrModule.forRoot(),
-    TooltipModule,
-    NgxPaginationModule,
-    Ng2SearchPipeModule,
-    BsDropdownModule.forRoot()
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AdminLayoutRoutes),
+        FormsModule,
+        HttpClientModule,
+        NgbModule,
+        ClipboardModule,
+        ToastrModule.forRoot(),
+        TooltipModule,
+        NgxPaginationModule,
+        Ng2SearchPipeModule,
+        BsDropdownModule.forRoot(),
+        ReactiveFormsModule
+    ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

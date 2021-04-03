@@ -41,6 +41,10 @@ export class MasterService {
     const url = this.ipAddress + 'user/profile/';
     return this.http.patch(url, Data);
   }
+  updateProfile(Data) {
+    const url = this.ipAddress + 'user/profile/';
+    return this.http.put(url, Data);
+  }
 
   fetchCompanyProfile() {
     const url = this.ipAddress + 'company/profile/';
@@ -205,6 +209,10 @@ export class MasterService {
 
   fetchSubLocationByMainLocation(parent_location_id) {
     const url = this.ipAddress + 'locations/sublocations/?page_wise=0&parent_location_id=' + parent_location_id;
+    return this.http.get(url);
+  }
+  fetchUserProfile() {
+    const url = this.ipAddress + 'user/profile/';
     return this.http.get(url);
   }
 }
