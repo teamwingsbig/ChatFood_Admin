@@ -20,6 +20,10 @@ export class PickupService {
     const url = this.ipAddress + 'company/pickuppoint/';
     return this.http.put(url, Data);
   }
+  deletePickup(id) {
+    const url = this.ipAddress + `company/pickuppoint/?id=${id}`;
+    return this.http.delete(url);
+  }
   getPickeup(page_wise) {
     const url = this.ipAddress + `company/pickuppoint/?page_wise=${page_wise}`;
     return this.http.get(url);

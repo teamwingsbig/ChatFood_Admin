@@ -3,6 +3,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {PickupService} from '../../../Service/Database/pickup.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-pickup-points',
@@ -17,7 +18,8 @@ export class PickupPointsComponent implements OnInit {
   constructor(
     private pickupService: PickupService,
     public  toastService: ToastService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public spinner: NgxSpinnerService
 
   ) { }
 
@@ -47,8 +49,28 @@ export class PickupPointsComponent implements OnInit {
   decline(): void {
     this.StatusmodalRef.hide();
   }
-  confirm(companyId): void {
-    // this.deleteCompany(companyId);
+  confirm(pickupPointId): void {
+    this.deletePickupPoint(pickupPointId);
     this.StatusmodalRef.hide();
+  }
+  deletePickupPoint(id) {
+    this.spinner.show();
+    this.pickupService.deletePickup(id).subscribe(res => {
+      setTimeout(() => {
+        console.log(res);
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
   }
 }
