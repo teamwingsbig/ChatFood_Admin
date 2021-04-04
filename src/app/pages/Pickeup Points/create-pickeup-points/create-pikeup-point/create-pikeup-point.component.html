@@ -49,7 +49,7 @@
                     <div class="validation-errors">
                     </div>
                     <input type="text" required formControlName="address"
-                           class="form-control form-control-alternative" placeholder="Type Name">
+                           class="form-control form-control-alternative" placeholder="Type Address">
                     <div *ngFor="let validation of validation_messages.address">
                       <div class="error-message" *ngIf="pickupForm.get('address').hasError(validation.type) &&
                         (pickupForm.get('address').dirty || pickupForm.get('address').touched)">
@@ -119,7 +119,7 @@
                     <div class="validation-errors">
                     </div>
                     <input type="text" required formControlName="mobile"
-                           class="form-control form-control-alternative" placeholder="Type Name">
+                           class="form-control form-control-alternative" placeholder="Type Mobile">
                     <div *ngFor="let validation of validation_messages.mobile">
                       <div class="error-message" *ngIf="pickupForm.get('mobile').hasError(validation.type) &&
                         (pickupForm.get('mobile').dirty || pickupForm.get('mobile').touched)">
@@ -134,7 +134,7 @@
                     <div class="validation-errors">
                     </div>
                     <input type="text" required formControlName="estimated_time"
-                           class="form-control form-control-alternative" placeholder="Type Name">
+                           class="form-control form-control-alternative" placeholder="Type Estimated Time">
                     <div *ngFor="let validation of validation_messages.estimated_time">
                       <div class="error-message" *ngIf="pickupForm.get('name').hasError(validation.type) &&
                         (pickupForm.get('name').dirty || pickupForm.get('name').touched)">

@@ -21,6 +21,8 @@ export class CreatePikeupPointComponent implements OnInit {
   subLocationData: any = [];
   branchData: any = [];
   userData: any = [];
+  isModelView = false;
+  pickupPointId;
   validation_messages = {
     name: [
       {type: 'required', message: ' Name is required.'},
@@ -51,6 +53,7 @@ export class CreatePikeupPointComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public  masterService: MasterService,
+    public pickupSrvice: PickupService,
     public  toastService: ToastService,
     public  authService: AuthService,
     public  route: Router,
@@ -65,6 +68,7 @@ export class CreatePikeupPointComponent implements OnInit {
     this.setFormBuilder();
     this.fetchMainLocation();
     this.loadBranch();
+    this.loadPickupPoints();
   }
 
   public autherisationProcess() {
@@ -120,17 +124,63 @@ export class CreatePikeupPointComponent implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[0-9]*$')
+          Validators.pattern('^((\\\\+91-?)|0)?[0-9]{10}$')
         ])
       ],
       estimated_time: [
         '',
         Validators.compose([
-          Validators.required,])
+          Validators.required, ])
       ],
+      id: [],
     });
   }
 
+  loadPickupPoints() {
+    if (this.router.snapshot.paramMap.get('id') != null) {
+      this.spinner.show();
+      this.pickupPointId = atob(this.router.snapshot.paramMap.get('id'));
+      this.pickupService.getPickeupById(this.pickupPointId).subscribe(res => {
+        let ResultSet: any;
+        ResultSet = res;
+        if (ResultSet.results.length > 0) {
+          setTimeout(() => {
+            this.editMode = true;
+            // update btn and title of the page
+            this.isModelView = true;
+            // update the item form
+            this.pickupPointId = ResultSet.results[0].id;
+            this.pickupForm.controls['name'].setValue(ResultSet.results[0].name);
+            this.pickupForm.controls['address'].setValue(ResultSet.results[0].address);
+            this.pickupForm.controls['main_location_id'].setValue(ResultSet.results[0].main_location.id);
+            this.fetchSublocation(ResultSet.results[0].main_location.id);
+            this.pickupForm.controls['sub_location_id'].setValue(ResultSet.results[0].sub_location.id);
+            this.pickupForm.controls['branch_id'].setValue(ResultSet.results[0].branch.id);
+            this.pickupForm.controls['mobile'].setValue(ResultSet.results[0].mobile);
+            this.pickupForm.controls['estimated_time'].setValue(ResultSet.results[0].estimated_time);
+            this.spinner.hide();
+          }, 500);
+
+        } else {
+          this.isModelView = false;
+        }
+
+      }), (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+    } else {
+     this.editMode = false;
+      this.isModelView = false;
+
+    }
+  }
   fetchMainLocation() {
     this.masterService.fetchMainLocation().subscribe(data => {
         this.mainLocationData = data;
@@ -224,6 +274,32 @@ export class CreatePikeupPointComponent implements OnInit {
       );
     }
   }
+  editPickup() {
+    if (this.pickupForm.valid) {
+      this.pickupForm.value.id = this.pickupPointId;
+      this.pickupService.editPickup(this.pickupForm.value).subscribe((res: any) => {
+          setTimeout(() => {
+            if (res.Status) {
+              this.toastService.showSuccess('Successfully Updated', 'Success');
+              this.route.navigate(['/pickup-points']);
+            } else {
+              this.toastService.showError('Failed to Update', 'Oops !');
+            }
+          }, 2000);
+        },
+        (error: HttpErrorResponse) => {
+          if (error.error instanceof Error) {
+            // console.log('An error occurred:', error.error.message);
+            this.toastService.showError('An error occcured', 'Oops !');
+          } else {
+            this.toastService.showError('An error occcured', 'Oops !');
+            // console.log('Backend returned status code: ', error.status);
+            // console.log('Response body:', error.error);
+          }
+        }
+      );
+    }
+  }
   loadBranch() {
     if (this.userData.user_type === 1) {
       this.fetchBranchbyCompanyID();
@@ -234,7 +310,7 @@ export class CreatePikeupPointComponent implements OnInit {
 
   onSubmit() {
     if (this.editMode) {
-
+    this.editPickup();
     } else {
       this.addPickup();
     }

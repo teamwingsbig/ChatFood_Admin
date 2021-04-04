@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PickupService} from '../../../Service/Database/pickup.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-pickup-points',
@@ -11,9 +12,12 @@ import {ToastService} from '../../../Service/Alert/toast.service';
 export class PickupPointsComponent implements OnInit {
   p;
   pickeupData : any = [];
+  StatusmodalRef: BsModalRef;
+  modalRef: BsModalRef;
   constructor(
     private pickupService: PickupService,
     public  toastService: ToastService,
+    private modalService: BsModalService
 
   ) { }
 
@@ -36,5 +40,15 @@ export class PickupPointsComponent implements OnInit {
           // console.log('Response body:', error.error);
         }
       };
+  }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  confirm(companyId): void {
+    // this.deleteCompany(companyId);
+    this.StatusmodalRef.hide();
   }
 }
