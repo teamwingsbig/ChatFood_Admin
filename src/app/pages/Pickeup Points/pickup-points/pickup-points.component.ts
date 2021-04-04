@@ -58,6 +58,7 @@ export class PickupPointsComponent implements OnInit {
     this.pickupService.deletePickup(id).subscribe(res => {
       setTimeout(() => {
         console.log(res);
+        this.loadPickupPoints();
         this.spinner.hide();
       }, 2000);
     }),
