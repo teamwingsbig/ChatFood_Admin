@@ -42,6 +42,7 @@ export class MasterService {
     return this.http.patch(url, Data);
   }
   updateProfile(Data) {
+    console.log(Data);
     const url = this.ipAddress + 'user/profile/';
     return this.http.put(url, Data);
   }
