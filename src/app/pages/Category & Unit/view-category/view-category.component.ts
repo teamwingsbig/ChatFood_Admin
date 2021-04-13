@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewEncapsulation} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {MasterService} from '../../../Service/Database/master.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {AuthService} from '../../../Service/Authentication/auth.service';
 import {Router} from '@angular/router';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-view-category',
@@ -19,10 +20,13 @@ export class ViewCategoryComponent implements OnInit {
   p = 1;
   public filter;
   public  userData : any = [];
+  StatusmodalRef: BsModalRef;
+  modalRef: BsModalRef;
   constructor(
     public  maserservice: MasterService,
     public toastService: ToastService,
     public spinner: NgxSpinnerService,
+    private modalService: BsModalService,
     public authService: AuthService,
     public  route: Router
   ) {
@@ -56,6 +60,38 @@ export class ViewCategoryComponent implements OnInit {
       this.fetchcategotyByBranch()  ;
     }
   }
+  decline(): void {
+    this.StatusmodalRef.hide();
+  }
+  confirm(categoryId): void {
+    this.deleteCategory(categoryId);
+    this.StatusmodalRef.hide();
+  }
+  deleteCategory(categoryId) {
+    this.spinner.show();
+    this.maserservice.deleteCategory(categoryId).subscribe((res: any) => {
+      if (res.status) {
+        this.toastService.showSuccess('Category Deleted Succesfully', 'Success');
+      } else {
+        this.toastService.showError(res.Error, 'Oops !');
+      }
+      setTimeout(() => {
+
+        this.spinner.hide();
+      }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
   fetchcategotyByBranch() {
     this.spinner.show();
     this.maserservice.fetchCategory(this.userData.branch_id).subscribe(res => {
@@ -75,6 +111,9 @@ export class ViewCategoryComponent implements OnInit {
           // console.log('Response body:', error.error);
         }
       };
+  }
+  openStatusModel(template: TemplateRef<any>) {
+    this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
   fetchcategory(branchId = null , companyId = null) {
     this.spinner.show();
