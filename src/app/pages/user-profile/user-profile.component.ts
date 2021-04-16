@@ -131,7 +131,11 @@ export class UserProfileComponent implements OnInit {
   updateProfile() {
     if (this.userProfile.valid) {
       this.spinner.show();
-      this.masterService.updateProfile(this.userProfile.value).subscribe(res => {
+      const formData: any = new FormData();
+      Object.keys(this.userProfile.value).forEach(key => {
+        formData.append(key, this.userProfile.value[key]);
+      });
+      this.masterService.updateProfile(formData).subscribe(res => {
         setTimeout(() => {
           let ResultSet: any;
           ResultSet = res;
