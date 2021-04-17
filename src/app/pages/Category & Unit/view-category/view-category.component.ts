@@ -70,8 +70,9 @@ export class ViewCategoryComponent implements OnInit {
   deleteCategory(categoryId) {
     this.spinner.show();
     this.maserservice.deleteCategory(categoryId).subscribe((res: any) => {
-      if (res.status) {
+      if (res.Status) {
         this.toastService.showSuccess('Category Deleted Succesfully', 'Success');
+        this.fetchcategory(this.userData.branch_id, this.userData.company_id);
       } else {
         this.toastService.showError(res.Error, 'Oops !');
       }
