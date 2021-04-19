@@ -124,6 +124,7 @@ export class DashboardComponent implements OnInit {
   fetchPenidngOrder() {
     this.orderService.fetchPenidngOrder().subscribe(res => {
       this.recentOrderData = res;
+      console.log(res);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
