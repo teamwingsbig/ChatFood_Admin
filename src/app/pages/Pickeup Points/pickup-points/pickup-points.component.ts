@@ -15,6 +15,7 @@ export class PickupPointsComponent implements OnInit {
   pickeupData : any = [];
   StatusmodalRef: BsModalRef;
   modalRef: BsModalRef;
+  public filter;
   constructor(
     private pickupService: PickupService,
     public  toastService: ToastService,

@@ -518,7 +518,9 @@
                 {{item.payment.status}}
               </td>
               <td>
-                {{item.order_type}}
+                <div class="media-body">
+                  <span [class]="item.order_type=='pickup'? 'mb-0 text-sm btn btn-sm btn-outline-primary':'mb-0 text-sm btn btn-sm btn-outline-success'" >{{item.order_type}}</span>
+                </div>
               </td>
               <td>
                 <div class="btn-group" dropdown>
