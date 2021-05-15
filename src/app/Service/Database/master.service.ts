@@ -3,7 +3,10 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {jsGlobalObjectValue} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/known_declaration';
 import {ip} from '../../../assets/data/ip.json';
+import {environment} from '../../../environments/environment';
+
 import {formatDate} from '@angular/common';
+import {CommonService} from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +14,10 @@ import {formatDate} from '@angular/common';
 export class MasterService {
   ipAddress;
 
-  constructor(public http: HttpClient) {
-    this.ipAddress = ip;
+  constructor(public http: HttpClient, private commonService: CommonService) {
+    // this.ipAddress = ip
+    alert(commonService.getFullUrl());
+    this.ipAddress = commonService.getFullUrl();
   }
 
   addBranch(Data) {
@@ -41,6 +46,7 @@ export class MasterService {
     const url = this.ipAddress + 'user/profile/';
     return this.http.patch(url, Data);
   }
+
   updateProfile(Data) {
     console.log(Data);
     const url = this.ipAddress + 'user/profile/';
@@ -191,13 +197,13 @@ export class MasterService {
     return this.http.get(url);
   }
 
-  fetchUnits(branch_id = null , companyId = null) {
+  fetchUnits(branch_id = null, companyId = null) {
     let url;
     if (branch_id != null && branch_id !== 0) {
-       url = this.ipAddress + `items/units/?branch_id=${branch_id}&page_wise=0`;
+      url = this.ipAddress + `items/units/?branch_id=${branch_id}&page_wise=0`;
       return this.http.get(url);
     } else if (companyId != null && companyId !== 0) {
-       url = this.ipAddress + `items/units/?company_id=${companyId}&page_wise=0`;
+      url = this.ipAddress + `items/units/?company_id=${companyId}&page_wise=0`;
       return this.http.get(url);
     }
   }
@@ -212,6 +218,7 @@ export class MasterService {
     const url = this.ipAddress + 'locations/sublocations/?page_wise=0&parent_location_id=' + parent_location_id;
     return this.http.get(url);
   }
+
   fetchUserProfile() {
     const url = this.ipAddress + 'user/profile/';
     return this.http.get(url);

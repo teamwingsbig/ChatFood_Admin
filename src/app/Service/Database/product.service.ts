@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ip} from '../../../assets/data/ip.json';
+import {environment} from '../../../environments/environment';
+import {CommonService} from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +10,10 @@ import {ip} from '../../../assets/data/ip.json';
 export class ProductService {
   ipAddress;
 
-  constructor(public http: HttpClient) {
-    this.ipAddress = ip;
+  constructor(public http: HttpClient, private  commonService: CommonService) {
+    this.ipAddress = commonService.getFullUrl();
+    // this.ipAddress = ip
+
   }
 
   addAddonsCategory(Data) {
@@ -52,11 +56,11 @@ export class ProductService {
     const url = this.ipAddress + 'items/varients/';
     return this.http.put(url, Data);
   }
+
   saveVarients(Data) {
     const url = this.ipAddress + 'items/varients/';
     return this.http.post(url, Data);
   }
-
 
 
   deleteVarients(variantId) {
@@ -105,10 +109,10 @@ export class ProductService {
   fetchAddonsCategory(branch_id = null, companyId = null) {
     let url;
     if (companyId != null && companyId !== 0) {
-       url = this.ipAddress + 'items/addoncategory/?page_wise=0&company_id=' + companyId;
+      url = this.ipAddress + 'items/addoncategory/?page_wise=0&company_id=' + companyId;
       return this.http.get(url);
     } else if (branch_id != null && branch_id !== 0) {
-       url = this.ipAddress + 'items/addoncategory/?page_wise=0&branch_id=' + branch_id;
+      url = this.ipAddress + 'items/addoncategory/?page_wise=0&branch_id=' + branch_id;
       return this.http.get(url);
     }
 
@@ -134,8 +138,8 @@ export class ProductService {
     if (companyId != null && companyId !== 0) {
       url = this.ipAddress + 'items/addons/?page_wise=0&company_id=' + companyId;
       return this.http.get(url);
-    } else if (branch_id != null && branch_id !== 0 ) {
-       url = this.ipAddress + 'items/addons/?page_wise=0&branch_id=' + branch_id;
+    } else if (branch_id != null && branch_id !== 0) {
+      url = this.ipAddress + 'items/addons/?page_wise=0&branch_id=' + branch_id;
       return this.http.get(url);
     }
 

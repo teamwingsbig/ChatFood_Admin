@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ip} from '../../../assets/data/ip.json';
+import {environment} from '../../../environments/environment';
+import {CommonService} from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +10,9 @@ import {ip} from '../../../assets/data/ip.json';
 export class OrderService {
   ipAddress;
 
-  constructor(public http: HttpClient) {
-    this.ipAddress = ip;
+  constructor(public http: HttpClient, private commonService: CommonService) {
+    this.ipAddress = commonService.getFullUrl();
+    // this.ipAddress = ip;
   }
 
   fetchAllOrder(branch_id = null) {

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 // @ts-ignore
 import {ip} from '../../../assets/data/ip.json';
+import {CommonService} from '../Database/common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,9 @@ import {ip} from '../../../assets/data/ip.json';
 export class AuthService {
   ipAddress;
 
-  constructor(public http: HttpClient) {
-    this.ipAddress = ip;
+  constructor(public http: HttpClient, private commonService: CommonService) {
+    this.ipAddress = commonService.getFullUrl();
+    // this.ipAddress = ip;
 
   }
 

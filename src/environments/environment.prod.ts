@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: false,
+  apiUrl: 'https://api.eshopy.live/',
+  baseUrl: 'https://api.eshopy.live/',
 };

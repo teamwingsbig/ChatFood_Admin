@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {ip} from '../../../assets/data/ip.json';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {CommonService} from './common.service';
+import {ip} from '../../../assets/data/ip.json';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +11,11 @@ export class PromocodeService {
   ipAddress;
 
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
+    private commonService: CommonService
   ) {
-    this.ipAddress = ip;
+    this.ipAddress = commonService.getFullUrl();
+    // this.ipAddress = ip;
   }
 
   addPromocode(Data) {
@@ -23,6 +27,7 @@ export class PromocodeService {
     const url = this.ipAddress + 'promocodes/details/';
     return this.http.put(url, Data);
   }
+
   deletePromocode(promocodeId) {
     const url = this.ipAddress + 'promocodes/details/?id=' + promocodeId;
     return this.http.delete(url);

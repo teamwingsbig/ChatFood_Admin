@@ -48,7 +48,6 @@ export class ViewCompanyComponent implements OnInit {
     this.maserservice.fetchCompanyProfile().subscribe(res => {
       setTimeout(() => {
         this.companyData = res['results'];
-        console.log(this.companyData);
         this.spinner.hide();
       }, 2000);
     }),
