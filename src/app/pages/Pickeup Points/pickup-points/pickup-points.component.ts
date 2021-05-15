@@ -12,24 +12,25 @@ import {NgxSpinnerService} from 'ngx-spinner';
 })
 export class PickupPointsComponent implements OnInit {
   p;
-  pickeupData : any = [];
+  pickeupData: any = [];
   StatusmodalRef: BsModalRef;
   modalRef: BsModalRef;
   public filter;
+
   constructor(
     private pickupService: PickupService,
-    public  toastService: ToastService,
+    public toastService: ToastService,
     private modalService: BsModalService,
     public spinner: NgxSpinnerService
-
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadPickupPoints();
   }
 
   loadPickupPoints() {
-    this.pickupService.getPickeup(false).subscribe(res => {
+    this.pickupService.getPickeupByCompany(false, 1).subscribe(res => {
       this.pickeupData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
@@ -44,16 +45,20 @@ export class PickupPointsComponent implements OnInit {
         }
       };
   }
+
   openStatusModel(template: TemplateRef<any>) {
     this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
+
   decline(): void {
     this.StatusmodalRef.hide();
   }
+
   confirm(pickupPointId): void {
     this.deletePickupPoint(pickupPointId);
     this.StatusmodalRef.hide();
   }
+
   deletePickupPoint(id) {
     this.spinner.show();
     this.pickupService.deletePickup(id).subscribe(res => {
