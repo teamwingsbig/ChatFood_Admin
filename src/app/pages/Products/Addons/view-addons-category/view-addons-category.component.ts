@@ -58,12 +58,12 @@ export class ViewAddonsCategoryComponent implements OnInit {
     }
   }
   fetchAddonsCategory(branchId = null, companyId = null) {
-    this.spinner.show();
+    // this.spinner.show();
     this.productService.fetchAddonsCategory(branchId, companyId).subscribe(data => {
-        setTimeout(() => {
+        // setTimeout(() => {
           this.categoryData = data;
-          this.spinner.hide();
-        }, 2000);
+          // this.spinner.hide();
+        // }, 2000);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
@@ -79,12 +79,12 @@ export class ViewAddonsCategoryComponent implements OnInit {
   }
 
   fetchAddonsCategoryByBranchID() {
-    this.spinner.show();
+    // this.spinner.show();
     this.productService.fetchAddonsCategory(this.userData.branch_id).subscribe(data => {
-        setTimeout(() => {
+        // setTimeout(() => {
           this.categoryData = data;
-          this.spinner.hide();
-        }, 2000);
+          // this.spinner.hide();
+        // }, 2000);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {

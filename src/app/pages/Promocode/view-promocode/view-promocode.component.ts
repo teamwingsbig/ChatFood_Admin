@@ -57,11 +57,11 @@ export class ViewPromocodeComponent implements OnInit {
   fetchPromocode() {
     this.spinner.show();
     this.promoService.fetchPromocode().subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.promoCodeData = res;
         this.promoCodeData = this.promoCodeData.results;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

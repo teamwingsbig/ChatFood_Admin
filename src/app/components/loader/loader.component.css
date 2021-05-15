@@ -1,19 +1,48 @@
-.loader {
-  background: #ffffff;
-  width: calc(100% - 125px);
-  height: calc(100% - 220px);
-  /*overflow: hidden;*/
+/*.loader {*/
+/*  left: 0 !important;*/
+/*  top: 0 !important;*/
+/*  z-index: 10000 !important;*/
+/*  width: 100% !important;*/
+/*  height: 100% !important;*/
+/*  position: fixed !important;*/
+/*  background-color: rgba(255, 255, 255, 0.3) !important;*/
+/*  !*cursor: pointer !important;*!*/
+/*  visibility: visible !important;*/
+/*  transition: visibility 0s, opacity 0.4s linear !important;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  !*cursor: wait !important;*!*/
+/*}*/
+
+/*.loader img {*/
+/*  position: absolute;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  margin: 0 auto;*/
+/*  vertical-align: middle;*/
+/*  height: 100px;*/
+/*}*/
+
+.my-overlay img {
+  left: 36%;
+  top: 40%;
+  vertical-align: middle;
+  height: 100px;
+  margin: 0 auto;
   position: absolute;
-  z-index: 1;
-  left: 100px;
-  top: 260px;
+
 }
 
-.loader img {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  vertical-align: middle;
-  height: 85px;
+.my-overlay {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(255, 255, 255, 1) !important;
+  /*opacity: 0.8;*/
+  z-index: 99;
+  align-items: center;
+  justify-content: center;
+  position: fixed !important;
+
 }
+

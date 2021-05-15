@@ -159,9 +159,9 @@ export class CompanyProfileComponent implements OnInit {
       Object.keys(this.companyForm.value).forEach(key => {
         formData.append(key, this.companyForm.value[key]);
       });
-      this.spinner.show();
+      // this.spinner.show();
       this.masterService.updateCompanyProfile(formData).subscribe(res => {
-        setTimeout(() => {
+        // setTimeout(() => {
           let ResultSet: any;
           ResultSet = res;
           if (ResultSet.Status) {
@@ -169,8 +169,8 @@ export class CompanyProfileComponent implements OnInit {
           } else {
             this.toastService.showError(ResultSet.Error, 'Oops !');
           }
-          this.spinner.hide();
-        }, 500);
+          // this.spinner.hide();
+        // }, 500);
 
       }), (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {

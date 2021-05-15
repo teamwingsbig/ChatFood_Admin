@@ -48,12 +48,12 @@ export class ViewSubLocationComponent implements OnInit {
   }
 
   fetchMainLocation() {
-    this.spinner.show();
+    // this.spinner.show();
     this.masetrservice.fetchSubLocation().subscribe(data => {
-        setTimeout(() => {
+        // setTimeout(() => {
           this.locationData = data;
-          this.spinner.hide();
-        }, 2000);
+          // this.spinner.hide();
+        // }, 2000);
       },
       (error : HttpErrorResponse) => {
         if (error.error instanceof Error) {

@@ -87,12 +87,13 @@ export class ViewOrderComponent implements OnInit {
       };
   }
   getAllOrders() {
-    this.spinner.show();
+    // this.spinner.show();
     this.orderService.fetchAllOrder().subscribe(res => {
-      setTimeout(() => {
         this.orderData = res;
-        this.spinner.hide();
-      }, 2000);
+      // setTimeout(() => {
+      //   this.orderData = res;
+      //   this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

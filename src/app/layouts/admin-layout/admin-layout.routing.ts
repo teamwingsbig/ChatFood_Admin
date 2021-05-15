@@ -71,7 +71,5 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'branch-requests', component: BranchRequestComponent},
   {path: 'pickup-points/add', component: CreatePikeupPointComponent},
   {path: 'pickup-points', component: PickupPointsComponent},
-  {path: 'loader', component: LoaderComponent}
-
 
 ];

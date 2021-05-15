@@ -22,7 +22,8 @@ import { LoaderComponent } from './loader/loader.component';
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    LoaderComponent
   ]
 })
 export class ComponentsModule { }

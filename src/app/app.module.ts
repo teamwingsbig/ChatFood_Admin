@@ -55,6 +55,7 @@ import { ViewCompanyComponent } from './pages/Company/view-company/view-company.
 import { BranchRequestComponent } from './pages/Branch/branch-request/branch-request.component';
 import { PickupPointsComponent } from './pages/Pickeup Points/pickup-points/pickup-points.component';
 import { CreatePikeupPointComponent } from './pages/Pickeup Points/create-pickeup-points/create-pikeup-point/create-pikeup-point.component';
+import {LoaderInterceptor} from './components/loader/_service/loader.interceptor';
 
 
 // @ts-ignore
@@ -116,7 +117,8 @@ import { CreatePikeupPointComponent } from './pages/Pickeup Points/create-pickeu
     PickupPointsComponent,
     CreatePikeupPointComponent
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

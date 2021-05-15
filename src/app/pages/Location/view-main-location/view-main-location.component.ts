@@ -67,12 +67,12 @@ export class ViewMainLocationComponent implements OnInit {
     console.log((id));
   }
   fetchMainLocation() {
-    this.spinner.show();
+    // this.spinner.show();
     this.masetrservice.fetchMainLocation().subscribe(data => {
-        setTimeout(() => {
+        // setTimeout(() => {
           this.locationData = data;
-          this.spinner.hide();
-        }, 2000);
+          // this.spinner.hide();
+        // }, 2000);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
