@@ -165,8 +165,12 @@ export class MasterService {
   }
 
   deleteCategory(categoryId) {
-    const url = this.ipAddress + 'items/category/?id=' + categoryId;
-    return this.http.delete(url);
+    const data = {
+      keyword : 'delete_category',
+      category_id : categoryId
+    }
+    const url = this.ipAddress + 'items/category/';
+    return this.http.patch(url, data);
   }
 
   fetchMainLocation() {
