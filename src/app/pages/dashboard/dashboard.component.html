@@ -2,8 +2,8 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
-<!--      Admin Count Start-->
-      <div  *ngIf="userData.user_type!=0" class="row">
+      <!--      Admin Count Start-->
+      <div *ngIf="userData.user_type!=0" class="row">
         <div class="col-xl-3 col-lg-6">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
@@ -89,8 +89,8 @@
           </div>
         </div>
       </div>
-<!--       admin count end-->
-<!--      super Admin Counts-->
+      <!--       admin count end-->
+      <!--      super Admin Counts-->
       <div *ngIf="userData.user_type===0" class="row">
         <div class="col-xl-3 col-lg-6">
           <div class="card card-stats mb-4 mb-xl-0">
@@ -178,7 +178,7 @@
           </div>
         </div>
       </div>
-<!--      End super Admin Counts-->
+      <!--      End super Admin Counts-->
     </div>
   </div>
 </div>
@@ -519,16 +519,24 @@
                 {{item.payment.status}}
               </td>
               <td>
-                <div class="media-body">
-                  <span [class]="item.order_type=='pickup'? 'mb-0 text-sm btn btn-sm btn-outline-primary':'mb-0 text-sm btn btn-sm btn-outline-success'" >{{item.order_type}}</span>
-                </div>
+                <ng-container *ngIf="item.order_type=='pickup'">
+                <span class="badge badge-dot mr-4">
+                <i class="bg-warning"></i> {{item.order_type}}
+                </span>
+                </ng-container>
+
+                <ng-container *ngIf="item.order_type=='delivery'">
+                <span class="badge badge-dot mr-4">
+                <i class="bg-success"></i> {{item.order_type}}
+                </span>
+                </ng-container>
               </td>
               <td>
-                <button (click)="openItemModel(itemTemplate)" class="btn btn-outline-success btn-sm" type="button">
+                <button (click)="openItemModel(itemTemplate)" class="btn btn-outline-default btn-sm" type="button">
                         <span class="btn-inner--icon">
                         <i class="ni ni fa fa-eye"></i>
                       </span>
-                  &nbsp;View Order Details
+                  &nbsp;View Order
                 </button>
                 <!--                      variant modesl-->
                 <ng-template #itemTemplate>

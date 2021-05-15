@@ -16,7 +16,6 @@ export class MasterService {
 
   constructor(public http: HttpClient, private commonService: CommonService) {
     // this.ipAddress = ip
-    alert(commonService.getFullUrl());
     this.ipAddress = commonService.getFullUrl();
   }
 
