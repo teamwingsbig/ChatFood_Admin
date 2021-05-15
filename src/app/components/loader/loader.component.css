@@ -1,0 +1,19 @@
+.loader {
+  background: #ffffff;
+  width: calc(100% - 125px);
+  height: calc(100% - 220px);
+  /*overflow: hidden;*/
+  position: absolute;
+  z-index: 1;
+  left: 100px;
+  top: 260px;
+}
+
+.loader img {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  vertical-align: middle;
+  height: 85px;
+}
