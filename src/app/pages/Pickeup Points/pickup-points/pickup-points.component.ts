@@ -4,6 +4,7 @@ import {PickupService} from '../../../Service/Database/pickup.service';
 import {ToastService} from '../../../Service/Alert/toast.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {AuthService} from '../../../Service/Authentication/auth.service';
 
 @Component({
   selector: 'app-pickup-points',
@@ -16,8 +17,10 @@ export class PickupPointsComponent implements OnInit {
   StatusmodalRef: BsModalRef;
   modalRef: BsModalRef;
   public filter;
+  userData: any = [];
 
   constructor(
+    private authService: AuthService,
     private pickupService: PickupService,
     public toastService: ToastService,
     private modalService: BsModalService,
@@ -26,11 +29,12 @@ export class PickupPointsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userData = this.authService.getUserDetails();
     this.loadPickupPoints();
   }
 
   loadPickupPoints() {
-    this.pickupService.getPickeupByCompany(false, 1).subscribe(res => {
+    this.pickupService.getPickeupByCompany(false, this.userData.company_id).subscribe(res => {
       this.pickeupData = res;
     }),
       // tslint:disable-next-line:no-unused-expression
