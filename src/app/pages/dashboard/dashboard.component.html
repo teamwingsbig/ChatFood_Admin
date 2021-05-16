@@ -1,4 +1,5 @@
 <app-loader></app-loader>
+<app-filter #filter [status]="1" [statusData]="statusData" (onFilter)="onFilter($event)" [hasBranch]="showBranch" [branchData]="branchData" (onClear)="onClear($event)"></app-filter>
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
@@ -469,14 +470,13 @@
       <div class="card shadow">
         <div class="card-header border-0">
           <div class="row align-items-center">
-            <div class="col">
+            <div class="col-8">
               <h3 class="mb-0">Recent Orders</h3>
             </div>
-            <div class="col text-right">
-              <div class="form-group has-search">
-                <span class="fa fa-search form-control-feedback"></span>
-                <input type="text" class="form-control" placeholder="Search .." [(ngModel)]="filter">
-              </div>
+            <div class="col-4 text-right">
+              <button (click)="filter.open();" class=" btn btn-icon btn-default" type="button"><span
+                class=" btn-inner--icon"><i
+                class="fa fa-filter"></i></span><span class=" btn-inner--text">Filter </span></button>
             </div>
           </div>
         </div>
@@ -500,7 +500,7 @@
             </thead>
             <tbody>
             <tr
-              *ngFor="let item of recentOrderData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+              *ngFor="let item of recentOrderData   |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
               <td>
                 <div class="media-body">
                   <span class="mb-0 text-sm">{{item.id}}</span>

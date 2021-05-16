@@ -1,4 +1,6 @@
 <app-loader></app-loader>
+<app-filter #filter [status]="'all'" [hasBranch]="showBranch" [statusData]="statusData" (onClear)="onClear($event)"
+            (onFilter)="onFilter($event)" [branchData]="branchData"></app-filter>
 <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
@@ -15,38 +17,14 @@
             <div class="card shadow">
               <div class="card-header border-0">
                 <div class="row align-items-center">
-                  <div class="col-4">
+                  <div class="col-8">
                     <h3 class="mb-0">Orders</h3>
                   </div>
-
-                  <div class="col-8 text-right">
-                    <div class="form-group has-search">
-                      <span class="fa fa-search form-control-feedback"></span>
-                      <input type="text" class="form-control" placeholder="Search .." [(ngModel)]="filter">
-                    </div>
+                  <div class="col-4 text-right">
+                    <button (click)="filter.open();" class=" btn btn-icon btn-default" type="button"><span
+                      class=" btn-inner--icon"><i
+                      class="fa fa-filter"></i></span><span class=" btn-inner--text">Filter </span></button>
                   </div>
-                  <!--                  <div class="col-4">-->
-                  <!--                    <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filter" (change)="onchange()">-->
-                  <!--                  </div>-->
-                  <!--                  <div class="col-4">-->
-                  <!--                    <div class="btn-group" dropdown>-->
-                  <!--                      <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"-->
-                  <!--                              aria-controls="dropdown-animated">-->
-                  <!--                        {{deliveryBoyName}} <span class="caret"></span>-->
-                  <!--                      </button>-->
-                  <!--                      <ul style="cursor: pointer" id="dropdown-animated" *dropdownMenu class="dropdown-menu"-->
-                  <!--                          role="menu" aria-labelledby="button-animated">-->
-                  <!--                        <li (click)="getPendingOrders();deliveryBoyName='Delivery Boys'">-->
-                  <!--                          <a class="dropdown-item">All</a>-->
-                  <!--                        </li>-->
-                  <!--                        <li *ngFor=" let item of deliveryBoysData" role="menuitem"-->
-                  <!--                            (click)="onChangeDeliveryBoy(item.payload.doc.data().uid);deliveryBoyName=item.payload.doc.data().name">-->
-                  <!--                          <a class="dropdown-item">{{item.payload.doc.data().name}}</a>-->
-                  <!--                        </li>-->
-                  <!--                      </ul>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
-
                 </div>
               </div>
               <div class="table-responsive">
@@ -69,7 +47,7 @@
                   </thead>
                   <tbody>
                   <tr
-                    *ngFor="let item of orderData  |filter:filter |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
+                    *ngFor="let item of orderData   |paginate: { itemsPerPage: 10, currentPage: p },let i=index">
                     <td>
                       <div class="media-body">
                         <span class="mb-0 text-sm">{{item.id}}</span>
@@ -101,7 +79,8 @@
                       </ng-container>
                     </td>
                     <td>
-                      <button (click)="openItemModel(itemTemplate)" class="btn btn-outline-default btn-sm" type="button">
+                      <button (click)="openItemModel(itemTemplate)" class="btn btn-outline-default btn-sm"
+                              type="button">
                         <span class="btn-inner--icon">
                         <i class="ni ni fa fa-eye"></i>
                       </span>
@@ -436,6 +415,19 @@
                   </div>
                 </div>
               </div>
+<!--              <div class="row" *ngIf="orderData.length<=0">-->
+<!--                <div class="col-12">-->
+<!--                  <div class="card rounded-2 ">-->
+<!--                    <div class="card-body p-0 empty-card">-->
+<!--                      <div class="no-data">-->
+<!--                        <img src="assets/img/NoDocuments.png" alt="">-->
+<!--                        <h3>Oops !</h3>-->
+<!--                        <p>No Data Found</p>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
             </div>
           </div>
         </div>

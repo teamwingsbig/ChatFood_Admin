@@ -1,0 +1,61 @@
+<!--<div id="main" *ngIf="show">-->
+<div id="mySidenav" class="sidenav">
+  <header class="_1Y11WQ">
+    <div class="_3IBBEQ"><h2 class="_3Ghl43">Filters</h2>
+      <div role="button" (click)="closeNav()" class="_2y31id _3d4M2L _2nu1E8" data-qa="header-button-close">
+        <div class="_10jmov">
+          <div><span class="_3Q2N2k _30vxLD _3s37z7 skx_qq XuZows"><svg viewBox="0 0 18 18"
+                                                                        xmlns="http://www.w3.org/2000/svg"><path
+            d="M17 1.914L16.086 1 9 8.086 1.914 1 1 1.914 8.086 9 1 16.086l.914.914L9 9.914 16.086 17l.914-.914L9.914 9z"></path></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="_1KhmFy _21Ce2W">
+<!--    <form>-->
+      <div class="_2OMaRe">
+        <div class="NGrUbJBA _1IQqum8F _38Vqf_Lh _1FaKA6Nk _3cNt_ILG n7_L-t">
+          <div class="_1RLMtIP3 Qso_pkui _1Lu5SyUk">
+            <div class="_2iCrTJcD"><label class="_2x_Fz5Ot" >Delivery Type</label></div>
+            <div class="_1RNu0qum EJYPiwxT"><select class="_2l880BS0" [(ngModel)]="orderType" >
+              <option value="all">All</option>
+              <option value="delivery">Delivery</option>
+              <option value="pickup">Pickup</option>
+            </select><span class="_3Q2N2kmk _3hOFGuV5 _1UblHfux _3Tr9Vmui"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 24 24"><path
+              d="M12 14.481l6.247-7.14a1 1 0 011.506 1.318l-7 8a1 1 0 01-1.506 0l-7-8a1 1 0 111.506-1.317L12 14.482z"></path></svg></span>
+            </div>
+            <div class="hAdCsVDO"></div>
+          </div>
+          <div class="_1RLMtIP3 Qso_pkui _1Lu5SyUk">
+            <div class="_2iCrTJcD"><label class="_2x_Fz5Ot" >Status</label></div>
+            <div class="_1RNu0qum EJYPiwxT"><select class="_2l880BS0" [(ngModel)]="status" >
+              <option *ngFor="let status of statusData" value="{{status.id}}">{{status.name}}</option>
+            </select><span class="_3Q2N2kmk _3hOFGuV5 _1UblHfux _3Tr9Vmui"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 24 24"><path
+              d="M12 14.481l6.247-7.14a1 1 0 011.506 1.318l-7 8a1 1 0 01-1.506 0l-7-8a1 1 0 111.506-1.317L12 14.482z"></path></svg></span>
+            </div>
+            <div class="hAdCsVDO"></div>
+          </div>
+          <div class="_1RLMtIP3 Qso_pkui _1Lu5SyUk" *ngIf="hasBranch">
+            <div class="_2iCrTJcD"><label class="_2x_Fz5Ot">Branch</label></div>
+            <div class="_1RNu0qum EJYPiwxT"><select class="_2l880BS0" [(ngModel)]="branch">
+              <option value="all">All</option>
+              <option *ngFor="let branch of branchData" value="{{branch.id}}">{{branch.name}}</option>
+            </select><span class="_3Q2N2kmk _3hOFGuV5 _1UblHfux _3Tr9Vmui"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 24 24"><path
+              d="M12 14.481l6.247-7.14a1 1 0 011.506 1.318l-7 8a1 1 0 01-1.506 0l-7-8a1 1 0 111.506-1.317L12 14.482z"></path></svg></span>
+            </div>
+            <div class="hAdCsVDO"></div>
+          </div>
+        </div>
+        <div class="_2eFciQ" style="display: flex; flex-direction: row;">
+          <button (click)="onClickClear()" class="_3cA4eP _2nu1E8 _1jiWG4 _2P5TQK">Clear</button>
+          <button (click)="onClickFilter()" class="_1OFQpG _2nu1E8 _1O2-GF _2P5TQK">Apply</button>
+        </div>
+      </div>
+<!--    </form>-->
+  </div>
+</div>
+<!--</div>-->

@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import Chart from 'chart.js';
-
+import {FilterComponent} from '../../components/filter/filter.component';
 // core components
 import {
   chartOptions,
@@ -36,6 +36,16 @@ export class DashboardComponent implements OnInit {
   StatusmodalRef: BsModalRef;
   itemModalRef: BsModalRef;
   addonsModalRef: BsModalRef;
+  statusData = [
+    {
+      id: 1,
+      name: 'Pending'
+    }
+  ];
+  branchData: any = [];
+
+
+  showBranch = false;
 
   constructor(
     public authService: AuthService,
@@ -49,6 +59,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.autherisationProcess();
+    this.loadBranch();
     this.getOrder();
     this.loadAdminDashboard();
     this.datasets = [
@@ -93,12 +104,59 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  loadBranch() {
+    // console.log(this.userData.user_type);
+    if (this.userData.user_type === 1) {
+      //   admin
+      this.fetchBranchByCompanyID();
+    } else if (this.userData.user_type === 2) {
+      this.fetchBranchByID();
+    }
+    // this.fetchBranchByID();
+  }
+
+  fetchBranchByCompanyID() {
+    this.masterService.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
+      this.branchData = res;
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
+
+  fetchBranchByID() {
+    this.masterService.fetchBranchByID(this.userData.branch_id).subscribe(res => {
+      this.branchData = res;
+      console.log(res);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
+  }
 
   getOrder() {
     if (this.userData.user_type === 1) {
       //   admin
+      this.showBranch = true;
       this.fetchPenidngOrder();
     } else if (this.userData.user_type === 2) {
+      this.showBranch = false;
       this.fetchPenidngOrderBybranch();
     }
   }
@@ -122,6 +180,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchPenidngOrder() {
+    this.recentOrderData = [];
     this.orderService.fetchPenidngOrder().subscribe(res => {
       this.recentOrderData = res;
       console.log(res);
@@ -140,6 +199,7 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchPenidngOrderBybranch() {
+    this.recentOrderData = [];
     this.orderService.fetchPenidngOrder(this.userData.branch_id).subscribe(res => {
       this.recentOrderData = res;
     }),
@@ -218,6 +278,36 @@ export class DashboardComponent implements OnInit {
 
   openAddonsModel(template: TemplateRef<any>) {
     this.addonsModalRef = this.modalService.show(template, {class: 'gray modal-lg'});
+  }
+
+  onClear(event) {
+    this.getOrder();
+  }
+
+  onFilter(Data) {
+    this.recentOrderData = [];
+    const empty = null;
+    const branchId = Data.branch == 'all' ? empty : Data.branch;
+    const status = Data.status == 'all' ? empty : Data.status;
+    const orderType = Data.orderType == 'all' ? empty : Data.orderType;
+    this.orderService.filterOrder(branchId, status, orderType).subscribe(res => {
+      this.recentOrderData = res;
+      // setTimeout(() => {
+      //   this.orderData = res;
+      //   this.spinner.hide();
+      // }, 2000);
+    }),
+      // tslint:disable-next-line:no-unused-expression
+      (error: HttpErrorResponse) => {
+        if (error.error instanceof Error) {
+          // console.log('An error occurred:', error.error.message);
+          this.toastService.showError('An error occcured', 'Oops !');
+        } else {
+          this.toastService.showError('An error occcured', 'Oops !');
+          // console.log('Backend returned status code: ', error.status);
+          // console.log('Response body:', error.error);
+        }
+      };
   }
 
 }

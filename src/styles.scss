@@ -1,0 +1,29 @@
+.empty-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 310px);
+}
+
+.empty-card .no-data {
+  margin: auto;
+  text-align: center;
+}
+
+.empty-card .no-data img {
+  max-width: 222px;
+  margin-bottom: 40px;
+}
+
+.empty-card .no-data h3 {
+  font-size: 27px;
+  font-weight: bold;
+  color: #2B2A2A;
+}
+
+.empty-card .no-data p {
+  margin-bottom: 0;
+  font-size: 24px;
+  font-weight: 400;
+  color: #2B2A2A;
+}

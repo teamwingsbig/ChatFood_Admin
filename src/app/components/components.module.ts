@@ -6,24 +6,29 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderComponent } from './loader/loader.component';
+import { FilterComponent } from './filter/filter.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    LoaderComponent
+    LoaderComponent,
+    FilterComponent
   ],
-  exports: [
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent,
-    LoaderComponent
-  ]
+    exports: [
+        FooterComponent,
+        NavbarComponent,
+        SidebarComponent,
+        LoaderComponent,
+        FilterComponent
+    ]
 })
 export class ComponentsModule { }

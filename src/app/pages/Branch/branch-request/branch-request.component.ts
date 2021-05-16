@@ -92,7 +92,6 @@ export class BranchRequestComponent implements OnInit {
       is_approved: status
     };
     this.maserservice.updateBranchRequest(data).subscribe((res: any) => {
-      console.log(res);
       setTimeout(() => {
         if (res.Status) {
           this.toastService.showSuccess('Updated successfully', 'Success');

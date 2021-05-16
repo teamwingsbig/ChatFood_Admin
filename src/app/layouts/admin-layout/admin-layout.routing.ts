@@ -35,6 +35,7 @@ import {BranchRequestComponent} from '../../pages/Branch/branch-request/branch-r
 import {CreatePikeupPointComponent} from '../../pages/Pickeup Points/create-pickeup-points/create-pikeup-point/create-pikeup-point.component';
 import {PickupPointsComponent} from '../../pages/Pickeup Points/pickup-points/pickup-points.component';
 import {LoaderComponent} from '../../components/loader/loader.component';
+import {FilterComponent} from '../../components/filter/filter.component';
 
 export const AdminLayoutRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
@@ -70,6 +71,6 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'viewCompany', component: ViewCompanyComponent},
   {path: 'branch-requests', component: BranchRequestComponent},
   {path: 'pickup-points/add', component: CreatePikeupPointComponent},
-  {path: 'pickup-points', component: PickupPointsComponent},
+  {path: 'pickup-points', component: PickupPointsComponent}
 
 ];
