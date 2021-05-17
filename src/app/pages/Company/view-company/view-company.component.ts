@@ -44,12 +44,12 @@ export class ViewCompanyComponent implements OnInit {
     }
   }
   fetchCompany() {
-    this.spinner.show();
+    // this.spinner.show();
     this.maserservice.fetchCompanyProfile().subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.companyData = res['results'];
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

@@ -10,7 +10,7 @@ import {CommonService} from './common.service';
 export class PickupService {
   ipAddress;
 
-  constructor(public http: HttpClient, private  commonService: CommonService) {
+  constructor(public http: HttpClient, private commonService: CommonService) {
     // this.ipAddress = environment.apiUrl;
     this.ipAddress = commonService.getFullUrl();
     // this.ipAddress = ip;
@@ -34,6 +34,16 @@ export class PickupService {
 
   getPickeup(page_wise) {
     const url = this.ipAddress + `company/pickuppoint/?page_wise=${page_wise}`;
+    return this.http.get(url);
+  }
+
+  getPickeupBybranch(page_wise) {
+    const url = this.ipAddress + `company/pickuppoint/?page_wise=${page_wise}`;
+    return this.http.get(url);
+  }
+
+  getPickeupByCompany(page_wise, companyId) {
+    const url = this.ipAddress + `company/pickuppoint/?page_wise=${page_wise}&company_id=${companyId}`;
     return this.http.get(url);
   }
 

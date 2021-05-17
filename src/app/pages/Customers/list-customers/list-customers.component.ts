@@ -56,12 +56,12 @@ export class ListCustomersComponent implements OnInit {
   }
 
   fetchCustomers() {
-    this.spinner.show();
+    // this.spinner.show();
     this.masterService.fetchCustomers().subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.customerData = res;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

@@ -19,23 +19,25 @@ import {TooltipModule} from 'ngx-bootstrap/tooltip';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import {ComponentsModule} from '../../components/components.module';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(AdminLayoutRoutes),
-        FormsModule,
-        HttpClientModule,
-        NgbModule,
-        ClipboardModule,
-        ToastrModule.forRoot(),
-        TooltipModule,
-        NgxPaginationModule,
-        Ng2SearchPipeModule,
-        BsDropdownModule.forRoot(),
-        ReactiveFormsModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(AdminLayoutRoutes),
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ClipboardModule,
+    ToastrModule.forRoot(),
+    TooltipModule,
+    NgxPaginationModule,
+    Ng2SearchPipeModule,
+    BsDropdownModule.forRoot(),
+    ReactiveFormsModule,
+    ComponentsModule
+  ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,

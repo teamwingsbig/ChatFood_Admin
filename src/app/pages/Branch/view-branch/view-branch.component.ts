@@ -60,12 +60,12 @@ export class ViewBranchComponent implements OnInit {
 
 
   fetchBranch() {
-    this.spinner.show();
+    // this.spinner.show();
     this.maserservice.fetchBranchByCompanyID(this.userData.company_id).subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.brnachData = res;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

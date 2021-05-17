@@ -57,12 +57,12 @@ export class ViewUnitComponent implements OnInit {
     }
   }
   fetchUnit(branchId = null, companyId = null) {
-    this.spinner.show();
+    // this.spinner.show();
     this.maserservice.fetchUnits(branchId, companyId).subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.unitData = res;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {

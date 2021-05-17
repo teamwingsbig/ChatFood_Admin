@@ -46,12 +46,12 @@ export class BranchRequestComponent implements OnInit {
 
   fetchBranch(status) {
     this.brnachData = [];
-    this.spinner.show();
+    // this.spinner.show();
     this.maserservice.fetchBranchRequest(status).subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.brnachData = res;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
@@ -92,7 +92,6 @@ export class BranchRequestComponent implements OnInit {
       is_approved: status
     };
     this.maserservice.updateBranchRequest(data).subscribe((res: any) => {
-      console.log(res);
       setTimeout(() => {
         if (res.Status) {
           this.toastService.showSuccess('Updated successfully', 'Success');

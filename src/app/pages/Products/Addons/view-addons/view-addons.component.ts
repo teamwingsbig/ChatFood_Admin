@@ -59,12 +59,12 @@ export class ViewAddonsComponent implements OnInit {
   }
 
   fetchAddons(brancId = null, companyId = null) {
-    this.spinner.show();
+    // this.spinner.show();
     this.productService.fetchAddons(brancId, companyId).subscribe(data => {
-        setTimeout(() => {
+        // setTimeout(() => {
           this.addonsData = data;
-          this.spinner.hide();
-        }, 2000);
+          // this.spinner.hide();
+        // }, 2000);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {
@@ -80,12 +80,12 @@ export class ViewAddonsComponent implements OnInit {
   }
 
   fetchAddonsByBranch() {
-    this.spinner.show();
+    // this.spinner.show();
     this.productService.fetchAddons(this.userData.branch_id).subscribe(data => {
-        setTimeout(() => {
+        // setTimeout(() => {
           this.addonsData = data;
-          this.spinner.hide();
-        }, 2000);
+          // this.spinner.hide();
+        // }, 2000);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {

@@ -51,12 +51,12 @@ export class ListProductComponent implements OnInit {
   }
 
   fetchProducts(branchId = null, companyId = null) {
-    this.spinner.show();
+    // this.spinner.show();
     this.productService.fetchProduct(branchId, companyId).subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.productData = res;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
@@ -85,9 +85,9 @@ export class ListProductComponent implements OnInit {
       item_id: productId,
       keyword: 'delete_item'
     };
-    this.spinner.show();
+    // this.spinner.show();
     this.productService.deleteProduct(data).subscribe(res => {
-        setTimeout(() => {
+        // setTimeout(() => {
           let ResultSet: any;
           ResultSet = res;
           if (ResultSet.Status) {
@@ -97,8 +97,8 @@ export class ListProductComponent implements OnInit {
           } else {
             this.toastService.showError(ResultSet.Error, 'Oops !');
           }
-          this.spinner.hide();
-        }, 2000);
+          // this.spinner.hide();
+        // }, 2000);
       },
       (error: HttpErrorResponse) => {
         if (error.error instanceof Error) {

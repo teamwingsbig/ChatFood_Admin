@@ -68,7 +68,7 @@ export class ViewCategoryComponent implements OnInit {
     this.StatusmodalRef.hide();
   }
   deleteCategory(categoryId) {
-    this.spinner.show();
+    // this.spinner.show();
     this.maserservice.deleteCategory(categoryId).subscribe((res: any) => {
       if (res.Status) {
         this.toastService.showSuccess('Category Deleted Succesfully', 'Success');
@@ -76,10 +76,10 @@ export class ViewCategoryComponent implements OnInit {
       } else {
         this.toastService.showError(res.Error, 'Oops !');
       }
-      setTimeout(() => {
-
-        this.spinner.hide();
-      }, 2000);
+      // setTimeout(() => {
+      //
+      //   // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
@@ -94,12 +94,12 @@ export class ViewCategoryComponent implements OnInit {
       };
   }
   fetchcategotyByBranch() {
-    this.spinner.show();
+    // this.spinner.show();
     this.maserservice.fetchCategory(this.userData.branch_id).subscribe(res => {
-      setTimeout(() => {
+      // setTimeout(() => {
         this.categotyData = res;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
@@ -117,13 +117,12 @@ export class ViewCategoryComponent implements OnInit {
     this.StatusmodalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
   fetchcategory(branchId = null , companyId = null) {
-    this.spinner.show();
+    // this.spinner.show();
     this.maserservice.fetchCategory(branchId, companyId).subscribe(res => {
-      setTimeout(() => {
-        console.log(res);
+      // setTimeout(() => {
         this.categotyData = res;
-        this.spinner.hide();
-      }, 2000);
+        // this.spinner.hide();
+      // }, 2000);
     }),
       // tslint:disable-next-line:no-unused-expression
       (error: HttpErrorResponse) => {
